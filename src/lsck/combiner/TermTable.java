@@ -15,6 +15,8 @@ import lsck.BitVector;
  * <p>{@code TermTable} and {@code TruthTable} instances are both sufficient
  * to fully describe a Boolean function, and each can be used to build /
  * recover the other.
+ * 
+ * @see TruthTable
  */
 public abstract class TermTable {
 
@@ -23,6 +25,8 @@ public abstract class TermTable {
 	 * <p>Note that a term table may have more arguments than appear in its
 	 * representation. For example, "x0 + 1" can still be treated as a function
 	 * of x0, x1, and x2.
+	 * 
+	 * @return the number of arguments taken by this term table / function.
 	 */
 	public abstract int getArity();
 	
