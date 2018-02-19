@@ -18,9 +18,9 @@ public abstract class Lfsr {
 	
 	private final int length;
 	
-	public Lfsr(int length) throws InvalidLengthException {
+	public Lfsr(int length) throws LfsrInvalidLengthException {
 		if (length <= 0) {
-			throw new InvalidLengthException(length);
+			throw new LfsrInvalidLengthException(length);
 		}
 		
 		this.length = length;
