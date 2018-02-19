@@ -18,6 +18,7 @@ public abstract class BitVector {
 	// TODO: Have these methods throw runtime exceptions if length > type size
 	// and write corresponding documentation.
 	public abstract byte toByte();
+	public abstract short toShort();
 	public abstract int toInt();
 	public abstract long toLong();
 	public abstract BitSet toBitSet();
