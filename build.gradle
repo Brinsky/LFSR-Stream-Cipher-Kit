@@ -9,9 +9,12 @@ buildscript {
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
+ext.junitPlatformVersion = '1.1.0'
 ext.junitJupiterVersion  = '5.1.0'
+ext.mockitoCoreVersion = '2.15.0'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -21,4 +24,14 @@ dependencies {
 	// JUnit Jupiter API and TestEngine implementation
 	testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
 	testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+	
+	// Enable use of the JUnitPlatform Runner within the IDE
+    testCompile("org.junit.platform:junit-platform-runner:${junitPlatformVersion}")
+
+	// Mockito Core
+	testCompile("org.mockito:mockito-core:${mockitoCoreVersion}")
+}
+
+junitPlatform {
+    details 'tree' // Print test digest
 }

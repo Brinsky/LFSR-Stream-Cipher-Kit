@@ -15,9 +15,24 @@ import lsck.BitVector;
  * permanently mutating the state of the register.
  */
 public abstract class Lfsr {
+	
+	private final int length;
+	
+	public Lfsr(int length) throws InvalidLengthException {
+		if (length <= 0) {
+			throw new InvalidLengthException(length);
+		}
+		
+		this.length = length;
+	}
 
-	/** Returns the length of this register. */
-	public abstract int getLength();
+	/** Returns the length of this register.
+	 * 
+	 * @return The length of this register.
+	 */
+	public final int getLength() {
+		return length;
+	}
 	
 	/** Returns the fill of this register.
 	 * 
