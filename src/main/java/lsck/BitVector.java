@@ -22,8 +22,4 @@ public abstract class BitVector {
 	public abstract int toInt();
 	public abstract long toLong();
 	public abstract BitSet toBitSet();
-	
-	// TODO: Implement these as static methods and document them.
-	public abstract BitVector fromBits(int ... bits);
-	public abstract BitVector fromValue(long value);
 }
