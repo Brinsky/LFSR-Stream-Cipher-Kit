@@ -15,24 +15,12 @@ import lsck.BitVector;
  * permanently mutating the state of the register.
  */
 public abstract class Lfsr {
-	
-	private final int length;
-	
-	public Lfsr(int length) throws LfsrInvalidLengthException {
-		if (length <= 0) {
-			throw new LfsrInvalidLengthException(length);
-		}
-		
-		this.length = length;
-	}
 
 	/** Returns the length of this register.
 	 * 
 	 * @return The length of this register.
 	 */
-	public final int getLength() {
-		return length;
-	}
+	public abstract int getLength();
 	
 	/** Returns the fill of this register.
 	 * 
@@ -104,6 +92,36 @@ public abstract class Lfsr {
 	 * @param value The value to store into the specified position.
 	 */
 	public abstract void setFillAt(int index, int value);
+	
+	/** Sets the tap configuration for this register.
+	 * 
+	 * <p>The most significant bit in the vector should correspond to the
+	 * position in the register of the bit that will be output by the next
+	 * shift operation. The remaining lower-order bits should follow
+	 * consecutively.
+	 * 
+	 * <p>A value of 1 indicates that the specified position should be tapped,
+	 * and a value of 0 indicates that it should not be.
+	 * 
+	 * @param taps A {@code BitVector} representing the tap configuration for
+	 * 	this register.
+	 */
+	public abstract void setTaps(BitVector taps);
+	
+	/** Sets the specified bit in this register's tap configuration.
+	 * 
+	 * <p>The bit with the largest valid index ({@code getLength() - 1})
+	 * corresponds to the position of the bit that will be output by the
+	 * next shift operation. The remaining lower-order bits are indexed
+	 * consecutively.
+	 * 
+	 * <p>A value of 1 indicates that the specified position should be tapped,
+	 * and a value of 0 indicates that it should not be.
+	 * 
+	 * @param index The position of the desired bit within the tap configuration.
+	 * @param value The value to store into the specified position.
+	 */
+	public abstract void setTapsAt(int index, int value);
 	
 	/** Returns the next output bit without mutating the register's fill.
 	 * 
