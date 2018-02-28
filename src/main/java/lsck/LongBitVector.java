@@ -2,6 +2,10 @@ package lsck;
 
 import java.util.BitSet;
 
+/** A {@code long}-based implementation of {@code BitVector}
+ * 
+ * Supports bit vectors up to 64 bits in length.
+ */
 public class LongBitVector extends BitVector {
 
 	private final long vector;
