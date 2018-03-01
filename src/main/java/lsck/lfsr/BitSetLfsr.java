@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import lsck.BitVector;
+import lsck.bitwise.BitVector;
 
 /** An {@code Lfsr} implementation backed by {@code BitSet}s.
  * 

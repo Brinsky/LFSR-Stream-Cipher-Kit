@@ -1,5 +1,8 @@
 package lsck;
 
+import lsck.bitwise.BitVector;
+import lsck.bitwise.LongBitVector;
+
 public class LongBitVectorTest extends BitVectorTest {
 	
 	@Override

@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 /** Indicates truncation of a BitVector into a type of insufficient size. */
 public class BitVectorTruncationException extends IllegalArgumentException {

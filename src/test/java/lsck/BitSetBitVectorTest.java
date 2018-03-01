@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import lsck.bitwise.BitSetBitVector;
+import lsck.bitwise.BitVector;
+import lsck.bitwise.BitVectorTruncationException;
+
 public class BitSetBitVectorTest extends BitVectorTest {
 
 	@Override

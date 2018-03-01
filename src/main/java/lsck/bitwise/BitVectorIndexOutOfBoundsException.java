@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 /** Indicates an invalid index parameter in a BitVector context. */
 public class BitVectorIndexOutOfBoundsException extends IndexOutOfBoundsException {

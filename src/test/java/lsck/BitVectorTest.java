@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import lsck.bitwise.BitVector;
+import lsck.bitwise.BitVectorIndexOutOfBoundsException;
+import lsck.bitwise.BitVectorTruncationException;
+
 public abstract class BitVectorTest {
 
 	/* 

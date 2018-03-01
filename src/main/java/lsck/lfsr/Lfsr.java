@@ -1,7 +1,8 @@
 package lsck.lfsr;
 
 import java.util.List;
-import lsck.BitVector;
+
+import lsck.bitwise.BitVector;
 
 /** Represents a linear feedback shift register (LFSR).
  * 

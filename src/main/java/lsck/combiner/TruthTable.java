@@ -1,7 +1,8 @@
 package lsck.combiner;
 
 import java.util.List;
-import lsck.BitVector;
+
+import lsck.bitwise.BitVector;
 
 /** A table of the values taken by a Boolean function. 
  * 

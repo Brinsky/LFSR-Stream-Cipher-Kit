@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 /** Indicates an invalid length parameter in a BitVector context. */
 public class BitVectorLengthException extends IllegalArgumentException {

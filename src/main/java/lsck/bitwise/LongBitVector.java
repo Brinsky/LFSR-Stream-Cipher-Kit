@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 import java.util.BitSet;
 

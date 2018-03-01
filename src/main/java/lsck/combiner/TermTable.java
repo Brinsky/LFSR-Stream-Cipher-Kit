@@ -1,7 +1,8 @@
 package lsck.combiner;
 
 import java.util.List;
-import lsck.BitVector;
+
+import lsck.bitwise.BitVector;
 
 /** A list of terms present in an algebraic Boolean expression.
  * 

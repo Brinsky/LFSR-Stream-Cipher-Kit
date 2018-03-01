@@ -1,6 +1,6 @@
 package lsck.combiner;
 
-import lsck.BitVector;
+import lsck.bitwise.BitVector;
 
 /** Represents a Boolean function.
  * 
