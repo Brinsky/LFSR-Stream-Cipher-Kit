@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 import lsck.bitwise.BitVector;
 import lsck.bitwise.LongBitVector;

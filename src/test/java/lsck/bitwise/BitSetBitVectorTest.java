@@ -1,4 +1,4 @@
-package lsck;
+package lsck.bitwise;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
