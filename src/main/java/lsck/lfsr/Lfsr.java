@@ -83,6 +83,23 @@ public abstract class Lfsr {
 	 */
 	public abstract void setFill(BitVector fill);
 	
+	/** Sets the fill of this register using a {@code long}.
+	 * 
+	 * The length of the {@code long} vector is assumed to be equal to that of
+	 * the LFSR - any higher order bits are truncated. Behavior-wise, this
+	 * method should be equivalent to calling
+	 * {@code setFill(BitVector.fromLong(getLength(), fill))}.
+	 * 
+	 * @param fill A {@code long} representing the fill of this register.
+	 */
+	public void setFill(long fill) {
+		if (Long.SIZE < getLength()) {
+			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
+		}
+		
+		setFill(BitVector.fromLong(getLength(), fill));
+	}
+	
 	/** Sets the specified bit in this register's fill.
 	 * 
 	 * <p>The bit with the largest valid index ({@code getLength() - 1})
@@ -108,6 +125,24 @@ public abstract class Lfsr {
 	 * 	this register.
 	 */
 	public abstract void setTaps(BitVector taps);
+	
+	/** Sets the tap configuration of this register using a {@code long}.
+	 * 
+	 * The length of the {@code long} vector is assumed to be equal to that of
+	 * the LFSR - any higher order bits are truncated. Behavior-wise, this
+	 * method should be equivalent to calling
+	 * {@code setTaps(BitVector.fromLong(getLength(), taps))}.
+	 * 
+	 * @param taps A {@code long} representing the tap configuration of this
+	 * 	register.
+	 */
+	public void setTaps(long taps) {
+		if (Long.SIZE < getLength()) {
+			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
+		}
+		
+		setTaps(BitVector.fromLong(getLength(), taps));
+	}
 	
 	/** Sets the specified bit in this register's tap configuration.
 	 * 
