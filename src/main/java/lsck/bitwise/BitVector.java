@@ -53,6 +53,33 @@ public abstract class BitVector {
 	 */
 	public abstract BitSet toBitSet();
 	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof BitVector)) {
+			return false;
+		}
+		
+		BitVector other = (BitVector) o;
+		
+		if (getLength() != other.getLength()) {
+			return false;
+		}
+		
+		// Bit-by-bit comparison
+		for (int i = 0; i < getLength(); i++) {
+			if (get(i) != other.get(i)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return BitUtility.bitString(this);
+	}
+	
 	/** Creates a {@code BitVector} representing the given bits.
 	 * 
 	 * This method selects an appropriate implementation of {@code BitVector}
@@ -98,5 +125,18 @@ public abstract class BitVector {
 		} else {
 			return new BitSetBitVector(length, bitSet);
 		}
+	}
+	
+	/** Creates a {@code BitVector} representing the given bits.
+	 * 
+	 * This method selects an appropriate implementation of {@code BitVector}
+	 * based on the number of bits provided.
+	 * 
+	 * @param vectors An array of {@code long} values. Bits are extracted in
+	 * 	ascending order of array index and in order of least significance.
+	 * @return An instance of {@code BitVector} representing the given bits.
+	 */
+	public static BitVector fromLongArray(int length, long[] vectors) {
+		return new BitSetBitVector(length, BitSet.valueOf(vectors));
 	}
 }
