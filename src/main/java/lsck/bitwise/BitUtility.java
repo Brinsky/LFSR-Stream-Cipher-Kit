@@ -51,6 +51,11 @@ public class BitUtility {
 	 * @return The value of the requested bit - always 0 or 1.
 	 */
 	public static byte getBit(long[] vectors, int index) {
+		if (index < 0 || index >= vectors.length * Long.SIZE) {
+			throw new BitUtilityIndexOutOfBoundsException(index, 
+					vectors.length * Long.SIZE);
+		}
+		
 		return getBit(vectors[index / Long.SIZE], index % Long.SIZE);
 	}
 	
@@ -64,6 +69,11 @@ public class BitUtility {
 	 * 	of 0 sets the bit to 0, and any other value sets it to 1.
 	 */
 	public static void setBit(long[] vectors, int index, int value) {
+		if (index < 0 || index >= vectors.length * Long.SIZE) {
+			throw new BitUtilityIndexOutOfBoundsException(index, 
+					vectors.length * Long.SIZE);
+		}
+		
 		int i = index / Long.SIZE;
 		vectors[i] = setBit(vectors[i], index % Long.SIZE, value);
 	}
@@ -103,14 +113,11 @@ public class BitUtility {
 	 * 	bits in descending order (most significant bit first).
 	 */
 	public static String bitString(BitVector vector) {
-		return bitString(vector.getLength(), vector, false, "");
+		return bitString(vector, false, "");
 	}
 	
 	/** Returns a customized String representation of a {@link BitVector}.
 	 * 
-	 * @param length The number of bits to include in the String
-	 * 	representation. Bits with indices 0 through {@code length - 1} 
-	 * 	(inclusive) will be included.
 	 * @param vector The {@link BitVector} to create a String representation
 	 * 	for.
 	 * @param ascending If true, bits are ordered from lowest to highest index
@@ -120,24 +127,19 @@ public class BitUtility {
 	 * 	in the String representation.
 	 * @return A customized String representation of {@code vector}.
 	 */
-	public static String bitString(int length, BitVector vector,
-			boolean ascending, String delimiter) {
-		
-		if (length < 0 || length > vector.getLength()) {
-			throw new BitUtilityInvalidLengthException(length, 
-					vector.getLength());
-		}
-		
-		StringBuilder builder = new StringBuilder(length);
-		for (int i = 0; i < length; i++) {
+	public static String bitString(
+			BitVector vector, boolean ascending, String delimiter) {
+		StringBuilder builder = new StringBuilder(vector.getLength());
+		for (int i = 0; i < vector.getLength(); i++) {
 			if (ascending) {
 				builder.append(bitToChar(vector.get(i)));
 			} else {
-				builder.append(bitToChar(vector.get(length - i - 1)));
+				builder.append(
+						bitToChar(vector.get(vector.getLength() - i - 1)));
 			}
 			
 			// Append delimiter on all but the last bit
-			if (i < length - 1) {
+			if (i < vector.getLength() - 1) {
 				builder.append(delimiter);
 			}
 		}
