@@ -3,4 +3,5 @@ build/
 .settings/
 .classpath
 .project
-/bin/
+bin/
+src/main/java/Playground.java
