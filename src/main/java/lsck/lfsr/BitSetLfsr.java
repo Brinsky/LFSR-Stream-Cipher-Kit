@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 
 /** An {@code Lfsr} implementation backed by {@code BitSet}s.
@@ -16,6 +17,44 @@ public class BitSetLfsr extends Lfsr {
 	private BitSet fill;
 	private BitSet taps;
 	
+	/** Creates a {@code BitSetLfsr} with the specified taps and fill.
+	 * 
+	 * @param length The length of the register to be created.
+	 * @param taps A {@code BitVector} representing the tap configuration. See
+	 * 	{@link BitSetLfsr#setTaps(BitVector)}.
+	 * @param fill A {@code BitVector} representing the fill. See
+	 * 	{@link BitSetLfsr#setFill(BitVector)}.
+	 */
+	public BitSetLfsr(int length, BitVector taps, BitVector fill) {
+		if (length <= 0) {
+			throw new LfsrInvalidLengthException(length);
+		}
+
+		this.length = length;
+		setFill(fill);
+		setTaps(taps);
+	}
+	
+	/** Creates a {@code BitSetLfsr} with the specified taps and all-zero fill.
+	 * 
+	 * @param length The length of the register to be created.
+	 * @param taps A {@code BitVector} representing the tap configuration. See
+	 * 	{@link BitSetLfsr#setTaps(BitVector)}.
+	 */
+	public BitSetLfsr(int length, BitVector taps) {
+		if (length <= 0) {
+			throw new LfsrInvalidLengthException(length);
+		}
+		
+		this.length = length;
+		this.fill = new BitSet(length);
+		setTaps(taps);
+	}
+	
+	/** Creates a {@code BitSetLfsr} with all-zero taps and fill.
+	 * 
+	 * @param length The length of the register to be created.
+	 */
 	public BitSetLfsr(int length) {
 		if (length <= 0) {
 			throw new LfsrInvalidLengthException(length);
@@ -24,6 +63,8 @@ public class BitSetLfsr extends Lfsr {
 		this.length = length;
 		this.fill = new BitSet(length);
 		this.taps = new BitSet(length);
+		
+		
 	}
 
 	@Override
@@ -173,12 +214,12 @@ public class BitSetLfsr extends Lfsr {
 	
 	/** An LFSR shift operation on the underlying long[] representations */
 	private static byte shiftVectors(int length, long[] fillVectors, long[] tapVectors) {
-		byte outputBit = getBit(fillVectors, 0);
+		byte outputBit = BitUtility.getBit(fillVectors, 0);
 		
 		// Perform a single shift
 		byte inputBit = nextBit(fillVectors, tapVectors);
 		rightShift(fillVectors);
-		setBit(fillVectors, length - 1, inputBit);
+		BitUtility.setBit(fillVectors, length - 1, inputBit);
 		
 		return outputBit;
 	}
@@ -188,9 +229,11 @@ public class BitSetLfsr extends Lfsr {
 			// Set the highest bit of the previous vector equal to the lowest
 			// bit of this vector.
 			if (i != 0) {
-				fillVectors[i - 1] |= (fillVectors[i] & 1L) << (Long.SIZE - 1);
+				fillVectors[i - 1] = 
+						BitUtility.setBit(fillVectors[i - 1], Long.SIZE - 1,
+								(int) fillVectors[i] & 1);
 			}
-			
+
 			fillVectors[i] >>= 1;
 		}
 	}
@@ -199,21 +242,11 @@ public class BitSetLfsr extends Lfsr {
 		// For each long, count the number of tap positions where the fill is 1
 		int overlaps = 0;
 		for (int i = 0; i < fillVectors.length; i++) {
-			overlaps += Long.bitCount(fillVectors[i] ^ tapVectors[i]);
+			overlaps += Long.bitCount(fillVectors[i] & tapVectors[i]);
 		}
 		
 		return (byte) (overlaps % 2);
 	}
 	
-	private static byte getBit(long[] fillVectors, int position) {
-		int i = position / Long.SIZE;
-		return (byte) ((fillVectors[i] >>> (position % Long.SIZE)) & 1L);
-	}
-	
-	private static void setBit(long[] fillVectors, int position, byte bit) {
-		if (bit != 0) {
-			int i = position / Long.SIZE;
-			fillVectors[i] |= 1L << (position % Long.SIZE);
-		}
-	}
+
 }
