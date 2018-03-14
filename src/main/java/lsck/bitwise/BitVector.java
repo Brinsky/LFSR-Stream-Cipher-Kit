@@ -80,14 +80,14 @@ public abstract class BitVector {
 		return BitUtility.bitString(this);
 	}
 	
-	/** Creates a {@code BitVector} representing the given bits.
+	/** Creates a {@link BitVector} representing the given bits.
 	 * 
-	 * This method selects an appropriate implementation of {@code BitVector}
+	 * This method selects an appropriate implementation of {@link BitVector}
 	 * based on the number of bits provided.
 	 * 
 	 * @param bits A list of bits, ordered from most-significant to least-
 	 * 	significant. Any nonzero value is treated as a 1.
-	 * @return An instance of {@code BitVector} representing the given bits.
+	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
 	public static BitVector fromBits(int ... bits) {
 		if (bits.length <= Long.SIZE) {
@@ -97,26 +97,27 @@ public abstract class BitVector {
 		}
 	}
 	
-	/** Creates a {@code BitVector} representing the given bits.
+	/** Creates a {@link BitVector} representing the given bits.
 	 * 
-	 * This method selects an appropriate implementation of {@code BitVector}
+	 * This method selects an appropriate implementation of {@link BitVector}
 	 * based on the number of bits provided.
 	 * 
 	 * @param bits A list of bits, ordered from least-significant to most-
 	 * 	significant. Any nonzero value is treated as a 1.
-	 * @return An instance of {@code BitVector} representing the given bits.
+	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
 	public static BitVector fromLong(int length, long vector) {
 		return new LongBitVector(length, vector);
 	}
 	
-	/** Creates a {@code BitVector} representing the given bits.
+	/** Creates a {@link BitVector} representing the given bits.
 	 * 
-	 * This method selects an appropriate implementation of {@code BitVector}
-	 * based on the number of bits provided.
+	 * This method selects an appropriate implementation of {@link BitVector}
+	 * based on the number of bits provided. Any bits in the source
+	 * {@link BitSet} with index at or above {@code length} will be truncated.
 	 * 
-	 * @param bits A list of bits, ordered from least-significant to most-
-	 * 	significant. Any nonzero value is treated as a 1.
+	 * @param length The number of bits retained from {@code bits}. 
+	 * @param bitSet A {@link BitSet} to source bits from.
 	 * @return An instance of {@code BitVector} representing the given bits.
 	 */
 	public static BitVector fromBitSet(int length, BitSet bitSet) {
@@ -127,16 +128,34 @@ public abstract class BitVector {
 		}
 	}
 	
-	/** Creates a {@code BitVector} representing the given bits.
+	/** Creates a {@link BitVector} representing the given bits.
 	 * 
-	 * This method selects an appropriate implementation of {@code BitVector}
+	 * This method selects an appropriate implementation of {@link BitVector}
 	 * based on the number of bits provided.
 	 * 
+	 * @param length The total number of bits to retain from {@code vectors}.
 	 * @param vectors An array of {@code long} values. Bits are extracted in
 	 * 	ascending order of array index and in order of least significance.
-	 * @return An instance of {@code BitVector} representing the given bits.
+	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
 	public static BitVector fromLongArray(int length, long[] vectors) {
 		return new BitSetBitVector(length, BitSet.valueOf(vectors));
+	}
+	
+	/** Creates an all-zero {@link BitVector} of the given length.
+	 * 
+	 * This method selects an appropriate implementation of {@link BitVector}
+	 * based on the number of bits requested.
+	 * 
+	 * @param length The length of the all-zero vector to be returned.
+	 * @return An all-zero instance of {@link BitVector} of the requested
+	 * 	length.
+	 */
+	public static BitVector nullVector(int length) {
+		if (length <= Long.SIZE) {
+			return new LongBitVector(length);
+		} else {
+			return new BitSetBitVector(length);
+		}
 	}
 }
