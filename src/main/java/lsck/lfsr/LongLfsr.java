@@ -175,14 +175,9 @@ public class LongLfsr extends Lfsr {
 
 	@Override
 	public byte shift() {
-		System.out.println(BitVector.fromLong(length, fill));
-		
 		byte output = (byte) (fill & 1L);
 		
-//		System.out.println((Long.bitCount(taps & fill) % 2));
-//		System.out.println(length - 1);
 		long inputBit = ((long) (Long.bitCount(taps & fill) % 2)) << (length - 1);
-//		System.out.println(BitVector.fromLong(length, inputBit));
 		fill >>>= 1;
 		fill |= inputBit;
 		
