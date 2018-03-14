@@ -129,17 +129,56 @@ public class BitUtility {
 	 */
 	public static String bitString(
 			BitVector vector, boolean ascending, String delimiter) {
-		StringBuilder builder = new StringBuilder(vector.getLength());
-		for (int i = 0; i < vector.getLength(); i++) {
+		return bitString(
+				i -> vector.get(i), vector.getLength(),ascending, delimiter);
+	}
+	
+	/** Returns a String representation of a list of bits.
+	 * 
+	 * @param bitList The {@code List<Byte>} to create a String representation
+	 * 	for. Character representations for bytes are determined by calling
+	 * 	{@link BitUtility#bitToChar(int)}.
+	 * @return A String representation of {@code bitList} with no delimiters.
+	 */
+	public static String bitString(List<Byte> bitList) {
+		return bitString(bitList, true, "");
+	}
+	
+	/** Returns a customized String representation of a {@link BitVector}.
+	 * 
+	 * @param bitList The {@code List<Byte>} to create a String representation
+	 * 	for. Character representations for bytes are determined by calling
+	 * 	{@link BitUtility#bitToChar(int)}.
+	 * @param ascending If true, bits are ordered from lowest to highest index.
+	 * 	If {@code false}, bits are ordered from highest to lowest index.
+	 * @param delimiter A delimiter to be inserted after all but the last bit
+	 * 	in the String representation.
+	 * @return A customized String representation of {@code bitList}.
+	 */
+	public static String bitString(
+			List<Byte> bitList, boolean ascending, String delimiter) {
+		return bitString(
+				i -> bitList.get(i), bitList.size(), ascending, delimiter);
+	}
+	
+	@FunctionalInterface
+	private static interface BitGetter {
+		byte get(int index);
+	}
+	
+	private static String bitString(BitGetter getter, int length, 
+			boolean ascending, String delimiter) {
+		StringBuilder builder = new StringBuilder(length);
+		for (int i = 0; i < length; i++) {
 			if (ascending) {
-				builder.append(bitToChar(vector.get(i)));
+				builder.append(bitToChar(getter.get(i)));
 			} else {
 				builder.append(
-						bitToChar(vector.get(vector.getLength() - i - 1)));
+						bitToChar(getter.get(length - i - 1)));
 			}
 			
 			// Append delimiter on all but the last bit
-			if (i < vector.getLength() - 1) {
+			if (i < length - 1) {
 				builder.append(delimiter);
 			}
 		}

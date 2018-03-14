@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,13 +21,24 @@ public class BitUtilityTest {
 			new int[] {0,0,0,1,0,1,1,0,1,1,0,1,1,0,1,0,0,1,1,1,0,1,0,1,1,0,1};
 	private static final BitVector TEST_VECTOR = 
 			BitVector.fromBits(TEST_BITS);
-	private static final String EXPECTED_STRING =
+	private static final List<Byte> TEST_BIT_LIST = buildBitList(TEST_BITS);
+	private static final String MSB_STRING =
 			"000101101101101001110101101";
-	private static final String EXPECTED_STRING_REVERSED =
-			new StringBuilder(EXPECTED_STRING).reverse().toString();
+	private static final String LSB_STRING =
+			new StringBuilder(MSB_STRING).reverse().toString();
 	
 	private final long[] TEST_LONG_ARRAY =
 			new long[] {0xABCD1234ABCD1234L, 0x9876FEDC9876FEDCL};
+	
+	private static List<Byte> buildBitList(int ... bits) {
+		List<Byte> list = new ArrayList<>(bits.length);
+		
+		for (int i = 0; i < bits.length; i++) {
+			list.add((byte) (bits[i]== 0 ? 0 : 1));
+		}
+		
+		return list;
+	}
 	
 	/** Test values for {@link BitUtility#getBit}. */
 	static Stream<Arguments> getBitProvider() {
@@ -170,37 +182,72 @@ public class BitUtilityTest {
 	}
 	
 	@Test
-	void testBitString_default() {
-		assertEquals(EXPECTED_STRING, BitUtility.bitString(TEST_VECTOR));
+	void testBitString_bitVector_default() {
+		assertEquals(MSB_STRING, BitUtility.bitString(TEST_VECTOR));
+	}
+
+	@Test
+	void testBitString_bitList_default() {
+		assertEquals(MSB_STRING, BitUtility.bitString(TEST_BIT_LIST));
 	}
 	
 	@Test
-	void testBitString_ascending() {
-		assertEquals(EXPECTED_STRING_REVERSED,
+	void testBitString_bitVector_ascending() {
+		assertEquals(LSB_STRING,
 				BitUtility.bitString(TEST_VECTOR, true, ""));
 	}
 	
 	@Test
-	void testBitString_descending() {
-		assertEquals(EXPECTED_STRING,
+	void testBitString_bitList_ascending() {
+		assertEquals(MSB_STRING,
+				BitUtility.bitString(TEST_BIT_LIST, true, ""));
+	}
+	
+	@Test
+	void testBitString_bitVector_descending() {
+		assertEquals(MSB_STRING,
 				BitUtility.bitString(TEST_VECTOR, false, ""));
 	}
 	
 	@Test
-	void testBitString_ascendingDelimiter() {
+	void testBitString_bitList_descending() {
+		assertEquals(LSB_STRING,
+				BitUtility.bitString(TEST_BIT_LIST, false, ""));
+	}
+	
+	@Test
+	void testBitString_bitVector_ascendingDelimiter() {
 		assertEquals(
-				EXPECTED_STRING_REVERSED.replaceAll("(\\d)(?=\\d)", "$1-"),
+				LSB_STRING.replaceAll("(\\d)(?=\\d)", "$1-"),
 				BitUtility.bitString(TEST_VECTOR, true, "-"));
 	}
 	
 	@Test
-	void testBitString_descendingDelimiter() {
-		assertEquals(EXPECTED_STRING.replaceAll("(\\d)(?=\\d)", "$1-"),
+	void testBitString_bitList_ascendingDelimiter() {
+		assertEquals(
+				MSB_STRING.replaceAll("(\\d)(?=\\d)", "$1-"),
+				BitUtility.bitString(TEST_BIT_LIST, true, "-"));
+	}
+	
+	@Test
+	void testBitString_bitVector_descendingDelimiter() {
+		assertEquals(MSB_STRING.replaceAll("(\\d)(?=\\d)", "$1-"),
 				BitUtility.bitString(TEST_VECTOR, false, "-"));
 	}
 	
 	@Test
-	void testBitString_emptyVector() {
+	void testBitString_bitList_descendingDelimiter() {
+		assertEquals(LSB_STRING.replaceAll("(\\d)(?=\\d)", "$1-"),
+				BitUtility.bitString(TEST_BIT_LIST, false, "-"));
+	}
+	
+	@Test
+	void testBitString_bitVector_emptyVector() {
 		assertTrue(BitUtility.bitString(new LongBitVector(0)).isEmpty());
+	}
+
+	@Test
+	void testBitString_bitList_emptyVector() {
+		assertTrue(BitUtility.bitString(new ArrayList<Byte>()).isEmpty());
 	}
 }
