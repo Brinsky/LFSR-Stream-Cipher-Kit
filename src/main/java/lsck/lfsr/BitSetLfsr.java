@@ -92,7 +92,7 @@ public class BitSetLfsr extends Lfsr {
 	}
 
 	@Override
-	public byte getTapAt(int index) {
+	public byte getTapsAt(int index) {
 		if (index < 0 || index >= length) {
 			throw new LfsrIndexOutOfBoundsException(index, length);
 		}

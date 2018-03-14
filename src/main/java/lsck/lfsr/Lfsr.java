@@ -71,7 +71,7 @@ public abstract class Lfsr {
 	 * @param index The position of the desired tap.
 	 * @return The fill of this register.
 	 */
-	public abstract byte getTapAt(int index);
+	public abstract byte getTapsAt(int index);
 	
 	/** Sets the fill of this register.
 	 * 
