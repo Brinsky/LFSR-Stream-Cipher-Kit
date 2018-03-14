@@ -85,7 +85,7 @@ public abstract class BitVector {
 	 * This method selects an appropriate implementation of {@code BitVector}
 	 * based on the number of bits provided.
 	 * 
-	 * @param bits A list of bits, ordered from least-significant to most-
+	 * @param bits A list of bits, ordered from most-significant to least-
 	 * 	significant. Any nonzero value is treated as a 1.
 	 * @return An instance of {@code BitVector} representing the given bits.
 	 */

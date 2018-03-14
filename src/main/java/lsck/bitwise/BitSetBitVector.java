@@ -43,8 +43,8 @@ public class BitSetBitVector extends BitVector {
 	
 	/** Creates a vector from a specified list of bits.
 	 * 
-	 * @param bits A list of bits, ordered from least-significant to most-
-	 * 	significant. Any nonzero value is treated as a 1.
+	 * @param bits A list of bits, ordered from most-significant to least-
+	 * significant. Any nonzero value is treated as a 1.
 	 */
 	public BitSetBitVector(int ... bits) {
 		this.length = bits.length;
@@ -52,7 +52,7 @@ public class BitSetBitVector extends BitVector {
 		
 		for (int i = 0; i < bits.length; i++) {
 			if (bits[i] != 0) {
-				this.bits.set(i);
+				this.bits.set(bits.length - 1 - i);
 			}
 		}
 	}

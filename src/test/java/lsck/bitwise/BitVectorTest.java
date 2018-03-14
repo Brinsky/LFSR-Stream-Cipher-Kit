@@ -23,14 +23,14 @@ public abstract class BitVectorTest {
 	 * 1011 0011 0101 1011
 	 */
 	protected static final int[] TEST_BITS =
-			new int[] {1, 1, 0, 1, 1, 0, 1, 0,
-					1, 1, 0, 0, 1, 1, 0, 1,
-					1, 0, 1, 0, 1, 1, 0, 0,
-					1, 1, 0, 1, 1, 0, 1, 0,
-					1, 1, 0, 0, 1, 1, 0, 1,
-					1, 0, 1, 0, 1, 1, 0, 0,
-					1, 1, 0, 1, 1, 0, 1, 0,
-					1, 1, 0, 0, 1, 1, 0, 1};
+			new int[] {1, 0, 1, 1, 0, 0, 1, 1,
+					0, 1, 0, 1, 1, 0, 1, 1,
+					0, 0, 1, 1, 0, 1, 0, 1,
+					1, 0, 1, 1, 0, 0, 1, 1,
+					0, 1, 0, 1, 1, 0, 1, 1,
+					0, 0, 1, 1, 0, 1, 0, 1,
+					1, 0, 1, 1, 0, 0, 1, 1,
+					0, 1, 0, 1, 1, 0, 1, 1};
 	protected static final long TEST_LONG = 0xB35B35B35B35B35BL;
 
 	protected static final BitSet TEST_BITSET = BitSet.valueOf(new long[] {TEST_LONG});
@@ -50,7 +50,8 @@ public abstract class BitVectorTest {
 		assertEquals(Long.SIZE, TEST_BITS.length);
 		
 		for (int i = 0; i < Long.SIZE; i++) {
-			assertEquals((TEST_LONG >>> i) & 1, TEST_BITS[i]);
+			assertEquals((TEST_LONG >>> i) & 1,
+					TEST_BITS[TEST_BITS.length - 1 - i]);
 		}
 	}
 	
@@ -96,7 +97,7 @@ public abstract class BitVectorTest {
 		BitVector vector = newVector();
 		
 		for (int i = 0; i < vector.getLength(); i++) {
-			assertEquals(TEST_BITS[i], vector.get(i));
+			assertEquals(TEST_BITS[vector.getLength() - 1 - i], vector.get(i));
 		}
 	}
 

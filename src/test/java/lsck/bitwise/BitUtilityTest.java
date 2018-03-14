@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class BitUtilityTest {
 
 	private static final int[] TEST_BITS =
-			new int[] {1,0,1,1,0,1,0,1,1,1,0,0,1,0,1,1,0,1,1,0,1,1,0,1,0,0,0};
+			new int[] {0,0,0,1,0,1,1,0,1,1,0,1,1,0,1,0,0,1,1,1,0,1,0,1,1,0,1};
 	private static final BitVector TEST_VECTOR = 
 			BitVector.fromBits(TEST_BITS);
 	private static final String EXPECTED_STRING =

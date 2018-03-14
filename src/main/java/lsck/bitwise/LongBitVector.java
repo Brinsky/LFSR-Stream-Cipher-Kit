@@ -51,7 +51,7 @@ public class LongBitVector extends BitVector {
 	
 	/** Creates a vector from a specified list of bits.
 	 * 
-	 * @param bits A list of bits, ordered from least-significant to most-
+	 * @param bits A list of bits, ordered from most-significant to least-
 	 * 	significant. Any nonzero value is treated as a 1.
 	 */
 	public LongBitVector(int ... bits) {
@@ -60,7 +60,7 @@ public class LongBitVector extends BitVector {
 		long vector = 0;
 		for (int i = 0; i < bits.length; i++) {
 			if (bits[i] != 0) {
-				vector |= 1L << i;
+				vector |= 1L << (bits.length - 1 - i);
 			}
 		}
 		
