@@ -206,10 +206,10 @@ public class BitSetLfsr extends Lfsr {
 			shiftVectors(length, fillVectors, tapVectors);
 		}
 		
-		// Retain the final fill state
-		fill = BitSet.valueOf(fillVectors);
+		byte output = shiftVectors(length, fillVectors, tapVectors);
+		fill = BitSet.valueOf(fillVectors); // Retain the final fill state
 		
-		return shiftVectors(length, fillVectors, tapVectors);
+		return output;
 	}
 	
 	/** An LFSR shift operation on the underlying long[] representations */

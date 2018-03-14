@@ -197,7 +197,9 @@ public abstract class Lfsr {
 	
 	/** Performs {@code term + 1} shifts and returns the last resulting bit.
 	 * 
-	 * <p>Bits in the output sequence are indexed from 0.
+	 * <p>Bits in the output sequence are indexed from 0. Calling {@code
+	 * shiftTo(i)} leaves the register in the same state as calling {@code
+	 * shift(i + 1)}.
 	 * 
 	 * @param term The index of the desired bit in the output stream.
 	 * @return The specified bit in the output stream.
