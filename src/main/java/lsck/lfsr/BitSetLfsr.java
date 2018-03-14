@@ -163,19 +163,12 @@ public class BitSetLfsr extends Lfsr {
 
 	@Override
 	public byte shift() {
-		byte output = getFillAt(0);
+		long[] fillVectors = fill.toLongArray();
 		
-		boolean inputBit = false;
-		for (int i = 0; i < length; i++) {
-			// Every time a tapped bit is 1, we flip our input bit
-			if (fill.get(i) && taps.get(i)) {
-				inputBit = !inputBit;
-			}
-		}
+		byte output = shiftVectors(length, fillVectors, taps.toLongArray());
 		
-		// Right shift by one and append the new bit
-		fill = fill.get(1, length);
-		fill.set(length - 1, inputBit);
+		// Retain the final fill state
+		fill = BitSet.valueOf(fillVectors);
 		
 		return output;
 	}
@@ -185,10 +178,9 @@ public class BitSetLfsr extends Lfsr {
 		List<Byte> output = new ArrayList<>(terms);
 		
 		long[] fillVectors = fill.toLongArray();
-		long[] tapVectors = taps.toLongArray();
 		
 		for (int i = 0; i < terms; i++) {
-			output.add(shiftVectors(length, fillVectors, tapVectors));
+			output.add(shiftVectors(length, fillVectors, taps.toLongArray()));
 		}
 		
 		// Retain the final fill state
