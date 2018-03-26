@@ -12,13 +12,13 @@ import lsck.bitwise.BitVector;
  * @see TruthTable
  * @see TermTable
  */
-public abstract class BooleanFunction {
+public interface BooleanFunction {
 
 	/** Returns the number of arguments taken by this function.
 	 * 
 	 * @return the number of arguments taken by this function.
 	 */
-	public abstract int getArity();
+	int getArity();
 	
 	/** Returns the value of the function given the specified arguments.
 	 * 
@@ -32,7 +32,7 @@ public abstract class BooleanFunction {
 	 * @param An argument vector of length {@code getArity()}.
 	 * @return The value of this function evaluated for the specified argument.
 	 */
-	public abstract byte at(BitVector args);
+	byte at(BitVector args);
 	
 	/** Returns a copy of the truth table for this function.
 	 * 
@@ -42,7 +42,7 @@ public abstract class BooleanFunction {
 	 * @return a copy of the truth table for this function.
 	 * @see TermTable#buildTruthTable()
 	 */
-	public abstract TruthTable getTruthTable();
+	TruthTable getTruthTable();
 	
 	/** Returns a copy of the term table for this function.
 	 * 
@@ -52,6 +52,6 @@ public abstract class BooleanFunction {
 	 * @return a copy of the term table for this function.
 	 * @see TermTable#buildTruthTable()
 	 */
-	public abstract TermTable getTermTable();
+	TermTable getTermTable();
 	
 }

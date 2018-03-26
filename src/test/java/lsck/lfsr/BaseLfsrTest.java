@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lsck.bitwise.BitVector;
+import lsck.bitwise.BitVector;
 
 /** Tests for subclasses of {@link Lfsr}. */
 public abstract class BaseLfsrTest {

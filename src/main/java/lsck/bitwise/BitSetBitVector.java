@@ -3,7 +3,7 @@ package lsck.bitwise;
 import java.util.BitSet;
 
 /** A {@code BitSet}-based implementation of {@code BitVector} */
-public class BitSetBitVector extends BitVector {
+public class BitSetBitVector extends AbstractBitVector {
 	
 	private static long SHORT_MASK = 0xFFFF;
 	private static long INT_MASK = ~0;

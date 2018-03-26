@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import lsck.bitwise.BitVector;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 
-/** An {@code Lfsr} implementation backed by {@code BitSet}s.
+/** An {@link Lfsr} implementation backed by {@link BitSet}.
  * 
  * Supports registers of arbitrary length.
  */
-public class BitSetLfsr extends Lfsr {
+public class BitSetLfsr extends AbstractLfsr {
 	
 	private final int length;
 	private BitSet fill;

@@ -6,7 +6,7 @@ import java.util.BitSet;
  * 
  * Supports bit vectors up to 64 bits in length.
  */
-public class LongBitVector extends BitVector {
+public class LongBitVector extends AbstractBitVector {
 
 	private final long vector;
 	private final int length;

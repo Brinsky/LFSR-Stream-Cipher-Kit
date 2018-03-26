@@ -15,13 +15,13 @@ import lsck.bitwise.BitVector;
  * can also generate output streams of arbitrary length, both with and without
  * permanently mutating the state of the register.
  */
-public abstract class Lfsr {
+public interface Lfsr {
 
 	/** Returns the length of this register.
 	 * 
 	 * @return The length of this register.
 	 */
-	public abstract int getLength();
+	int getLength();
 	
 	/** Returns the fill of this register.
 	 * 
@@ -31,7 +31,7 @@ public abstract class Lfsr {
 	 * 
 	 * @return The fill of this register.
 	 */
-	public abstract BitVector getFill();
+	BitVector getFill();
 	
 	/** Returns the specified bit within the fill of this register.
 	 * 
@@ -42,7 +42,7 @@ public abstract class Lfsr {
 	 * @param index The position of the desired bit within the fill.
 	 * @return The specified bit within the fill of this register.
 	 */
-	public abstract byte getFillAt(int index);
+	byte getFillAt(int index);
 	
 	/** Returns the tap configuration of this register.
 	 * 
@@ -57,7 +57,7 @@ public abstract class Lfsr {
 	 * 
 	 * @return The fill of this register.
 	 */
-	public abstract BitVector getTaps();
+	BitVector getTaps();
 	
 	/** Returns the specified bit of this register's tap configuration.
 	 * 
@@ -71,7 +71,7 @@ public abstract class Lfsr {
 	 * @param index The position of the desired tap.
 	 * @return The fill of this register.
 	 */
-	public abstract byte getTapsAt(int index);
+	byte getTapsAt(int index);
 	
 	/** Sets the fill of this register.
 	 * 
@@ -81,24 +81,18 @@ public abstract class Lfsr {
 	 * 
 	 * @param fill A {@code BitVector} representing the fill of this register.
 	 */
-	public abstract void setFill(BitVector fill);
+	void setFill(BitVector fill);
 	
 	/** Sets the fill of this register using a {@code long}.
 	 * 
 	 * The length of the {@code long} vector is assumed to be equal to that of
 	 * the LFSR - any higher order bits are truncated. Behavior-wise, this
 	 * method should be equivalent to calling
-	 * {@code setFill(BitVector.fromLong(getLength(), fill))}.
+	 * {@code setFill(BitVector.fromInteger(getLength(), fill))}.
 	 * 
 	 * @param fill A {@code long} representing the fill of this register.
 	 */
-	public void setFill(long fill) {
-		if (Long.SIZE < getLength()) {
-			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
-		}
-		
-		setFill(BitVector.fromInteger(getLength(), fill));
-	}
+	void setFill(long fill);
 	
 	/** Sets the specified bit in this register's fill.
 	 * 
@@ -109,7 +103,7 @@ public abstract class Lfsr {
 	 * @param index The position of the desired bit within the fill.
 	 * @param value The value to store into the specified position.
 	 */
-	public abstract void setFillAt(int index, int value);
+	void setFillAt(int index, int value);
 	
 	/** Sets the tap configuration for this register.
 	 * 
@@ -124,25 +118,19 @@ public abstract class Lfsr {
 	 * @param taps A {@code BitVector} representing the tap configuration for
 	 * 	this register.
 	 */
-	public abstract void setTaps(BitVector taps);
+	void setTaps(BitVector taps);
 	
 	/** Sets the tap configuration of this register using a {@code long}.
 	 * 
 	 * The length of the {@code long} vector is assumed to be equal to that of
 	 * the LFSR - any higher order bits are truncated. Behavior-wise, this
 	 * method should be equivalent to calling
-	 * {@code setTaps(BitVector.fromLong(getLength(), taps))}.
+	 * {@code setTaps(BitVector.fromInteger(getLength(), taps))}.
 	 * 
 	 * @param taps A {@code long} representing the tap configuration of this
 	 * 	register.
 	 */
-	public void setTaps(long taps) {
-		if (Long.SIZE < getLength()) {
-			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
-		}
-		
-		setTaps(BitVector.fromInteger(getLength(), taps));
-	}
+	void setTaps(long taps);
 	
 	/** Sets the specified bit in this register's tap configuration.
 	 * 
@@ -156,20 +144,20 @@ public abstract class Lfsr {
 	 * @param index The position of the desired bit within the tap configuration.
 	 * @param value The value to store into the specified position.
 	 */
-	public abstract void setTapsAt(int index, int value);
+	void setTapsAt(int index, int value);
 	
 	/** Returns the next output bit without mutating the register's fill.
 	 * 
 	 * @return The bit output during a single shift.
 	 */
-	public abstract byte peek();
+	byte peek();
 	
 	/** Returns a sequence of output bits without mutating the register's fill.
 	 * 
 	 * @param terms The number of bits to be generated.
 	 * @return A list of bits output during the specified number of shifts.
 	 */
-	public abstract List<Byte> peek(int terms);
+	List<Byte> peek(int terms);
 	
 	/** Returns the specified bit in the register's output stream
 	 * 
@@ -179,20 +167,20 @@ public abstract class Lfsr {
 	 * @param term The index of the desired bit in the output stream.
 	 * @return The specified bit in the output stream.
 	 */
-	public abstract byte peekAt(int term);
+	byte peekAt(int term);
 	
 	/** Shifts the register and returns the output bit.
 	 * 
 	 * @return The bit output during a single shift.
 	 */
-	public abstract byte shift();
+	byte shift();
 	
 	/** Performs the specified number of shifts and returns the output bits.
 	 * 
 	 * @param terms The number of bits to be generated.
 	 * @return A list of bits output during the specified number of shifts.
 	 */
-	public abstract List<Byte> shift(int terms);
+	List<Byte> shift(int terms);
 	
 	/** Performs {@code term + 1} shifts and returns the last resulting bit.
 	 * 
@@ -203,5 +191,5 @@ public abstract class Lfsr {
 	 * @param term The index of the desired bit in the output stream.
 	 * @return The specified bit in the output stream.
 	 */
-	public abstract byte shiftTo(int term);
+	byte shiftTo(int term);
 }

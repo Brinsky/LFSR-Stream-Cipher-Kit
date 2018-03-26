@@ -3,15 +3,16 @@ package lsck.lfsr;
 import java.util.ArrayList;
 import java.util.List;
 
+import lsck.bitwise.BitVector;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 import lsck.bitwise.LongBitVector;
 
-/** An {@code Lfsr} implementation backed by {@code long}s.
+/** An {@link Lfsr} implementation backed by {@code long}.
  * 
  * Supports registers up to 64 bits in length.
  */
-public class LongLfsr extends Lfsr {
+public class LongLfsr extends AbstractLfsr {
 	
 	private final int length;
 	private long fill;

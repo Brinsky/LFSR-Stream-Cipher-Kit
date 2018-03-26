@@ -3,17 +3,17 @@ package lsck.bitwise;
 import java.util.BitSet;
 
 /** An immutable, fixed-length vector of bits */
-public abstract class BitVector {
+public interface BitVector {
 
 	/** Returns the length of this bit vector */
-	public abstract int getLength();
+	int getLength();
 	
 	/** Returns the specified bit in this vector
 	 * 
 	 * @param index The position of the desired bit.
 	 * @return The specified bit in this vector.
 	 */
-	public abstract byte get(int index);
+	byte get(int index);
 	
 	/** Attempts to generate a {@code byte} representation of this {@code BitVector}.
 	 * 
@@ -21,7 +21,7 @@ public abstract class BitVector {
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
 	 * 	exceeds the length of {@code byte}.
 	 */
-	public abstract byte toByte();
+	byte toByte();
 	
 	/** Attempts to generate a {@code short} representation of this {@code BitVector}.
 	 * 
@@ -29,7 +29,7 @@ public abstract class BitVector {
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
 	 * 	exceeds the length of {@code short}.
 	 */
-	public abstract short toShort();
+	short toShort();
 	
 	/** Attempts to generate an {@code int} representation of this {@code BitVector}.
 	 * 
@@ -37,7 +37,7 @@ public abstract class BitVector {
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
 	 * 	exceeds the length of {@code int}.
 	 */
-	public abstract int toInt();
+	int toInt();
 	
 	/** Attempts to generate a {@code long} representation of this {@code BitVector}.
 	 * 
@@ -45,40 +45,13 @@ public abstract class BitVector {
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
 	 * 	exceeds the length of {@code long}.
 	 */
-	public abstract long toLong();
+	long toLong();
 	
 	/** Attempts to generate a {@code BitSet} representation of this {@code BitVector}.
 	 * 
 	 * @return A {@code BitSet} containing the bits in this {@code BitVector}.
 	 */
-	public abstract BitSet toBitSet();
-	
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof BitVector)) {
-			return false;
-		}
-		
-		BitVector other = (BitVector) o;
-		
-		if (getLength() != other.getLength()) {
-			return false;
-		}
-		
-		// Bit-by-bit comparison
-		for (int i = 0; i < getLength(); i++) {
-			if (get(i) != other.get(i)) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	@Override
-	public String toString() {
-		return BitUtility.bitString(this);
-	}
+	BitSet toBitSet();
 	
 	/** Creates a {@link BitVector} representing the given bits.
 	 * 
@@ -89,7 +62,7 @@ public abstract class BitVector {
 	 * 	significant. Any nonzero value is treated as a 1.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromBits(int ... bits) {
+	static BitVector fromBits(int ... bits) {
 		if (bits.length <= Long.SIZE) {
 			return new LongBitVector(bits);
 		} else {
@@ -105,7 +78,7 @@ public abstract class BitVector {
 	 * @param vector A {@code long} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromInteger(int length, long vector) {
+	static BitVector fromInteger(int length, long vector) {
 		if (length <= Long.SIZE) {
 			return new LongBitVector(length, vector);
 		} else {
@@ -124,7 +97,7 @@ public abstract class BitVector {
 	 * @param vector An {@code int} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromInteger(int length, int vector) {
+	static BitVector fromInteger(int length, int vector) {
 		return fromInteger(length, Integer.toUnsignedLong(vector));
 	}
 	
@@ -139,7 +112,7 @@ public abstract class BitVector {
 	 * @param vector A {@code short} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromInteger(int length, short vector) {
+	static BitVector fromInteger(int length, short vector) {
 		return fromInteger(length, Short.toUnsignedLong(vector));
 	}
 	
@@ -154,7 +127,7 @@ public abstract class BitVector {
 	 * @param vector A {@code byte} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromInteger(int length, byte vector) {
+	static BitVector fromInteger(int length, byte vector) {
 		return fromInteger(length, Byte.toUnsignedLong(vector));
 	}
 	
@@ -168,7 +141,7 @@ public abstract class BitVector {
 	 * @param bitSet A {@link BitSet} to source bits from.
 	 * @return An instance of {@code BitVector} representing the given bits.
 	 */
-	public static BitVector fromBitSet(int length, BitSet bitSet) {
+	static BitVector fromBitSet(int length, BitSet bitSet) {
 		if (length <= Long.SIZE) {
 			return new LongBitVector(length, bitSet);
 		} else {
@@ -186,7 +159,7 @@ public abstract class BitVector {
 	 * 	ascending order of array index and in order of least significance.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromLongArray(int length, long[] vectors) {
+	static BitVector fromLongArray(int length, long[] vectors) {
 		return new BitSetBitVector(length, BitSet.valueOf(vectors));
 	}
 	
@@ -199,7 +172,7 @@ public abstract class BitVector {
 	 * @return An all-zero instance of {@link BitVector} of the requested
 	 * 	length.
 	 */
-	public static BitVector nullVector(int length) {
+	static BitVector nullVector(int length) {
 		if (length <= Long.SIZE) {
 			return new LongBitVector(length);
 		} else {
