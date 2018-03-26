@@ -97,7 +97,7 @@ public abstract class Lfsr {
 			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
 		}
 		
-		setFill(BitVector.fromLong(getLength(), fill));
+		setFill(BitVector.fromInteger(getLength(), fill));
 	}
 	
 	/** Sets the specified bit in this register's fill.
@@ -141,7 +141,7 @@ public abstract class Lfsr {
 			throw new LfsrVectorLengthException(getLength(), Long.SIZE);
 		}
 		
-		setTaps(BitVector.fromLong(getLength(), taps));
+		setTaps(BitVector.fromInteger(getLength(), taps));
 	}
 	
 	/** Sets the specified bit in this register's tap configuration.

@@ -105,8 +105,57 @@ public abstract class BitVector {
 	 * @param vector A {@code long} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
-	public static BitVector fromLong(int length, long vector) {
-		return new LongBitVector(length, vector);
+	public static BitVector fromInteger(int length, long vector) {
+		if (length <= Long.SIZE) {
+			return new LongBitVector(length, vector);
+		} else {
+			return new BitSetBitVector(length, vector);
+		}
+	}
+	
+	/** Creates a {@link BitVector} representing the given {@code int}.
+	 * 
+	 * <p>This method selects an appropriate implementation of {@link BitVector}
+	 * based on the number of bits provided.
+	 * 
+	 * <p>This is equivalent to calling
+	 * {@code fromInteger(length, Integer.toUnsignedLong(vector))}.
+	 * 
+	 * @param vector An {@code int} to source bits from.
+	 * @return An instance of {@link BitVector} representing the given bits.
+	 */
+	public static BitVector fromInteger(int length, int vector) {
+		return fromInteger(length, Integer.toUnsignedLong(vector));
+	}
+	
+	/** Creates a {@link BitVector} representing the given {@code short}.
+	 * 
+	 * <p>This method selects an appropriate implementation of {@link BitVector}
+	 * based on the number of bits provided.
+	 * 
+	 * <p>This is equivalent to calling
+	 * {@code fromInteger(length, Short.toUnsignedLong(vector))}.
+	 * 
+	 * @param vector A {@code short} to source bits from.
+	 * @return An instance of {@link BitVector} representing the given bits.
+	 */
+	public static BitVector fromInteger(int length, short vector) {
+		return fromInteger(length, Short.toUnsignedLong(vector));
+	}
+	
+	/** Creates a {@link BitVector} representing the given {@code byte}.
+	 * 
+	 * <p>This method selects an appropriate implementation of {@link BitVector}
+	 * based on the number of bits provided.
+	 * 
+	 * <p>This is equivalent to calling
+	 * {@code fromInteger(length, Byte.toUnsignedLong(vector))}.
+	 * 
+	 * @param vector A {@code byte} to source bits from.
+	 * @return An instance of {@link BitVector} representing the given bits.
+	 */
+	public static BitVector fromInteger(int length, byte vector) {
+		return fromInteger(length, Byte.toUnsignedLong(vector));
 	}
 	
 	/** Creates a {@link BitVector} representing the given bits.
