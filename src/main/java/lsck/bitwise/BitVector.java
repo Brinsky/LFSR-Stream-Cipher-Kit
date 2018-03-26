@@ -15,7 +15,7 @@ public abstract class BitVector {
 	 */
 	public abstract byte get(int index);
 	
-	/** Attempts to generate a byte representation of this {@code BitVector}.
+	/** Attempts to generate a {@code byte} representation of this {@code BitVector}.
 	 * 
 	 * @return A {@code byte} containing the bits in this {@code BitVector}.
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
@@ -23,19 +23,19 @@ public abstract class BitVector {
 	 */
 	public abstract byte toByte();
 	
-	/** Attempts to generate a byte representation of this {@code BitVector}.
+	/** Attempts to generate a {@code short} representation of this {@code BitVector}.
 	 * 
-	 * @return A {@code byte} containing the bits in this {@code BitVector}.
+	 * @return A {@code short} containing the bits in this {@code BitVector}.
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
-	 * 	exceeds the length of {@code byte}.
+	 * 	exceeds the length of {@code short}.
 	 */
 	public abstract short toShort();
 	
-	/** Attempts to generate a byte representation of this {@code BitVector}.
+	/** Attempts to generate an {@code int} representation of this {@code BitVector}.
 	 * 
-	 * @return A {@code byte} containing the bits in this {@code BitVector}.
+	 * @return An {@code int} containing the bits in this {@code BitVector}.
 	 * @throws BitVectorTruncationException Thrown if the length of this vector
-	 * 	exceeds the length of {@code byte}.
+	 * 	exceeds the length of {@code int}.
 	 */
 	public abstract int toInt();
 	
