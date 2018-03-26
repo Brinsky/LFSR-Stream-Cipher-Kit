@@ -105,6 +105,15 @@ public class BitUtility {
 		return bit == 0 ? '0' : '1';
 	}
 	
+	/** Converts an {@code int} to a {@code byte} representing a single bit.
+	 * 
+	 * @param value An integer to be converted to a bit.
+	 * @return 0 if {@code value == 0}, 1 otherwise.
+	 */
+	public static byte asBit(int value) {
+		return (byte) ((value == 0) ? 0 : 1);
+	}
+	
 	/** Returns a String representation of a {@link BitVector}.
 	 * 
 	 * @param vector The {@link BitVector} to create a String representation

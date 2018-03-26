@@ -182,6 +182,17 @@ public class BitUtilityTest {
 	}
 	
 	@Test
+	void testAsBit_zero() {
+		assertEquals(0, BitUtility.asBit(0));
+	}
+	
+	@ParameterizedTest
+	@ValueSource(ints = {1, -1, -100, 100})
+	void testAsBit_nonZero(int value) {
+		assertEquals(1, BitUtility.asBit(value));
+	}
+	
+	@Test
 	void testBitString_bitVector_default() {
 		assertEquals(MSB_STRING, BitUtility.bitString(TEST_VECTOR));
 	}
