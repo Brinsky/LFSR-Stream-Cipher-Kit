@@ -9,7 +9,7 @@ import lsck.bitwise.BitSetBitVector;
 import lsck.bitwise.BitVector;
 import lsck.bitwise.BitVectorTruncationException;
 
-public class BitSetBitVectorTest extends BitVectorTest {
+public class BitSetBitVectorTest extends BaseBitVectorTest {
 
 	@Override
 	protected BitVector newVector() {

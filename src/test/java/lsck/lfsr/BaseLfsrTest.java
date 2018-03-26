@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import lsck.bitwise.BitVector;
 
-public abstract class LfsrTest {
+/** Tests for subclasses of {@link Lfsr}. */
+public abstract class BaseLfsrTest {
 	
 	// Data provider methods for subclasses to implement
 	

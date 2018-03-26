@@ -5,7 +5,7 @@ import java.util.List;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 
-public class BitSetLfsrTest extends LfsrTest {
+public class BitSetLfsrTest extends BaseLfsrTest {
 
 	private static final int TEST_LENGTH = 30;
 	private static final BitVector TEST_FILL = 

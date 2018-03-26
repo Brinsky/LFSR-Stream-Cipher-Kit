@@ -3,7 +3,7 @@ package lsck.bitwise;
 import lsck.bitwise.BitVector;
 import lsck.bitwise.LongBitVector;
 
-public class LongBitVectorTest extends BitVectorTest {
+public class LongBitVectorTest extends BaseBitVectorTest {
 	
 	@Override
 	protected BitVector newVector() {

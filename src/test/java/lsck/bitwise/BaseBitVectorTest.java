@@ -13,7 +13,8 @@ import lsck.bitwise.BitVector;
 import lsck.bitwise.BitVectorIndexOutOfBoundsException;
 import lsck.bitwise.BitVectorTruncationException;
 
-public abstract class BitVectorTest {
+/** Tests for subclasses of {@link BitVector}. */
+public abstract class BaseBitVectorTest {
 
 	/* 
 	 * MSB to LSB:
