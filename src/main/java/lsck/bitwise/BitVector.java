@@ -97,13 +97,12 @@ public abstract class BitVector {
 		}
 	}
 	
-	/** Creates a {@link BitVector} representing the given bits.
+	/** Creates a {@link BitVector} representing the given {@code long}.
 	 * 
 	 * This method selects an appropriate implementation of {@link BitVector}
 	 * based on the number of bits provided.
 	 * 
-	 * @param bits A list of bits, ordered from least-significant to most-
-	 * 	significant. Any nonzero value is treated as a 1.
+	 * @param vector A {@code long} to source bits from.
 	 * @return An instance of {@link BitVector} representing the given bits.
 	 */
 	public static BitVector fromLong(int length, long vector) {

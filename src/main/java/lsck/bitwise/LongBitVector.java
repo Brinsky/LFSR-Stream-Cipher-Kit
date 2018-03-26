@@ -69,9 +69,9 @@ public class LongBitVector extends BitVector {
 	
 	/** Creates a vector from a specified {@code long}
 	 * 
-	 * @param length The number of bits to retain from {@code bits}. The least
-	 * 	significant {@code length} bits are used.
-	 * @param bits A {@code long} to source bits from.
+	 * @param length The number of bits to retain from {@code vector}. The
+	 * 	least significant {@code length} bits are used.
+	 * @param vector A {@code long} to source bits from.
 	 */
 	public LongBitVector(int length, long vector) {
 		if (length < 0) {
