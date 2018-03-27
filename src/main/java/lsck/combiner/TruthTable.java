@@ -12,13 +12,13 @@ import lsck.bitwise.BitVector;
  * 
  * @see TermTable
  */
-public abstract class TruthTable {
+public interface TruthTable {
 	
 	/** Returns the number of arguments taken by this truth table / function.
 	 * 
 	 * @return the number of arguments taken by this truth table / function.
 	 */
-	public abstract int getArity();
+	int getArity();
 	
 	/** Returns the total length of this truth table.
 	 * 
@@ -27,32 +27,32 @@ public abstract class TruthTable {
 	 * 
 	 * @return the total length of this truth table.
 	 */
-	public abstract int getLength();
+	int getLength();
 
 	/** Returns the value of this truth table specified by the arguments.
 	 * 
 	 * @param args Values of the arguments to this truth table / function.
 	 * @return The value of the truth table specified by the arguments.
 	 */
-	public abstract byte at(BitVector args);
+	byte at(BitVector args);
 	
 	/** Returns a list of all argument vectors corresponding to a value of 1.
 	 * 
 	 * @return a list of all argument vectors corresponding to a value of 1.
 	 */
-	public abstract List<BitVector> getSupport();
+	List<BitVector> getSupport();
 	
 	/** Returns a list of all argument vectors corresponding to a value of 1.
 	 * 
 	 * @return a list of all argument vectors corresponding to a value of 1.
 	 */
-	public abstract int getWeight();
+	int getWeight();
 	
 	/** Whether or not this truth table represents a constant function.
 	 * 
 	 * @return Whether or not this truth table represents a constant function.
 	 */
-	public abstract boolean isConstant();
+	boolean isConstant();
 	
 	/** Constructs a {@code TermTable} corresponding to this truth table.
 	 * 
@@ -63,5 +63,5 @@ public abstract class TruthTable {
 	 * 
 	 * @return a {@code TermTable} corresponding to this truth table.
 	 */
-	public abstract TermTable buildTermTable();
+	TermTable buildTermTable();
 }

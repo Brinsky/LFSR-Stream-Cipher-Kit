@@ -19,7 +19,7 @@ import lsck.bitwise.BitVector;
  * 
  * @see TruthTable
  */
-public abstract class TermTable {
+public interface TermTable {
 
 	/** Returns the number of arguments to this term table / function. 
 	 *
@@ -29,7 +29,7 @@ public abstract class TermTable {
 	 * 
 	 * @return the number of arguments taken by this term table / function.
 	 */
-	public abstract int getArity();
+	int getArity();
 	
 	/** Indicates whether or not the specified term is in this table.
 	 * 
@@ -46,7 +46,7 @@ public abstract class TermTable {
 	 * @param A vector of length {@code getArity()} representing a term.
 	 * @return A bit indicating the presence of the specified term.
 	 */
-	public abstract byte at(BitVector term);
+	byte at(BitVector term);
 	
 	/** Returns a list of all terms present in this term table.
 	 * 
@@ -63,19 +63,19 @@ public abstract class TermTable {
 	 * @return A list of bit vectors (each of length {@code getArity()}
 	 * representing the terms present in this table.
 	 */
-	public abstract List<BitVector> getTerms();
+	List<BitVector> getTerms();
 	
 	/** Whether or not this term table represents a constant function.
 	 * 
 	 * @return Whether or not this term table represents a constant function.
 	 */
-	public abstract boolean isConstant();
+	boolean isConstant();
 	
 	/** Returns the number of terms present in this term table.
 	 * 
 	 * @return the number of terms present in this term table.
 	 */
-	public abstract int getTermCount();
+	int getTermCount();
 	
 	/** Constructs a {@code TruthTable} corresponding to this term table.
 	 * 
@@ -86,5 +86,5 @@ public abstract class TermTable {
 	 * 
 	 * @return a {@code TruthTable} corresponding to this term table.
 	 */
-	public abstract TruthTable buildTruthTable();
+	TruthTable buildTruthTable();
 }
