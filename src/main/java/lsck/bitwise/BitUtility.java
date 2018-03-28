@@ -3,9 +3,11 @@ package lsck.bitwise;
 import java.util.ArrayList;
 import java.util.List;
 
+import lsck.common.Exceptions;
+
 /** A collection of static helper methods for bit manipulation */
 public class BitUtility {
-
+  
   /**
    * Returns the value of a given bit in the provided {@code long}.
    *
@@ -16,7 +18,7 @@ public class BitUtility {
    */
   public static byte getBit(long vector, int index) {
     if (index < 0 || index >= Long.SIZE) {
-      throw new BitUtilityIndexOutOfBoundsException(index, Long.SIZE);
+      throw Exceptions.indexOutOfBoundsException(index, Long.SIZE);
     }
 
     return (byte) ((vector >>> index) & 1L);
@@ -34,7 +36,7 @@ public class BitUtility {
    */
   public static long setBit(long vector, int index, int value) {
     if (index < 0 || index >= Long.SIZE) {
-      throw new BitUtilityIndexOutOfBoundsException(index, Long.SIZE);
+      throw Exceptions.indexOutOfBoundsException(index, Long.SIZE);
     }
 
     if (value == 0) {
@@ -55,7 +57,7 @@ public class BitUtility {
    */
   public static byte getBit(long[] vectors, int index) {
     if (index < 0 || index >= vectors.length * Long.SIZE) {
-      throw new BitUtilityIndexOutOfBoundsException(index, vectors.length * Long.SIZE);
+      throw Exceptions.indexOutOfBoundsException(index, vectors.length * Long.SIZE);
     }
 
     return getBit(vectors[index / Long.SIZE], index % Long.SIZE);
@@ -73,7 +75,7 @@ public class BitUtility {
    */
   public static void setBit(long[] vectors, int index, int value) {
     if (index < 0 || index >= vectors.length * Long.SIZE) {
-      throw new BitUtilityIndexOutOfBoundsException(index, vectors.length * Long.SIZE);
+      throw Exceptions.indexOutOfBoundsException(index, vectors.length * Long.SIZE);
     }
 
     int i = index / Long.SIZE;

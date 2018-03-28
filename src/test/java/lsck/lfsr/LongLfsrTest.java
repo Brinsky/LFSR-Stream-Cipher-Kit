@@ -2,7 +2,6 @@ package lsck.lfsr;
 
 import java.util.List;
 
-import lsck.bitwise.BitVector;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 

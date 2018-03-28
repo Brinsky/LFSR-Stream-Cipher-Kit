@@ -3,10 +3,10 @@ package lsck.lfsr;
 import java.util.ArrayList;
 import java.util.List;
 
-import lsck.bitwise.BitVector;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 import lsck.bitwise.LongBitVector;
+import lsck.common.Exceptions;
 
 /**
  * An {@link Lfsr} implementation backed by {@code long}.
@@ -29,7 +29,7 @@ public class LongLfsr extends AbstractLfsr {
    */
   public LongLfsr(int length, BitVector taps, BitVector fill) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -46,7 +46,7 @@ public class LongLfsr extends AbstractLfsr {
    */
   public LongLfsr(int length, long taps, long fill) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -63,7 +63,7 @@ public class LongLfsr extends AbstractLfsr {
    */
   public LongLfsr(int length, BitVector taps) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -79,7 +79,7 @@ public class LongLfsr extends AbstractLfsr {
    */
   public LongLfsr(int length, long taps) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -94,9 +94,9 @@ public class LongLfsr extends AbstractLfsr {
    */
   public LongLfsr(int length) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     } else if (length > Long.SIZE) {
-      throw new LfsrInvalidLengthException(0, Long.SIZE, length);
+      throw Exceptions.unsupportedLengthException(length, Long.SIZE);
     }
 
     this.length = length;

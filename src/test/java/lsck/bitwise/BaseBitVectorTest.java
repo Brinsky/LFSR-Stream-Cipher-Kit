@@ -9,10 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import lsck.bitwise.BitVector;
-import lsck.bitwise.BitVectorIndexOutOfBoundsException;
-import lsck.bitwise.BitVectorTruncationException;
-
 /** Tests for subclasses of {@link BitVector}. */
 public abstract class BaseBitVectorTest {
 
@@ -82,7 +78,7 @@ public abstract class BaseBitVectorTest {
   @Test
   void getBitTest_outOfBounds_below() {
     assertThrows(
-        BitVectorIndexOutOfBoundsException.class,
+        IndexOutOfBoundsException.class,
         () -> newVector().get(-1),
         "Expected index between 0 and " + NUM_BITS + ", got -1");
   }
@@ -90,7 +86,7 @@ public abstract class BaseBitVectorTest {
   @Test
   void getBitTest_outOfBounds_above() {
     assertThrows(
-        BitVectorIndexOutOfBoundsException.class,
+        IndexOutOfBoundsException.class,
         () -> newVector().get(NUM_BITS),
         "Expected index between 0 and " + NUM_BITS + ", got " + NUM_BITS);
   }
@@ -114,7 +110,7 @@ public abstract class BaseBitVectorTest {
   @ValueSource(ints = {9})
   void toByteTest_invalid(int length) {
     assertThrows(
-        BitVectorTruncationException.class,
+        IllegalArgumentException.class,
         () -> newTruncatedVector(length).toByte(),
         "Vector of length " + length + " exceeds length of byte");
   }
@@ -129,7 +125,7 @@ public abstract class BaseBitVectorTest {
   @ValueSource(ints = {17})
   void toShortTest_invalid(int length) {
     assertThrows(
-        BitVectorTruncationException.class,
+        IllegalArgumentException.class,
         () -> newTruncatedVector(length).toShort(),
         "Vector of length " + length + " exceeds length of short");
   }
@@ -144,7 +140,7 @@ public abstract class BaseBitVectorTest {
   @ValueSource(ints = {33})
   void toIntTest_invalid(int length) {
     assertThrows(
-        BitVectorTruncationException.class,
+        IllegalArgumentException.class,
         () -> newTruncatedVector(length).toInt(),
         "Vector of length " + length + " exceeds length of int");
   }

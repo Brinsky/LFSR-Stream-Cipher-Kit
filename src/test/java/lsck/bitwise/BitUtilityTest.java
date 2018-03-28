@@ -77,35 +77,32 @@ public class BitUtilityTest {
   @ParameterizedTest
   @ValueSource(ints = {-10, -1, 64, 100})
   void testGetBit_invalidIndex(int index) {
-    BitUtilityIndexOutOfBoundsException e =
-        assertThrows(
-            BitUtilityIndexOutOfBoundsException.class, () -> BitUtility.getBit(~0L, index));
+    IndexOutOfBoundsException e =
+        assertThrows(IndexOutOfBoundsException.class, () -> BitUtility.getBit(~0L, index));
 
-    assertEquals("Expected a nonnegative value less than " + 64 + ", got " + index, e.getMessage());
+    assertEquals("Expected a nonnegative index less than " + 64 + "; got " + index, e.getMessage());
   }
 
   @ParameterizedTest
   @ValueSource(ints = {-10, -1, 64, 100})
   void testSetBit_invalidIndex(int index) {
-    BitUtilityIndexOutOfBoundsException e =
-        assertThrows(
-            BitUtilityIndexOutOfBoundsException.class, () -> BitUtility.setBit(0L, index, 1));
+    IndexOutOfBoundsException e =
+        assertThrows(IndexOutOfBoundsException.class, () -> BitUtility.setBit(0L, index, 1));
 
-    assertEquals("Expected a nonnegative value less than " + 64 + ", got " + index, e.getMessage());
+    assertEquals("Expected a nonnegative index less than " + 64 + "; got " + index, e.getMessage());
   }
 
   @ParameterizedTest
   @ValueSource(ints = {-1, 128, 200})
   void testGetBitArray_invalidIndex(int index) {
-    BitUtilityIndexOutOfBoundsException e =
+    IndexOutOfBoundsException e =
         assertThrows(
-            BitUtilityIndexOutOfBoundsException.class,
-            () -> BitUtility.getBit(TEST_LONG_ARRAY, index));
+            IndexOutOfBoundsException.class, () -> BitUtility.getBit(TEST_LONG_ARRAY, index));
 
     assertEquals(
-        "Expected a nonnegative value less than "
+        "Expected a nonnegative index less than "
             + (TEST_LONG_ARRAY.length * Long.SIZE)
-            + ", got "
+            + "; got "
             + index,
         e.getMessage());
   }
@@ -113,15 +110,14 @@ public class BitUtilityTest {
   @ParameterizedTest
   @ValueSource(ints = {-1, 128, 200})
   void testSetBitArray_invalidIndex(int index) {
-    BitUtilityIndexOutOfBoundsException e =
+    IndexOutOfBoundsException e =
         assertThrows(
-            BitUtilityIndexOutOfBoundsException.class,
-            () -> BitUtility.setBit(TEST_LONG_ARRAY, index, 1));
+            IndexOutOfBoundsException.class, () -> BitUtility.setBit(TEST_LONG_ARRAY, index, 1));
 
     assertEquals(
-        "Expected a nonnegative value less than "
+        "Expected a nonnegative index less than "
             + (TEST_LONG_ARRAY.length * Long.SIZE)
-            + ", got "
+            + "; got "
             + index,
         e.getMessage());
   }

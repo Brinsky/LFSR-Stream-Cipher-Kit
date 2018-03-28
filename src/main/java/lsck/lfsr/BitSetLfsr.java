@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import lsck.bitwise.BitVector;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
+import lsck.common.Exceptions;
 
 /**
  * An {@link Lfsr} implementation backed by {@link BitSet}.
@@ -30,7 +30,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length, BitVector taps, BitVector fill) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -47,7 +47,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length, BitVector taps) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -62,7 +62,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length) {
     if (length <= 0) {
-      throw new LfsrInvalidLengthException(length);
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -83,7 +83,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public byte getFillAt(int index) {
     if (index < 0 || index >= length) {
-      throw new LfsrIndexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBoundsException(index, length);
     }
 
     return (byte) (fill.get(index) ? 1 : 0);
@@ -97,7 +97,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public byte getTapsAt(int index) {
     if (index < 0 || index >= length) {
-      throw new LfsrIndexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBoundsException(index, length);
     }
 
     return (byte) (taps.get(index) ? 1 : 0);
@@ -106,7 +106,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setFill(BitVector fill) {
     if (fill.getLength() != length) {
-      throw new LfsrInvalidLengthException(length, fill.getLength());
+      throw Exceptions.invalidVectorLengthException(length, fill.getLength());
     }
 
     this.fill = fill.toBitSet();
@@ -115,7 +115,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setFillAt(int index, int value) {
     if (index < 0 || index >= length) {
-      throw new LfsrIndexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBoundsException(index, length);
     }
 
     fill.set(index, value != 0);
@@ -124,7 +124,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setTaps(BitVector taps) {
     if (taps.getLength() != length) {
-      throw new LfsrInvalidLengthException(length, taps.getLength());
+      throw Exceptions.invalidVectorLengthException(length, taps.getLength());
     }
 
     this.taps = taps.toBitSet();
@@ -133,7 +133,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setTapsAt(int index, int value) {
     if (index < 0 || index >= length) {
-      throw new LfsrIndexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBoundsException(index, length);
     }
 
     taps.set(index, value != 0);
