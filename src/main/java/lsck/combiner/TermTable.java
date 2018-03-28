@@ -31,6 +31,16 @@ public interface TermTable {
   int getArity();
 
   /**
+   * Returns the total length of this term table.
+   *
+   * <p>This value is always 2 raised to the power {@code getArity()}. It represents the number of
+   * distinct values contained in this term table.
+   *
+   * @return the total length of this term table.
+   */
+  int getLength();
+
+  /**
    * Indicates whether or not the specified term is in this table.
    *
    * <p>The bit vector provided as an argument indicates which algebraic term is being requested.
