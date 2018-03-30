@@ -199,4 +199,40 @@ public interface Lfsr {
    * @return The specified bit in the output stream.
    */
   byte shiftTo(int term);
+
+  /**
+   * Creates an {@link Lfsr} of the given length
+   *
+   * <p>This method selects an appropriate implementation of {@link Lfsr} based on the length
+   * provided.
+   *
+   * @param length The length of the desired {@link Lfsr}.
+   * @return An instance of {@link Lfsr} of the given length.
+   */
+  static Lfsr create(int length) {
+    if (length <= LongLfsr.MAX_LENGTH) {
+      return new LongLfsr(length);
+    } else {
+      return new BitSetLfsr(length);
+    }
+  }
+
+  /**
+   * Creates an {@link Lfsr} with the given length, taps, and fill.
+   *
+   * <p>This method selects an appropriate implementation of {@link Lfsr} based on the length
+   * provided.
+   *
+   * @param length The length of the desired {@link Lfsr}.
+   * @param taps See {@link #setTaps(BitVector)}.
+   * @param fill See {@link #setFill(BitVector)}.
+   * @return An instance of {@link Lfsr} with the given length, taps, and fill.
+   */
+  static Lfsr create(int length, BitVector taps, BitVector fill) {
+    if (length <= LongLfsr.MAX_LENGTH) {
+      return new LongLfsr(length, taps, fill);
+    } else {
+      return new BitSetLfsr(length, taps, fill);
+    }
+  }
 }

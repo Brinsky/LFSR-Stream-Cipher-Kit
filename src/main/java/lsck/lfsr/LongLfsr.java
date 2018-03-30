@@ -15,6 +15,8 @@ import lsck.common.Exceptions;
  */
 public class LongLfsr extends AbstractLfsr {
 
+  public static final int MAX_LENGTH = Long.SIZE;
+  
   private final int length;
   
   // Bitmask covering the length-many bits in the fill vector
