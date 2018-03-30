@@ -49,8 +49,8 @@ public class LongLfsr extends AbstractLfsr {
    * Creates a {@link LongLfsr} with the specified taps and fill.
    *
    * @param length The length of the register to be created.
-   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTaps(long)}.
-   * @param fill A {@code long} representing the fill. See {@link Lfsr#setFill(long)}.
+   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTapsFromInteger(long)}.
+   * @param fill A {@code long} representing the fill. See {@link Lfsr#setFillFromInteger(long)}.
    */
   public LongLfsr(int length, long taps, long fill) {
     if (length <= 0) {
@@ -60,8 +60,8 @@ public class LongLfsr extends AbstractLfsr {
     this.length = length;
     this.registerMask = BitUtility.lowerBitmask(length);
 
-    setFill(fill);
-    setTaps(taps);
+    setFillFromInteger(fill);
+    setTapsFromInteger(taps);
   }
 
   /**
@@ -87,7 +87,7 @@ public class LongLfsr extends AbstractLfsr {
    * Creates a {@link LongLfsr} with the specified taps and all-zero fill.
    *
    * @param length The length of the register to be created.
-   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTaps(long)}.
+   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTapsFromInteger(long)}.
    */
   public LongLfsr(int length, long taps) {
     if (length <= 0) {
@@ -98,7 +98,7 @@ public class LongLfsr extends AbstractLfsr {
     this.registerMask = BitUtility.lowerBitmask(length);
 
     this.fill = 0;
-    setTaps(taps);
+    setTapsFromInteger(taps);
   }
 
   /**

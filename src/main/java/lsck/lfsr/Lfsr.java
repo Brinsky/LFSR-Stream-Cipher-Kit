@@ -87,6 +87,16 @@ public interface Lfsr {
   void setFill(BitVector fill);
 
   /**
+   * Sets the fill of this register.
+   *
+   * <p>Equivalent to calling {@link BitVector#fromBits(int...)} and passing the result to {@link
+   * #setFill(BitVector)}.
+   *
+   * @param bits A sequence of bits representing the fill of this register.
+   */
+  void setFill(int... bits);
+
+  /**
    * Sets the fill of this register using a {@code long}.
    *
    * <p>The length of the {@code long} vector is assumed to be equal to that of the LFSR - any
@@ -95,7 +105,40 @@ public interface Lfsr {
    *
    * @param fill A {@code long} representing the fill of this register.
    */
-  void setFill(long fill);
+  void setFillFromInteger(long fill);
+
+  /**
+   * Sets the fill of this register using an {@code int}.
+   *
+   * <p>The length of the {@code int} vector is assumed to be equal to that of the LFSR - any higher
+   * order bits are truncated. Behavior-wise, this method should be equivalent to calling {@code
+   * setFill(BitVector.fromInteger(getLength(), fill))}.
+   *
+   * @param fill An {@code int} representing the fill of this register.
+   */
+  void setFillFromInteger(int fill);
+
+  /**
+   * Sets the fill of this register using a {@code short}.
+   *
+   * <p>The length of the {@code short} vector is assumed to be equal to that of the LFSR - any
+   * higher order bits are truncated. Behavior-wise, this method should be equivalent to calling
+   * {@code setFill(BitVector.fromInteger(getLength(), fill))}.
+   *
+   * @param fill A {@code short} representing the fill of this register.
+   */
+  void setFillFromInteger(short fill);
+
+  /**
+   * Sets the fill of this register using a {@code byte}.
+   *
+   * <p>The length of the {@code byte} vector is assumed to be equal to that of the LFSR - any
+   * higher order bits are truncated. Behavior-wise, this method should be equivalent to calling
+   * {@code setFill(BitVector.fromInteger(getLength(), fill))}.
+   *
+   * @param fill A {@code byte} representing the fill of this register.
+   */
+  void setFillFromInteger(byte fill);
 
   /**
    * Sets the specified bit in this register's fill.
@@ -123,6 +166,16 @@ public interface Lfsr {
   void setTaps(BitVector taps);
 
   /**
+   * Sets the tap configuration for this register.
+   *
+   * <p>Equivalent to calling {@link BitVector#fromBits(int...)} and passing the result to {@link
+   * #setTaps(BitVector)}.
+   *
+   * @param bits A sequence of bits representing the tap configuration for this register.
+   */
+  void setTaps(int... bits);
+
+  /**
    * Sets the tap configuration of this register using a {@code long}.
    *
    * <p>The length of the {@code long} vector is assumed to be equal to that of the LFSR - any
@@ -131,7 +184,40 @@ public interface Lfsr {
    *
    * @param taps A {@code long} representing the tap configuration of this register.
    */
-  void setTaps(long taps);
+  void setTapsFromInteger(long taps);
+
+  /**
+   * Sets the tap configuration of this register using an {@code int}.
+   *
+   * <p>The length of the {@code int} vector is assumed to be equal to that of the LFSR - any higher
+   * order bits are truncated. Behavior-wise, this method should be equivalent to calling {@code
+   * setTaps(BitVector.fromInteger(getLength(), taps))}.
+   *
+   * @param taps An {@code int} representing the tap configuration of this register.
+   */
+  void setTapsFromInteger(int taps);
+
+  /**
+   * Sets the tap configuration of this register using a {@code byte}.
+   *
+   * <p>The length of the {@code short} vector is assumed to be equal to that of the LFSR - any
+   * higher order bits are truncated. Behavior-wise, this method should be equivalent to calling
+   * {@code setTaps(BitVector.fromInteger(getLength(), taps))}.
+   *
+   * @param taps A {@code short} representing the tap configuration of this register.
+   */
+  void setTapsFromInteger(short taps);
+
+  /**
+   * Sets the tap configuration of this register using a {@code byte}.
+   *
+   * <p>The length of the {@code byte} vector is assumed to be equal to that of the LFSR - any
+   * higher order bits are truncated. Behavior-wise, this method should be equivalent to calling
+   * {@code setTaps(BitVector.fromInteger(getLength(), taps))}.
+   *
+   * @param taps A {@code byte} representing the tap configuration of this register.
+   */
+  void setTapsFromInteger(byte taps);
 
   /**
    * Sets the specified bit in this register's tap configuration.
