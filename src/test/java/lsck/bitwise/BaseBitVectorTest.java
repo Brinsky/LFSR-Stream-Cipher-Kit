@@ -25,6 +25,12 @@ public abstract class BaseBitVectorTest {
         1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0,
         1, 1
       };
+  protected static final int[] TEST_BITS_REVERSED =
+      new int[] {
+        1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1,
+        0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1,
+        0, 1
+      };
   protected static final long TEST_LONG = 0xB35B35B35B35B35BL;
 
   protected static final BitSet TEST_BITSET = BitSet.valueOf(new long[] {TEST_LONG});
@@ -41,6 +47,8 @@ public abstract class BaseBitVectorTest {
   protected abstract BitVector newVectorFromLong();
 
   protected abstract BitVector newEmptyVector();
+  
+  protected abstract BitVector newReversedVector();
 
   @Test
   /** Verifies that our differently-formatted test bits are equivalent. */
@@ -154,6 +162,11 @@ public abstract class BaseBitVectorTest {
   @Test
   void toBitSetTest() {
     assertEquals(TEST_BITSET.get(0, NUM_BITS), newVector().toBitSet());
+  }
+  
+  @Test
+  void reverseTest() {
+    assertEquals(newReversedVector(), newVector().reverse());
   }
 
   protected final long lowerMask(int bits) {

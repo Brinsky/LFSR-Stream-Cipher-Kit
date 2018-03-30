@@ -29,4 +29,9 @@ public class LongBitVectorTest extends BaseBitVectorTest {
   protected BitVector newEmptyVector() {
     return new LongBitVector(NUM_BITS);
   }
+
+  @Override
+  protected BitVector newReversedVector() {
+    return new LongBitVector(TEST_BITS_REVERSED);
+  }
 }

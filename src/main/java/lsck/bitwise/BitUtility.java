@@ -194,4 +194,23 @@ public class BitUtility {
 
     return builder.toString();
   }
+  
+  /** Reverses the bit vector represented by a {@code long}.
+   * 
+   * The lower {@code length} bits of {@code vector} are reversed. Any higher-order bits are truncated
+   * 
+   * @param length The number of bits in the given vector.
+   * @param vector A bit vector represented by a {@code long}.
+   * @return A reversed copy of {@code vector}.
+   */
+  public static long reverse(int length, long vector) {
+    long reversed = 0;
+    
+    for (int i = 0; i < length; i++) {
+      reversed <<= 1; // (First shift has no effect)
+      reversed |= (vector >>> i) & 1L;
+    }
+    
+    return reversed;
+  }
 }

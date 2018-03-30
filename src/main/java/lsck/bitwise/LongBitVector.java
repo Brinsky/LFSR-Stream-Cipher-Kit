@@ -143,4 +143,9 @@ public class LongBitVector extends AbstractBitVector {
   public BitSet toBitSet() {
     return BitSet.valueOf(new long[] {vector});
   }
+  
+  @Override
+  public BitVector reverse() {
+    return new LongBitVector(length, BitUtility.reverse(length, vector));
+  }
 }

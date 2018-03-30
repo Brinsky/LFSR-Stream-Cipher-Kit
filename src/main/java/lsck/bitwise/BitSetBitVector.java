@@ -141,4 +141,17 @@ public class BitSetBitVector extends AbstractBitVector {
   public BitSet toBitSet() {
     return (BitSet) bits.clone();
   }
+  
+  @Override
+  public BitVector reverse() {
+    BitSet reversed = new BitSet(length);
+    
+    for (int i = 0; i < length; i++) {
+      if (bits.get(length - i - 1)) {
+        reversed.set(i);
+      }
+    }
+    
+    return new BitSetBitVector(length, reversed);
+  }
 }

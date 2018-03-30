@@ -58,6 +58,12 @@ public interface BitVector {
    * @return A {@code BitSet} containing the bits in this {@code BitVector}.
    */
   BitSet toBitSet();
+  
+  /** Returns a {@link BitVector} representing this vector in reverse order.
+   * 
+   * @return A {@link BitVector} of the same length as this one with bits in reverse order.
+   */
+  BitVector reverse();
 
   /**
    * Creates a {@link BitVector} representing the given bits.

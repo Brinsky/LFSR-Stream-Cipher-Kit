@@ -24,7 +24,11 @@ public class BitUtilityTest {
   private static final String MSB_STRING = "000101101101101001110101101";
   private static final String LSB_STRING = new StringBuilder(MSB_STRING).reverse().toString();
 
-  private final long[] TEST_LONG_ARRAY = new long[] {0xABCD1234ABCD1234L, 0x9876FEDC9876FEDCL};
+  private final long[] TEST_LONG_ARRAY =
+      new long[] {0xABCD1234ABCD1234L, 0x9876FEDC9876FEDCL};
+
+  private static final long LONG_PRE_REVERSE = 0x1234ABCD1234ABCDL;
+  private static final long LONG_POST_REVERSE = 0xB3D52C48B3D52C48L;
 
   private static List<Byte> buildBitList(int... bits) {
     List<Byte> list = new ArrayList<>(bits.length);
@@ -250,5 +254,18 @@ public class BitUtilityTest {
   @Test
   void testBitString_bitList_emptyVector() {
     assertTrue(BitUtility.bitString(new ArrayList<Byte>()).isEmpty());
+  }
+
+  @Test
+  void testReverse_fullLength() {
+    assertEquals(LONG_POST_REVERSE, BitUtility.reverse(Long.SIZE, LONG_PRE_REVERSE));
+  }
+
+  @Test
+  void testReverse_halfLength() {
+    int length = 32;
+    long halfMask = 0xFFFFFFFF;
+    long postReverse = LONG_POST_REVERSE >>> length;
+    assertEquals(postReverse & halfMask, BitUtility.reverse(length, LONG_PRE_REVERSE & halfMask));
   }
 }

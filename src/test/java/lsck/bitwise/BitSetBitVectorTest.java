@@ -32,6 +32,11 @@ public class BitSetBitVectorTest extends BaseBitVectorTest {
     return new BitSetBitVector(NUM_BITS);
   }
 
+  @Override
+  protected BitVector newReversedVector() {
+    return new BitSetBitVector(TEST_BITS_REVERSED);
+  }
+  
   @ParameterizedTest
   @ValueSource(ints = {65})
   void toLongTest_invalid(int length) {
