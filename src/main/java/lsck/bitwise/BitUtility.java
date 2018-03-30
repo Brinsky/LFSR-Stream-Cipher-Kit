@@ -213,4 +213,13 @@ public class BitUtility {
     
     return reversed;
   }
+  
+  /** Returns a bitmask with the lower {@code length}-many bits set to 1 and all others set to 0.
+   * 
+   * @param length The number of lower-order bits to enable in the desired mask.
+   * @return A bitmask with the lower {@code length}-many bits set to 1.
+   */
+  public static long lowerBitmask(int length) {
+    return ~0L >>> (Long.SIZE - length);
+  }
 }

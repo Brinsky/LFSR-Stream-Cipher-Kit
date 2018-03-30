@@ -16,6 +16,10 @@ import lsck.common.Exceptions;
 public class LongLfsr extends AbstractLfsr {
 
   private final int length;
+  
+  // Bitmask covering the length-many bits in the fill vector
+  private final long registerMask;
+
   private long fill;
   private long taps;
 
@@ -33,6 +37,8 @@ public class LongLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    this.registerMask = BitUtility.lowerBitmask(length);
+
     setFill(fill);
     setTaps(taps);
   }
@@ -50,6 +56,8 @@ public class LongLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    this.registerMask = BitUtility.lowerBitmask(length);
+
     setFill(fill);
     setTaps(taps);
   }
@@ -67,6 +75,8 @@ public class LongLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    this.registerMask = BitUtility.lowerBitmask(length);
+
     this.fill = 0;
     setTaps(taps);
   }
@@ -83,6 +93,8 @@ public class LongLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    this.registerMask = BitUtility.lowerBitmask(length);
+
     this.fill = 0;
     setTaps(taps);
   }
@@ -100,6 +112,8 @@ public class LongLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    this.registerMask = BitUtility.lowerBitmask(length);
+
     this.fill = 0;
     this.taps = 0;
   }
@@ -178,10 +192,11 @@ public class LongLfsr extends AbstractLfsr {
 
   @Override
   public byte shift() {
-    byte output = (byte) (fill & 1L);
+    byte output = (byte) ((fill >>> length - 1) & 1L);
 
-    long inputBit = ((long) (Long.bitCount(taps & fill) % 2)) << (length - 1);
-    fill >>>= 1;
+    long inputBit = Long.bitCount(taps & fill) % 2;
+
+    fill = (fill << 1L) & registerMask; // Left shift by one position and truncate the output bit
     fill |= inputBit;
 
     return output;

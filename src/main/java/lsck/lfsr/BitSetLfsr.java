@@ -16,6 +16,11 @@ import lsck.common.Exceptions;
 public class BitSetLfsr extends AbstractLfsr {
 
   private final int length;
+  
+  // Bitmask for the uppermost (length % 64) bits in the highest-order long from the underlying
+  // long[] array representing the fill.
+  private final long upperLongMask;
+  
   private BitSet fill;
   private BitSet taps;
 
@@ -34,6 +39,8 @@ public class BitSetLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    upperLongMask = BitUtility.lowerBitmask(length % Long.SIZE);
+    
     setFill(fill);
     setTaps(taps);
   }
@@ -51,6 +58,8 @@ public class BitSetLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    upperLongMask = BitUtility.lowerBitmask(length % Long.SIZE);
+    
     this.fill = new BitSet(length);
     setTaps(taps);
   }
@@ -66,6 +75,8 @@ public class BitSetLfsr extends AbstractLfsr {
     }
 
     this.length = length;
+    upperLongMask = BitUtility.lowerBitmask(length % Long.SIZE);
+    
     this.fill = new BitSet(length);
     this.taps = new BitSet(length);
   }
@@ -141,7 +152,7 @@ public class BitSetLfsr extends AbstractLfsr {
 
   @Override
   public byte peek() {
-    return getFillAt(0);
+    return getFillAt(length - 1);
   }
 
   @Override
@@ -168,7 +179,7 @@ public class BitSetLfsr extends AbstractLfsr {
   public byte shift() {
     long[] fillVectors = fill.toLongArray();
 
-    byte output = shiftVectors(length, fillVectors, taps.toLongArray());
+    byte output = shiftVectors(fillVectors, taps.toLongArray());
 
     // Retain the final fill state
     fill = BitSet.valueOf(fillVectors);
@@ -183,7 +194,7 @@ public class BitSetLfsr extends AbstractLfsr {
     long[] fillVectors = fill.toLongArray();
 
     for (int i = 0; i < terms; i++) {
-      output.add(shiftVectors(length, fillVectors, taps.toLongArray()));
+      output.add(shiftVectors(fillVectors, taps.toLongArray()));
     }
 
     // Retain the final fill state
@@ -198,37 +209,36 @@ public class BitSetLfsr extends AbstractLfsr {
     long[] tapVectors = taps.toLongArray();
 
     for (int i = 0; i < term; i++) {
-      shiftVectors(length, fillVectors, tapVectors);
+      shiftVectors(fillVectors, tapVectors);
     }
 
-    byte output = shiftVectors(length, fillVectors, tapVectors);
+    byte output = shiftVectors(fillVectors, tapVectors);
     fill = BitSet.valueOf(fillVectors); // Retain the final fill state
 
     return output;
   }
 
   /** An LFSR shift operation on the underlying long[] representations */
-  private static byte shiftVectors(int length, long[] fillVectors, long[] tapVectors) {
-    byte outputBit = BitUtility.getBit(fillVectors, 0);
+  private byte shiftVectors(long[] fillVectors, long[] tapVectors) {
+    byte outputBit = BitUtility.getBit(fillVectors, length - 1);
 
     // Perform a single shift
     byte inputBit = nextBit(fillVectors, tapVectors);
-    rightShift(fillVectors);
-    BitUtility.setBit(fillVectors, length - 1, inputBit);
+    leftShift(fillVectors);
+    fillVectors[0] |= inputBit;
 
     return outputBit;
   }
 
-  private static void rightShift(long[] fillVectors) {
-    for (int i = 0; i < fillVectors.length; i++) {
-      // Set the highest bit of the previous vector equal to the lowest
-      // bit of this vector.
-      if (i != 0) {
-        fillVectors[i - 1] =
-            BitUtility.setBit(fillVectors[i - 1], Long.SIZE - 1, (int) fillVectors[i] & 1);
-      }
-
-      fillVectors[i] >>= 1;
+  private void leftShift(long[] fillVectors) {
+    // Left-shift the most-significant long and truncate the output bit
+    fillVectors[fillVectors.length - 1] <<= 1;
+    fillVectors[fillVectors.length - 1] &= upperLongMask;
+    
+    for (int i = fillVectors.length - 2; i >= 0; i++) {
+      // Set the lowest bit in the previously-shifted long equal to the highest bit in this long
+      fillVectors[i + 1] |= fillVectors[i] >>> Long.SIZE - 1;
+      fillVectors[i] <<= 1;
     }
   }
 

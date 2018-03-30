@@ -28,8 +28,8 @@ public interface Lfsr {
   /**
    * Returns the fill of this register.
    *
-   * <p>The least significant bit in the returned vector represents the bit that will be output by
-   * the next shift operation. The remaining higher- order bits follow consecutively.
+   * <p>The most significant bit in the returned vector represents the bit that will be output by
+   * the next shift operation. The remaining lower-order bits follow consecutively.
    *
    * @return The fill of this register.
    */
@@ -38,8 +38,8 @@ public interface Lfsr {
   /**
    * Returns the specified bit within the fill of this register.
    *
-   * <p>The bit with the an index of 0 is the bit that will be output by the next shift operation.
-   * The remaining higher-order bits are indexed consecutively.
+   * <p>The bit with the an index of {@code getLength() - 1} is the bit that will be output by the
+   * next shift operation. The remaining lower-order bits are indexed consecutively.
    *
    * @param index The position of the desired bit within the fill.
    * @return The specified bit within the fill of this register.
@@ -53,8 +53,8 @@ public interface Lfsr {
    * the register is tapped. A value of 1 indicates that the position is tapped and a value of 0
    * indicates that it is not.
    *
-   * <p>The least significant bit in this vector corresponds to the position whose bit will be
-   * output by the next shift operation. The remaining higher-order bits correspond to the remaining
+   * <p>The most significant bit in this vector corresponds to the position whose bit will be output
+   * by the next shift operation. The remaining lower-order bits correspond to the remaining
    * consecutive positions.
    *
    * @return The fill of this register.
@@ -67,8 +67,9 @@ public interface Lfsr {
    * <p>A value of 1 indicates that the specified position is tapped and a value of 0 indicates that
    * it is not.
    *
-   * <p>The bit with an index of 0 corresponds to the position whose bit will be output by the next
-   * shift operation. The remaining higher-order bits are indexed consecutively.
+   * <p>The bit with an index of {@code getLength() - 1} corresponds to the position whose bit will
+   * be output by the next shift operation. The remaining lower-order bits are indexed
+   * consecutively.
    *
    * @param index The position of the desired tap.
    * @return The fill of this register.
@@ -78,8 +79,8 @@ public interface Lfsr {
   /**
    * Sets the fill of this register.
    *
-   * <p>The least significant bit in the vector should describe the bit that will be output by the
-   * next shift operation. The remaining higher-order bits should follow consecutively.
+   * <p>The most significant bit in the vector should describe the bit that will be output by the
+   * next shift operation. The remaining lower-order bits should follow consecutively.
    *
    * @param fill A {@code BitVector} representing the fill of this register.
    */
@@ -99,8 +100,8 @@ public interface Lfsr {
   /**
    * Sets the specified bit in this register's fill.
    *
-   * <p>The bit with an index of 0 corresponds to the bit that will be output by the next shift
-   * operation. The remaining higher-order bits are indexed consecutively.
+   * <p>The bit with an index of {@code getLength() - 1} corresponds to the bit that will be output
+   * by the next shift operation. The remaining lower-order bits are indexed consecutively.
    *
    * @param index The position of the desired bit within the fill.
    * @param value The value to store into the specified position.
@@ -110,8 +111,8 @@ public interface Lfsr {
   /**
    * Sets the tap configuration for this register.
    *
-   * <p>The least significant bit in the vector should correspond to the position in the register of
-   * the bit that will be output by the next shift operation. The remaining higher-order bits should
+   * <p>The most significant bit in the vector should correspond to the position in the register of
+   * the bit that will be output by the next shift operation. The remaining lower-order bits should
    * follow consecutively.
    *
    * <p>A value of 1 indicates that the specified position should be tapped, and a value of 0
@@ -135,8 +136,9 @@ public interface Lfsr {
   /**
    * Sets the specified bit in this register's tap configuration.
    *
-   * <p>The bit with an index of 0 corresponds to the position of the bit that will be output by the
-   * next shift operation. The remaining higher- order bits are indexed consecutively.
+   * <p>The bit with an index of {@code getLength() - 1} corresponds to the position of the bit that
+   * will be output by the next shift operation. The remaining lower- order bits are indexed
+   * consecutively.
    *
    * <p>A value of 1 indicates that the specified position should be tapped, and a value of 0
    * indicates that it should not be.
