@@ -158,9 +158,9 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public List<Byte> peek(int terms) {
     // Perform a regular shift and then reset the fill
-    BitVector oldFill = getFill();
+    BitSet oldFill = (BitSet) fill.clone();
     List<Byte> output = shift(terms);
-    setFill(oldFill);
+    fill = oldFill;
 
     return output;
   }
@@ -168,9 +168,9 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public byte peekAt(int term) {
     // Perform a regular shiftAt and then reset the fill
-    BitVector oldFill = getFill();
+    BitSet oldFill = (BitSet) fill.clone();
     byte result = shiftTo(term);
-    setFill(oldFill);
+    fill = oldFill;
 
     return result;
   }
