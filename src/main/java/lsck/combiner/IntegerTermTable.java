@@ -99,7 +99,29 @@ public class IntegerTermTable implements TermTable {
 
   @Override
   public TruthTable buildTruthTable() {
-    // TODO Auto-generated method stub
-    return null;
+    return new IntegerTruthTable(arity, IntegerTruthTable.switchBasis(termTable));
+  }
+  
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof TermTable)) {
+      return false;
+    }
+    
+    TermTable other = (TermTable) o;
+    
+    if (other.getArity() == arity) {
+      // Check for term table equivalence
+      for (int i = 0; i < termTable.length; i++) {
+        BitVector argument = BitVector.fromInteger(arity, i);
+        if (at(argument) != other.at(argument)) {
+          return false;
+        }
+      }
+      
+      return true;
+    }
+    
+    return false;
   }
 }

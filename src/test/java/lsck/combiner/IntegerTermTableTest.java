@@ -6,9 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import lsck.bitwise.BitUtility;
@@ -145,5 +148,36 @@ public class IntegerTermTableTest {
     int[] table = new int[16]; // All zeros
 
     assertTrue(new IntegerTermTable(4, table).isConstant());
+  }
+  
+
+  /** Test values for {@link #buildTruthTableTest(TruthTable, TermTable)}. */
+  static Stream<Arguments> buildTruthTableProvider() {
+    return Stream.of(
+        // x1 + x2 + x3
+        Arguments.of(
+            new IntegerTermTable(3, new byte[] {0,1,1,0,1,0,0,0}),
+            new IntegerTruthTable(3, new byte[] {0,1,1,0,1,0,0,1})),
+
+        // 1
+        Arguments.of(
+            new IntegerTermTable(3, new byte[] {1,0,0,0,0,0,0,0}),
+            new IntegerTruthTable(3, new byte[] {1,1,1,1,1,1,1,1})),
+        
+        // 1 + x1 + x2 + x3 + x1 x2 + x1 x3 + x2 x3 + x1 x2 x3
+        Arguments.of(
+            new IntegerTermTable(3, new byte[] {1,1,1,1,1,1,1,1}),
+            new IntegerTruthTable(3, new byte[] {1,0,0,0,0,0,0,0})),
+        
+        // x1 + x2 + x3 x4
+        Arguments.of(
+            new IntegerTermTable(4, new byte[] {0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0}),
+            new IntegerTruthTable(4, new byte[] {0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,1})));
+  }
+  
+  @ParameterizedTest
+  @MethodSource("buildTruthTableProvider")
+  void buildTruthTableTest(TermTable given, TruthTable expected) {
+    assertEquals(expected, given.buildTruthTable());
   }
 }

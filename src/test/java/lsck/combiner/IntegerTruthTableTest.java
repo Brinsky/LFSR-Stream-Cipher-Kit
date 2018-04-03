@@ -7,9 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import lsck.bitwise.BitUtility;
@@ -147,5 +150,28 @@ public class IntegerTruthTableTest {
     Arrays.fill(table, 0);
 
     assertTrue(new IntegerTruthTable(4, table).isConstant());
+  }
+  
+  /** Test values for {@link BitUtility#setBit}. */
+  static Stream<Arguments> buildTermTableProvider() {
+    return Stream.of(
+        Arguments.of(
+            new IntegerTruthTable(3, new byte[] {0,1,1,0,1,0,0,1}),
+            new IntegerTermTable(3, new byte[] {0,1,1,0,1,0,0,0})),
+        Arguments.of(
+            new IntegerTruthTable(3, new byte[] {1,1,1,1,1,1,1,1}),
+            new IntegerTermTable(3, new byte[] {1,0,0,0,0,0,0,0})),
+        Arguments.of(
+            new IntegerTruthTable(3, new byte[] {1,0,0,0,0,0,0,0}),
+            new IntegerTermTable(3, new byte[] {1,1,1,1,1,1,1,1})),
+        Arguments.of(
+            new IntegerTruthTable(4, new byte[] {0,0,0,1,1,1,1,0,1,1,1,0,0,0,0,1}),
+            new IntegerTermTable(4, new byte[] {0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0})));
+  }
+  
+  @ParameterizedTest
+  @MethodSource("buildTermTableProvider")
+  void buildTermTableTest(TruthTable given, TermTable expected) {
+    assertEquals(expected, given.buildTermTable());
   }
 }
