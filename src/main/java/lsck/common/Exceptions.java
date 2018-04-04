@@ -1,5 +1,7 @@
 package lsck.common;
 
+import lsck.combiner.Generator;
+
 /** Helper class for common exceptions and messages */
 public final class Exceptions {
 
@@ -20,6 +22,13 @@ public final class Exceptions {
   public static final String VECTOR_ARITY_MISMATCH =
       "Expected vector length to match arity of %d; got %d";
   public static final String TABLE_LENGTH = "Table should be of length 2^arity (%d); got %d";
+
+  // Generator-related messages
+  public static final String MAX_GENERATOR_LENGTH =
+      "Combiner arity of %d exceeds maximum number of registers (%d)";
+  public static final String ARITY_REGISTER_MISMATCH =
+      "Combiner arity of %d does not match register count of %d";
+  public static final String REGISTER_INDEX = "Expected a valid register index; got %d";
 
   public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
@@ -55,5 +64,20 @@ public final class Exceptions {
 
   public static IllegalArgumentException tableLengthException(int arity, int length) {
     return new IllegalArgumentException(String.format(TABLE_LENGTH, 1 << arity, length));
+  }
+
+  public static IllegalArgumentException maxGeneratorLengthException(int length) {
+    return new IllegalArgumentException(
+        String.format(MAX_GENERATOR_LENGTH, length, Generator.MAX_REGISTERS));
+  }
+
+  public static IllegalArgumentException arityRegisterCountMismatchException(
+      int arity, int registerCount) {
+    return new IllegalArgumentException(
+        String.format(ARITY_REGISTER_MISMATCH, arity, registerCount));
+  }
+  
+  public static IndexOutOfBoundsException registerIndexOutOfBoundsException(int index) {
+    return new IndexOutOfBoundsException(String.format(REGISTER_INDEX, index));
   }
 }
