@@ -38,19 +38,13 @@ public interface BooleanFunction {
   /**
    * Returns a copy of the truth table for this function.
    *
-   * <p>This operation may be expensive if the function is internally represented as a term table.
-   *
    * @return a copy of the truth table for this function.
-   * @see TermTable#buildTruthTable()
    */
   TruthTable getTruthTable();
 
   /**
    * Returns a copy of the term table for this function.
    *
-   * <p>This operation may be expensive if the function is internally represented as a truth table.
-   *
-   * @return a copy of the term table for this function.
    * @see TermTable#buildTruthTable()
    */
   TermTable getTermTable();
