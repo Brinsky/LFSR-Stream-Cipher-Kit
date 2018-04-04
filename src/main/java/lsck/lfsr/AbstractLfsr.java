@@ -4,9 +4,9 @@ import lsck.bitwise.BitVector;
 
 /** A base class with common code for implementations of {@link Lfsr}. */
 public abstract class AbstractLfsr implements Lfsr {
-  
+
   @Override
-  public void setFill(int ... bits) {
+  public void setFill(int... bits) {
     setFill(BitVector.fromBits(bits));
   }
 
@@ -31,7 +31,7 @@ public abstract class AbstractLfsr implements Lfsr {
   }
 
   @Override
-  public void setTaps(int ... bits) {
+  public void setTaps(int... bits) {
     setTaps(BitVector.fromBits(bits));
   }
 
@@ -53,5 +53,18 @@ public abstract class AbstractLfsr implements Lfsr {
   @Override
   public void setTapsFromInteger(byte taps) {
     setTaps(BitVector.fromInteger(getLength(), taps));
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Lfsr)) {
+      return false;
+    }
+
+    Lfsr other = (Lfsr) o;
+
+    return getLength() == other.getLength()
+        && getTaps().equals(other.getTaps())
+        && getFill().equals(other.getFill());
   }
 }
