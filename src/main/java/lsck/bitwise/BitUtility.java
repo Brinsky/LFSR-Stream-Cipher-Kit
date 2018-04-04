@@ -7,7 +7,7 @@ import lsck.common.Exceptions;
 
 /** A collection of static helper methods for bit manipulation */
 public class BitUtility {
-  
+
   /**
    * Returns the value of a given bit in the provided {@code long}.
    *
@@ -22,6 +22,54 @@ public class BitUtility {
     }
 
     return (byte) ((vector >>> index) & 1L);
+  }
+
+  /**
+   * Returns the value of a given bit in the provided {@code int}.
+   *
+   * @param vector An {@code int} to extract a bit from.
+   * @param index The index of the bit being retrieved. The least significant bit has index 0, with
+   *     the remaining bits indexed consecutively.
+   * @return The value of the requested bit - always 0 or 1.
+   */
+  public static byte getBit(int vector, int index) {
+    if (index < 0 || index >= Integer.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Integer.SIZE);
+    }
+
+    return (byte) ((vector >>> index) & 1);
+  }
+
+  /**
+   * Returns the value of a given bit in the provided {@code short}.
+   *
+   * @param vector A {@code short} to extract a bit from.
+   * @param index The index of the bit being retrieved. The least significant bit has index 0, with
+   *     the remaining bits indexed consecutively.
+   * @return The value of the requested bit - always 0 or 1.
+   */
+  public static byte getBit(short vector, int index) {
+    if (index < 0 || index >= Short.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Short.SIZE);
+    }
+
+    return (byte) ((vector >>> index) & 1);
+  }
+
+  /**
+   * Returns the value of a given bit in the provided {@code byte}.
+   *
+   * @param vector A {@code byte} to extract a bit from.
+   * @param index The index of the bit being retrieved. The least significant bit has index 0, with
+   *     the remaining bits indexed consecutively.
+   * @return The value of the requested bit - always 0 or 1.
+   */
+  public static byte getBit(byte vector, int index) {
+    if (index < 0 || index >= Byte.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Byte.SIZE);
+    }
+
+    return (byte) ((vector >>> index) & 1);
   }
 
   /**
@@ -43,6 +91,72 @@ public class BitUtility {
       return vector & ~(1L << index);
     } else {
       return vector | (1L << index);
+    }
+  }
+  
+  /**
+   * Sets the value of a given bit in the provided {@code int}.
+   *
+   * @param vector An {@code int} to alter.
+   * @param index The index of the bit being set. The least significant bit has index 0, with the
+   *     remaining bits indexed consecutively.
+   * @param value The value to which the specified bit should be set. A value of 0 sets the bit to
+   *     0, and any other value sets it to 1.
+   * @return A copy of {@code vector} with the desired bit set.
+   */
+  public static int setBit(int vector, int index, int value) {
+    if (index < 0 || index >= Integer.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Integer.SIZE);
+    }
+
+    if (value == 0) {
+      return vector & ~(1 << index);
+    } else {
+      return vector | (1 << index);
+    }
+  }
+  
+  /**
+   * Sets the value of a given bit in the provided {@code short}.
+   *
+   * @param vector A {@code short} to alter.
+   * @param index The index of the bit being set. The least significant bit has index 0, with the
+   *     remaining bits indexed consecutively.
+   * @param value The value to which the specified bit should be set. A value of 0 sets the bit to
+   *     0, and any other value sets it to 1.
+   * @return A copy of {@code vector} with the desired bit set.
+   */
+  public static short setBit(short vector, int index, int value) {
+    if (index < 0 || index >= Short.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Short.SIZE);
+    }
+
+    if (value == 0) {
+      return (short) (vector & ~(1 << index));
+    } else {
+      return (short) (vector | (1 << index));
+    }
+  }
+  
+  /**
+   * Sets the value of a given bit in the provided {@code byte}.
+   *
+   * @param vector A {@code byte} to alter.
+   * @param index The index of the bit being set. The least significant bit has index 0, with the
+   *     remaining bits indexed consecutively.
+   * @param value The value to which the specified bit should be set. A value of 0 sets the bit to
+   *     0, and any other value sets it to 1.
+   * @return A copy of {@code vector} with the desired bit set.
+   */
+  public static byte setBit(byte vector, int index, int value) {
+    if (index < 0 || index >= Byte.SIZE) {
+      throw Exceptions.indexOutOfBoundsException(index, Byte.SIZE);
+    }
+
+    if (value == 0) {
+      return (byte) (vector & ~(1 << index));
+    } else {
+      return (byte) (vector | (1 << index));
     }
   }
 
@@ -194,28 +308,31 @@ public class BitUtility {
 
     return builder.toString();
   }
-  
-  /** Reverses the bit vector represented by a {@code long}.
-   * 
-   * The lower {@code length} bits of {@code vector} are reversed. Any higher-order bits are truncated
-   * 
+
+  /**
+   * Reverses the bit vector represented by a {@code long}.
+   *
+   * <p>The lower {@code length} bits of {@code vector} are reversed. Any higher-order bits are
+   * truncated
+   *
    * @param length The number of bits in the given vector.
    * @param vector A bit vector represented by a {@code long}.
    * @return A reversed copy of {@code vector}.
    */
   public static long reverse(int length, long vector) {
     long reversed = 0;
-    
+
     for (int i = 0; i < length; i++) {
       reversed <<= 1; // (First shift has no effect)
       reversed |= (vector >>> i) & 1L;
     }
-    
+
     return reversed;
   }
-  
-  /** Returns a bitmask with the lower {@code length}-many bits set to 1 and all others set to 0.
-   * 
+
+  /**
+   * Returns a bitmask with the lower {@code length}-many bits set to 1 and all others set to 0.
+   *
    * @param length The number of lower-order bits to enable in the desired mask.
    * @return A bitmask with the lower {@code length}-many bits set to 1.
    */
