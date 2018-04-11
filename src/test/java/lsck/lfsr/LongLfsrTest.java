@@ -33,6 +33,11 @@ public class LongLfsrTest extends BaseLfsrTest {
   private Lfsr TEST_LFSR = new LongLfsr(TEST_LENGTH, TEST_TAPS, TEST_FILL);
 
   @Override
+  Lfsr createLfsr(int length) {
+    return new LongLfsr(length);
+  }
+  
+  @Override
   Lfsr getLfsr() {
     return TEST_LFSR;
   }

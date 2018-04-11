@@ -24,6 +24,11 @@ public class BitSetLfsrTest extends BaseLfsrTest {
   private Lfsr TEST_LFSR = new BitSetLfsr(TEST_LENGTH, TEST_TAPS, TEST_FILL);
 
   @Override
+  Lfsr createLfsr(int length) {
+    return new BitSetLfsr(length);
+  }
+  
+  @Override
   Lfsr getLfsr() {
     return TEST_LFSR;
   }

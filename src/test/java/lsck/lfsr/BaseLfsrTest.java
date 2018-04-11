@@ -24,6 +24,8 @@ public abstract class BaseLfsrTest {
   abstract List<Byte> getExpectedOutput();
 
   abstract BitVector getExpectedFinalFill();
+  
+  abstract Lfsr createLfsr(int length);
 
   @Test
   void getLengthTest() {
@@ -181,6 +183,16 @@ public abstract class BaseLfsrTest {
     for (int i = 0; i < expected.size(); i += step) {
       assertEquals((byte) expected.get(i), lfsr.peekAt(i), "Unequal at index " + i);
       assertEquals(getTestFill(), lfsr.getFill());
+    }
+  }
+  
+  @Test
+  void testIncrementFill() {
+    Lfsr lfsr = createLfsr(8);
+    
+    int numFills = 1 << 8;
+    for (int i = 0; i < 2 * numFills; lfsr.incrementFill(), i++) {
+      assertEquals(i % numFills, lfsr.getFill().toInt(), "Fill mismatch at " + i);
     }
   }
 }

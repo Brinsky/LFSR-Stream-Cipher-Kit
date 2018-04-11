@@ -223,4 +223,10 @@ public class LongLfsr extends AbstractLfsr {
 
     return shift();
   }
+  
+  @Override
+  public void incrementFill() {
+    // Manage overflow manually using a bitmask
+    fill = (fill + 1) & registerMask;
+  }
 }
