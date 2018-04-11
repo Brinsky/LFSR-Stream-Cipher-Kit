@@ -1,9 +1,12 @@
 package lsck.bitwise;
 
-import lsck.bitwise.BitVector;
-import lsck.bitwise.LongBitVector;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 public class LongBitVectorTest extends BaseBitVectorTest {
+
+  private static final long MAX_UNSIGNED = BitUtility.lowerBitmask(Long.SIZE);
 
   @Override
   protected BitVector newVector() {
@@ -33,5 +36,13 @@ public class LongBitVectorTest extends BaseBitVectorTest {
   @Override
   protected BitVector newReversedVector() {
     return new LongBitVector(TEST_BITS_REVERSED);
+  }
+
+  protected static Stream<Arguments> getTestIncrementArgs() {
+    return Stream.of(
+        Arguments.of(BitVector.fromBits(0, 0, 0, 0, 0, 0), BitVector.fromBits(0, 0, 0, 0, 0, 1)),
+        Arguments.of(BitVector.fromBits(0, 1, 1, 1, 1, 1), BitVector.fromBits(1, 0, 0, 0, 0, 0)),
+        Arguments.of(BitVector.fromBits(1, 1, 1, 1, 1, 1), BitVector.fromBits(0, 0, 0, 0, 0, 0)),
+        Arguments.of(BitVector.fromInteger(64, MAX_UNSIGNED), BitVector.fromInteger(64, 0)));
   }
 }

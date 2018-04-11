@@ -54,6 +54,11 @@ public abstract class AbstractLfsr implements Lfsr {
   public void setTapsFromInteger(byte taps) {
     setTaps(BitVector.fromInteger(getLength(), taps));
   }
+  
+  @Override
+  public void incrementFill() {
+    setFill(getFill().increment());
+  }
 
   @Override
   public boolean equals(Object o) {

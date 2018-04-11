@@ -148,4 +148,10 @@ public class LongBitVector extends AbstractBitVector {
   public BitVector reverse() {
     return new LongBitVector(length, BitUtility.reverse(length, vector));
   }
+  
+  @Override
+  public BitVector increment() {
+    // For vectors of fewer than 64 bits, we need to handle overflow manually via a bitmask
+    return new LongBitVector(length, (vector + 1) & BitUtility.lowerBitmask(length));
+  }
 }

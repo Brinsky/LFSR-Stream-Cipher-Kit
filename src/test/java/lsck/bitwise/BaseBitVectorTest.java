@@ -4,9 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.BitSet;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Tests for subclasses of {@link BitVector}. */
@@ -167,6 +170,12 @@ public abstract class BaseBitVectorTest {
   @Test
   void reverseTest() {
     assertEquals(newReversedVector(), newVector().reverse());
+  }
+  
+  @ParameterizedTest
+  @MethodSource("getTestIncrementArgs")
+  void testIncrement(BitVector preIncrement, BitVector postIncrement) {
+    assertEquals(postIncrement, preIncrement.increment());
   }
 
   protected final long lowerMask(int bits) {

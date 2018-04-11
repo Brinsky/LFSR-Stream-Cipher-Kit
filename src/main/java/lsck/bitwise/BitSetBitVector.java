@@ -141,17 +141,34 @@ public class BitSetBitVector extends AbstractBitVector {
   public BitSet toBitSet() {
     return (BitSet) bits.clone();
   }
-  
+
   @Override
   public BitVector reverse() {
     BitSet reversed = new BitSet(length);
-    
+
     for (int i = 0; i < length; i++) {
       if (bits.get(length - i - 1)) {
         reversed.set(i);
       }
     }
-    
+
     return new BitSetBitVector(length, reversed);
+  }
+
+  @Override
+  public BitVector increment() {
+    long[] longs = bits.toLongArray();
+
+    // Loop as long as overflows continue to occur
+    for (int i = 0; (i == 0 || longs[i - 1] == 0) && i < longs.length; i++) {
+      // In general, the highest order long needs to be manually overflowed via a bitmask.
+      if (i == longs.length - 1) {
+        longs[i] = (longs[i] + 1) & BitUtility.lowerBitmask(length % Long.SIZE);
+      } else {
+        longs[i]++;
+      }
+    }
+
+    return new BitSetBitVector(length, BitSet.valueOf(longs));
   }
 }

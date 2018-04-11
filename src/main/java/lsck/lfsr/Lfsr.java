@@ -287,6 +287,16 @@ public interface Lfsr {
   byte shiftTo(int term);
 
   /**
+   * Increments the current fill, treating it as an unsigned integer value.
+   *
+   * <p>E.g. 100101011 -> 100101100
+   *
+   * <p>After being called 2^{@link #getLength()} times, the original fill will be reached. Note
+   * that the all-zero fill will occur within this cycle.
+   */
+  void incrementFill();
+
+  /**
    * Creates an {@link Lfsr} of the given length
    *
    * <p>This method selects an appropriate implementation of {@link Lfsr} based on the length
