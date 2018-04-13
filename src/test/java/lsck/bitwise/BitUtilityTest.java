@@ -247,11 +247,6 @@ public class BitUtilityTest {
   }
 
   @Test
-  void testBitString_bitVector_emptyVector() {
-    assertTrue(BitUtility.bitString(new LongBitVector(0)).isEmpty());
-  }
-
-  @Test
   void testBitString_bitList_emptyVector() {
     assertTrue(BitUtility.bitString(new ArrayList<Byte>()).isEmpty());
   }
