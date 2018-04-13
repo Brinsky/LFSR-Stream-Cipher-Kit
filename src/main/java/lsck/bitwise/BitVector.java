@@ -74,6 +74,38 @@ public interface BitVector {
   BitVector increment();
 
   /**
+   * Performs a bitwise AND with a second vector of the same length.
+   *
+   * @param b A vector of the same length as this one.
+   * @return The result of performing a bitwise and on the two vectors.
+   */
+  BitVector and(BitVector b);
+
+  /**
+   * Performs a bitwise OR with a second vector of the same length.
+   *
+   * @param b A vector of the same length as this one.
+   * @return The result of performing a bitwise OR on the two vectors.
+   */
+  BitVector or(BitVector b);
+
+  /**
+   * Performs a bitwise XOR with a second vector of the same length.
+   *
+   * @param b A vector of the same length as this one.
+   * @return The result of performing a bitwise XOR on the two vectors.
+   */
+  BitVector xor(BitVector b);
+  
+  /**
+   * Returns the result of flipping every bit in this bit vector.
+   *
+   * @param b A vector of the same length as this one.
+   * @return The result of flipping every bit in this bit vector.
+   */
+  BitVector not();
+
+  /**
    * Creates a {@link BitVector} representing the given bits.
    *
    * <p>This method selects an appropriate implementation of {@link BitVector} based on the number

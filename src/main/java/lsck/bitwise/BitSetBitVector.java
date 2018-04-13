@@ -171,4 +171,56 @@ public class BitSetBitVector extends AbstractBitVector {
 
     return new BitSetBitVector(length, BitSet.valueOf(longs));
   }
+  
+
+  @Override
+  public BitVector and(BitVector b) {
+
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    BitSet result =  b.toBitSet();
+    result.and(bits);
+    
+    return new BitSetBitVector(length, result);
+  }
+
+  @Override
+  public BitVector or(BitVector b) {
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    BitSet result =  b.toBitSet();
+    result.or(bits);
+    
+    return new BitSetBitVector(length, result);
+  }
+
+  @Override
+  public BitVector xor(BitVector b) {
+
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    BitSet result =  b.toBitSet();
+    result.xor(bits);
+    
+    return new BitSetBitVector(length, result);
+  }
+  
+  @Override
+  public int hashCode() {
+    return bits.hashCode();
+  }
+
+  @Override
+  public BitVector not() {
+   BitSet result = bits.get(0, length);
+   result.flip(0, length);
+   
+   return new BitSetBitVector(length, result);
+  }
 }

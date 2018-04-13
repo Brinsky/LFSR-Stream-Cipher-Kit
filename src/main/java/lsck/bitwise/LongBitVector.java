@@ -154,4 +154,41 @@ public class LongBitVector extends AbstractBitVector {
     // For vectors of fewer than 64 bits, we need to handle overflow manually via a bitmask
     return new LongBitVector(length, (vector + 1) & BitUtility.lowerBitmask(length));
   }
+
+  @Override
+  public BitVector and(BitVector b) {
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    return new LongBitVector(length, b.toLong() & vector);
+  }
+
+  @Override
+  public BitVector or(BitVector b) {
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    return new LongBitVector(length, b.toLong() | vector);
+  }
+
+  @Override
+  public BitVector xor(BitVector b) {
+    if (b.getLength() != length) {
+      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+    }
+    
+    return new LongBitVector(length, b.toLong() ^ vector);
+  }
+  
+  @Override
+  public int hashCode() {
+    return Long.hashCode(vector);
+  }
+
+  @Override
+  public BitVector not() {
+    return new LongBitVector(length, ~vector & BitUtility.lowerBitmask(length));
+  }
 }

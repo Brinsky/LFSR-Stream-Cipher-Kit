@@ -71,4 +71,9 @@ public class BitSetBitVectorTest extends BaseBitVectorTest {
             BitVector.fromBitSet(largeSize, allOnesButLeading),
             BitVector.fromBitSet(largeSize, leadingOne)));
   }
+
+  @Override
+  protected BitVector create(int... bits) {
+    return new BitSetBitVector(bits);
+  }
 }

@@ -7,12 +7,15 @@ import java.util.BitSet;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Tests for subclasses of {@link BitVector}. */
+@TestInstance(Lifecycle.PER_CLASS)
 public abstract class BaseBitVectorTest {
 
   /*
@@ -50,8 +53,11 @@ public abstract class BaseBitVectorTest {
   protected abstract BitVector newVectorFromLong();
 
   protected abstract BitVector newEmptyVector();
-  
+
   protected abstract BitVector newReversedVector();
+
+  /** Creates a new {@link BitVector} representing the given bits. */
+  protected abstract BitVector create(int... bits);
 
   @Test
   /** Verifies that our differently-formatted test bits are equivalent. */
@@ -166,16 +172,72 @@ public abstract class BaseBitVectorTest {
   void toBitSetTest() {
     assertEquals(TEST_BITSET.get(0, NUM_BITS), newVector().toBitSet());
   }
-  
+
   @Test
   void reverseTest() {
     assertEquals(newReversedVector(), newVector().reverse());
   }
-  
+
   @ParameterizedTest
   @MethodSource("getTestIncrementArgs")
   void testIncrement(BitVector preIncrement, BitVector postIncrement) {
     assertEquals(postIncrement, preIncrement.increment());
+  }
+
+  Stream<Arguments> getTestAndArgs() {
+    return Stream.of(
+        Arguments.of(create(0, 0, 0, 0, 0), create(1, 0, 1, 0, 1), create(0, 1, 0, 1, 0)),
+        Arguments.of(create(0, 0, 1, 1, 1), create(0, 0, 1, 1, 1), create(1, 1, 1, 1, 1)),
+        Arguments.of(create(0, 1, 0, 1, 0), create(1, 1, 1, 1, 1), create(0, 1, 0, 1, 0)));
+  }
+
+  @ParameterizedTest
+  @MethodSource("getTestAndArgs")
+  void testAnd(BitVector expected, BitVector a, BitVector b) {
+    assertEquals(expected, a.and(b));
+    assertEquals(expected, b.and(a));
+  }
+
+  Stream<Arguments> getTestOrArgs() {
+    return Stream.of(
+        Arguments.of(create(1, 1, 1, 1, 1), create(1, 0, 1, 0, 1), create(0, 1, 0, 1, 0)),
+        Arguments.of(create(0, 1, 0, 1, 0), create(0, 0, 0, 0, 0), create(0, 1, 0, 1, 0)),
+        Arguments.of(create(1, 1, 1, 1, 1), create(1, 1, 1, 1, 1), create(0, 1, 0, 1, 0)));
+  }
+
+  @ParameterizedTest
+  @MethodSource("getTestOrArgs")
+  void testOr(BitVector expected, BitVector a, BitVector b) {
+    assertEquals(expected, a.or(b));
+    assertEquals(expected, b.or(a));
+  }
+
+  Stream<Arguments> getTestXorArgs() {
+    return Stream.of(
+        Arguments.of(create(1, 1, 1, 1, 1), create(1, 0, 1, 0, 1), create(0, 1, 0, 1, 0)),
+        Arguments.of(create(1, 1, 0, 0, 0), create(0, 0, 1, 1, 1), create(1, 1, 1, 1, 1)),
+        Arguments.of(create(1, 0, 1, 0, 1), create(1, 1, 1, 1, 1), create(0, 1, 0, 1, 0)));
+  }
+
+  @ParameterizedTest
+  @MethodSource("getTestXorArgs")
+  void testXor(BitVector expected, BitVector a, BitVector b) {
+    assertEquals(expected, a.xor(b));
+    assertEquals(expected, b.xor(a));
+  }
+
+  Stream<Arguments> getTestNotArgs() {
+    return Stream.of(
+        Arguments.of(create(0, 1, 0, 1, 0), create(1, 0, 1, 0, 1)),
+        Arguments.of(create(1, 1, 0, 0, 0), create(0, 0, 1, 1, 1)),
+        Arguments.of(create(0, 0, 0, 0, 0), create(1, 1, 1, 1, 1)));
+  }
+
+  @ParameterizedTest
+  @MethodSource("getTestNotArgs")
+  void testNot(BitVector expected, BitVector toNegate) {
+    assertEquals(expected, toNegate.not());
+    assertEquals(toNegate, expected.not());
   }
 
   protected final long lowerMask(int bits) {

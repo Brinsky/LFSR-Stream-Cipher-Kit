@@ -45,4 +45,9 @@ public class LongBitVectorTest extends BaseBitVectorTest {
         Arguments.of(BitVector.fromBits(1, 1, 1, 1, 1, 1), BitVector.fromBits(0, 0, 0, 0, 0, 0)),
         Arguments.of(BitVector.fromInteger(64, MAX_UNSIGNED), BitVector.fromInteger(64, 0)));
   }
+
+  @Override
+  protected BitVector create(int... bits) {
+    return new LongBitVector(bits);
+  }
 }
