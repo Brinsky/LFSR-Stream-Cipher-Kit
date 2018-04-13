@@ -36,6 +36,10 @@ public final class Exceptions {
       "Register of length %d exceeds max-attackable length of %d";
   public static final String DUPLICATE_REGISTER = "Register with index %d specified more than once";
 
+  // Boolean function parsing messages
+  public static final String INVALID_INDEX_RANGE =
+      "Variable index should be between %d and %d (inclusive); got %d";
+
   public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
   }
@@ -64,7 +68,7 @@ public final class Exceptions {
     return new IllegalArgumentException(String.format(INVALID_ARITY, maxArity, arity));
   }
 
-  public static IllegalArgumentException vectorLengthException(int arity, int length) {
+  public static IllegalArgumentException vectorArityMismatchException(int arity, int length) {
     return new IllegalArgumentException(String.format(VECTOR_ARITY_MISMATCH, arity, length));
   }
 
@@ -96,5 +100,9 @@ public final class Exceptions {
 
   public static IllegalArgumentException duplicateRegisterException(int index) {
     return new IllegalArgumentException(String.format(DUPLICATE_REGISTER, index));
+  }
+
+  public static IndexOutOfBoundsException invalidIndexRangeException(int min, int max, int given) {
+    return new IndexOutOfBoundsException(String.format(INVALID_INDEX_RANGE, min, max, given));
   }
 }

@@ -100,4 +100,42 @@ public interface BooleanFunction {
    * @see TermTable#buildTruthTable()
    */
   TermTable getTermTable();
+
+  /**
+   * Creates a Boolean function from a string representation, with variables indexed from 1.
+   *
+   * <p>Currently, only functions of fewer than {@link IntegerTermTable#MAX_ARITY} variables can be
+   * created from string representations.
+   *
+   * <p>See {@link BooleanFunction#fromString(int, String, boolean)} for details on the string
+   * representation of Boolean functions.
+   *
+   * @param arity The number of variables for the represented function.
+   * @param expression A string representation of the desired function.
+   * @return A {@link BooleanFunction} corresponding to the given string representation.
+   */
+  public static BooleanFunction fromString(int arity, String expression) {
+    return fromString(arity, expression, false);
+  }
+
+  /**
+   * Creates a Boolean function from a string representation.
+   *
+   * <p>Currently, only functions of fewer than {@link IntegerTermTable#MAX_ARITY} variables can be
+   * created from string representations.
+   *
+   * <p>Consider the example string "1 + x1 x2 + (x1 + 1) x3". Allowable symbols are the constants
+   * '0' and '1', variables of the form xN (where N is the index of the variable), parentheses for
+   * grouping terms, and the symbol '+' for adding terms. Immediately adjacent variables, constants,
+   * and grouped terms are taken to be multiplied together. Whitespace is ignored.
+   *
+   * @param arity The number of variables for the represented function.
+   * @param expression A string representation of the desired function.
+   * @param indexFromZero If {@code true}, variables in the string representation are assumed to be
+   *     indexed from zero. Otherwise, they are assumed to be indexed from 1.
+   * @return A {@link BooleanFunction} corresponding to the given string representation.
+   */
+  public static BooleanFunction fromString(int arity, String expression, boolean indexFromZero) {
+    return new SimpleBooleanFunction(new IntegerTermTable(arity, expression, indexFromZero));
+  }
 }

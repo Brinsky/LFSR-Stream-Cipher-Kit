@@ -8,7 +8,7 @@ public class SimpleBooleanFunction extends AbstractBooleanFunction {
   private final int arity;
   private final TruthTable truthTable;
   private final TermTable termTable;
-  
+
   public SimpleBooleanFunction(TruthTable truthTable) {
     this.arity = truthTable.getArity();
 
@@ -40,6 +40,6 @@ public class SimpleBooleanFunction extends AbstractBooleanFunction {
 
   @Override
   public TermTable getTermTable() {
-  	return termTable;
+    return termTable;
   }
 }

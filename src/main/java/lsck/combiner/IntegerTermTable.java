@@ -2,6 +2,7 @@ package lsck.combiner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
@@ -16,6 +17,45 @@ public class IntegerTermTable implements TermTable {
   private final int arity;
 
   private int termCount = 0;
+
+  /**
+   * Creates a term table from a string representation of a Boolean expression.
+   *
+   * @param arity The number of variables for the represented function.
+   * @param expression A string representation of a Boolean function. See {@link
+   *     BooleanFunction#fromString(int, String, boolean)} for details.
+   * @param indexFromZero If {@code true}, variables in the string representation are assumed to be
+   *     indexed from zero. Otherwise, they are assumed to be indexed from 1.
+   */
+  public IntegerTermTable(int arity, String expression, boolean indexFromZero) {
+    this(arity, BooleanFunctionParser.expand(arity, expression, indexFromZero));
+  }
+
+  /**
+   * Creates a term table from the given set of terms.
+   *
+   * @param arity The number of variables for the represented function.
+   * @param terms A set of terms that should be added to the table, represented by {@link
+   *     BitVector}s. See {@link TermTable#at(BitVector)} for a detailed description of the
+   *     representation.
+   */
+  public IntegerTermTable(int arity, Set<BitVector> terms) {
+    if (arity < 1 || arity > MAX_ARITY) {
+      throw Exceptions.invalidArityException(arity, MAX_ARITY);
+    }
+
+    this.arity = arity;
+    termTable = new byte[1 << arity];
+
+    for (BitVector term : terms) {
+      if (term.getLength() != arity) {
+        throw Exceptions.vectorArityMismatchException(arity, term.getLength());
+      }
+
+      termTable[term.toInt()] = 1;
+      termCount++;
+    }
+  }
 
   /**
    * Creates a term table from the given array.
@@ -68,7 +108,7 @@ public class IntegerTermTable implements TermTable {
   @Override
   public byte at(BitVector term) {
     if (term.getLength() != arity) {
-      throw Exceptions.vectorLengthException(arity, term.getLength());
+      throw Exceptions.vectorArityMismatchException(arity, term.getLength());
     }
 
     return termTable[term.toInt()];
@@ -101,15 +141,15 @@ public class IntegerTermTable implements TermTable {
   public TruthTable buildTruthTable() {
     return new IntegerTruthTable(arity, IntegerTruthTable.switchBasis(termTable));
   }
-  
+
   @Override
   public boolean equals(Object o) {
     if (!(o instanceof TermTable)) {
       return false;
     }
-    
+
     TermTable other = (TermTable) o;
-    
+
     if (other.getArity() == arity) {
       // Check for term table equivalence
       for (int i = 0; i < termTable.length; i++) {
@@ -118,10 +158,10 @@ public class IntegerTermTable implements TermTable {
           return false;
         }
       }
-      
+
       return true;
     }
-    
+
     return false;
   }
 }

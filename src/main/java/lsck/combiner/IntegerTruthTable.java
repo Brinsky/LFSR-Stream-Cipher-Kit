@@ -69,7 +69,7 @@ public class IntegerTruthTable implements TruthTable {
   @Override
   public byte at(BitVector args) {
     if (args.getLength() != arity) {
-      throw Exceptions.vectorLengthException(arity, args.getLength());
+      throw Exceptions.vectorArityMismatchException(arity, args.getLength());
     }
 
     return truthTable[args.toInt()];
