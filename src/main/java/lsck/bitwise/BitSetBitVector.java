@@ -19,8 +19,8 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param length The number of bits in the resulting vector.
    */
   public BitSetBitVector(int length) {
-    if (length < 0) {
-      throw Exceptions.negativeLengthException(length);
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -37,8 +37,8 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param bits A {@code BitSet} to source bits from.
    */
   public BitSetBitVector(int length, BitSet bits) {
-    if (length < 0) {
-      throw Exceptions.negativeLengthException(length);
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLengthException(length);
     }
 
     this.length = length;
@@ -70,8 +70,8 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param vector A {@code long} to source bits from.
    */
   public BitSetBitVector(int length, long vector) {
-    if (length < 0) {
-      throw Exceptions.negativeLengthException(length);
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLengthException(length);
     } else if (length > Long.SIZE) {
       throw Exceptions.unsupportedLengthException(length, Long.SIZE);
     }

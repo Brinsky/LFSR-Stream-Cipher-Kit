@@ -9,7 +9,6 @@ public final class Exceptions {
   public static final String INVALID_INDEX = "Expected a nonnegative index less than %d; got %d";
 
   // General purpose length-related messages
-  public static final String NEGATIVE_LENGTH = "Expected a nonnegative length; got %d";
   public static final String EXCESSIVE_LENGTH =
       "Expected a positive length no greater than %d; got %d";
   public static final String NONPOSTIIVE_LENGTH = "Expected a length greater than 0; got %d";
@@ -42,10 +41,6 @@ public final class Exceptions {
 
   public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
-  }
-
-  public static IllegalArgumentException negativeLengthException(int length) {
-    return new IllegalArgumentException(String.format(NEGATIVE_LENGTH, length));
   }
 
   public static IllegalArgumentException nonPositiveLengthException(int length) {

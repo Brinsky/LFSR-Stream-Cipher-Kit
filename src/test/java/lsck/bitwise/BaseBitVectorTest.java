@@ -52,7 +52,7 @@ public abstract class BaseBitVectorTest {
 
   protected abstract BitVector newVectorFromLong();
 
-  protected abstract BitVector newEmptyVector();
+  protected abstract BitVector newZeroVector();
 
   protected abstract BitVector newReversedVector();
 
@@ -71,18 +71,18 @@ public abstract class BaseBitVectorTest {
 
   @Test
   void getLengthTest() {
-    assertEquals(NUM_BITS, newEmptyVector().getLength());
+    assertEquals(NUM_BITS, newZeroVector().getLength());
     assertEquals(NUM_BITS, newVector().getLength());
     assertEquals(NUM_BITS, newVectorFromBits().getLength());
     assertEquals(NUM_BITS, newVectorFromLong().getLength());
   }
 
   @Test
-  void emptyVectorTest() {
-    BitVector emptyVector = newEmptyVector();
+  void testZeroVector() {
+    BitVector emptyVector = newZeroVector();
 
     assertEquals(new BitSet(0), emptyVector.toBitSet());
-    assertEquals(0, newEmptyVector().toLong());
+    assertEquals(0, newZeroVector().toLong());
   }
 
   @Test
@@ -118,7 +118,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {0, 6, 8})
+  @ValueSource(ints = {1, 6, 8})
   void toByteTest_valid(int length) {
     assertEquals((byte) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toByte());
   }
@@ -133,7 +133,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {0, 14, 16})
+  @ValueSource(ints = {1, 14, 16})
   void toShortTest_valid(int length) {
     assertEquals((short) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toShort());
   }
@@ -148,7 +148,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {0, 30, 32})
+  @ValueSource(ints = {1, 30, 32})
   void toIntTest_valid(int length) {
     assertEquals((int) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toInt());
   }
@@ -163,7 +163,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {0, 62, 64})
+  @ValueSource(ints = {1, 62, 64})
   void toLongTest_valid(int length) {
     assertEquals(lowerMask(length) & TEST_LONG, newTruncatedVector(length).toLong());
   }

@@ -29,7 +29,7 @@ public class LongBitVectorTest extends BaseBitVectorTest {
   }
 
   @Override
-  protected BitVector newEmptyVector() {
+  protected BitVector newZeroVector() {
     return new LongBitVector(NUM_BITS);
   }
 

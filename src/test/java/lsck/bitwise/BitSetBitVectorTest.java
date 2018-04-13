@@ -32,7 +32,7 @@ public class BitSetBitVectorTest extends BaseBitVectorTest {
   }
 
   @Override
-  protected BitVector newEmptyVector() {
+  protected BitVector newZeroVector() {
     return new BitSetBitVector(NUM_BITS);
   }
 
