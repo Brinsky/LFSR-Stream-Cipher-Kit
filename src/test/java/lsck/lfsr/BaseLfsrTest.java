@@ -2,10 +2,9 @@ package lsck.lfsr;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 
 /** Tests for subclasses of {@link Lfsr}. */
@@ -21,7 +20,7 @@ public abstract class BaseLfsrTest {
 
   abstract BitVector getTestTaps();
 
-  abstract List<Byte> getExpectedOutput();
+  abstract BitList getExpectedOutput();
 
   abstract BitVector getExpectedFinalFill();
   
@@ -127,10 +126,10 @@ public abstract class BaseLfsrTest {
   @Test
   void shiftTest_single() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
 
     for (int i = 0; i < expected.size(); i++) {
-      assertEquals((byte) expected.get(i), lfsr.shift(), "Unequal at index " + i);
+      assertEquals((int) expected.get(i), lfsr.shift(), "Unequal at index " + i);
     }
 
     assertEquals(getExpectedFinalFill(), lfsr.getFill());
@@ -139,7 +138,7 @@ public abstract class BaseLfsrTest {
   @Test
   void shiftTest_all() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
 
     assertEquals(expected, lfsr.shift(expected.size()));
     assertEquals(getExpectedFinalFill(), lfsr.getFill());
@@ -148,26 +147,26 @@ public abstract class BaseLfsrTest {
   @Test
   void shiftToTest() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
     int last = expected.size() - 1;
 
-    assertEquals((byte) expected.get(last), lfsr.shiftTo(last));
+    assertEquals((int) expected.get(last), lfsr.shiftTo(last));
     assertEquals(getExpectedFinalFill(), lfsr.getFill());
   }
 
   @Test
   void peekTest_single() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
 
-    assertEquals((byte) expected.get(0), lfsr.peek());
+    assertEquals((int) expected.get(0), lfsr.peek());
     assertEquals(getTestFill(), lfsr.getFill());
   }
 
   @Test
   void peekTest_all() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
 
     assertEquals(expected, lfsr.peek(expected.size()));
     assertEquals(getTestFill(), lfsr.getFill());
@@ -176,12 +175,12 @@ public abstract class BaseLfsrTest {
   @Test
   void peekAtTest() {
     Lfsr lfsr = getLfsr();
-    List<Byte> expected = getExpectedOutput();
+    BitList expected = getExpectedOutput();
 
     // Try a sane number of peekAt() operations
     int step = expected.size() / 10;
     for (int i = 0; i < expected.size(); i += step) {
-      assertEquals((byte) expected.get(i), lfsr.peekAt(i), "Unequal at index " + i);
+      assertEquals((int) expected.get(i), lfsr.peekAt(i), "Unequal at index " + i);
       assertEquals(getTestFill(), lfsr.getFill());
     }
   }

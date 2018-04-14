@@ -3,8 +3,6 @@ package lsck.attack;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 
-import lsck.bitwise.BitUtility;
+import lsck.bitwise.BitList;
 import lsck.combiner.BooleanFunction;
 import lsck.combiner.Generator;
 import lsck.lfsr.Lfsr;
@@ -24,34 +22,34 @@ public class AttackTest {
   private static Stream<Arguments> getTestSieganthalerStatisticArgs() {
     return Stream.of(
         Arguments.of(
-            BitUtility.listFromBits(1, 1, 1, 1, 1, 1, 1, 1),
-            BitUtility.listFromBits(0, 0, 0, 0, 0, 0, 0, 0),
+            BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
+            BitList.fromBits(0, 0, 0, 0, 0, 0, 0, 0),
             -8),
         Arguments.of(
-            BitUtility.listFromBits(0, 0, 0, 0, 0, 0, 0, 0),
-            BitUtility.listFromBits(1, 1, 1, 1, 1, 1, 1, 1),
+            BitList.fromBits(0, 0, 0, 0, 0, 0, 0, 0),
+            BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
             -8),
         Arguments.of(
-            BitUtility.listFromBits(1, 1, 1, 1, 1, 1, 1, 1),
-            BitUtility.listFromBits(1, 1, 1, 1, 1, 1, 1, 1),
+            BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
+            BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
             8),
         Arguments.of(
-            BitUtility.listFromBits(1, 0, 1, 1, 0, 1, 0, 0),
-            BitUtility.listFromBits(1, 1, 1, 0, 0, 1, 0, 1),
+            BitList.fromBits(1, 0, 1, 1, 0, 1, 0, 0),
+            BitList.fromBits(1, 1, 1, 0, 0, 1, 0, 1),
             2),
         Arguments.of(
-            BitUtility.listFromBits(1, 1, 1, 0, 0, 1, 0, 1),
-            BitUtility.listFromBits(1, 0, 1, 1, 0, 1, 0, 0),
+            BitList.fromBits(1, 1, 1, 0, 0, 1, 0, 1),
+            BitList.fromBits(1, 0, 1, 1, 0, 1, 0, 0),
             2),
         Arguments.of(
-            BitUtility.listFromBits(1, 1, 1, 1, 1, 1, 1, 1),
-            BitUtility.listFromBits(1, 1, 1, 1, 0, 0, 0, 0),
+            BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
+            BitList.fromBits(1, 1, 1, 1, 0, 0, 0, 0),
             0));
   }
 
   @ParameterizedTest
   @MethodSource("getTestSieganthalerStatisticArgs")
-  void testSieganthalerStatistic(List<Byte> known, List<Byte> observed, int statistic) {
+  void testSieganthalerStatistic(BitList known, BitList observed, int statistic) {
     assertEquals(Attack.SIEGANTHALER_STATISTIC.compute(known, observed), statistic);
   }
 
@@ -65,7 +63,7 @@ public class AttackTest {
         assertThrows(
             IndexOutOfBoundsException.class,
             () ->
-                Attack.attack(g, new ArrayList<Byte>(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3));
+                Attack.attack(g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3));
 
     assertEquals("Expected a valid register index; got " + 3, e.getMessage());
   }
@@ -80,7 +78,7 @@ public class AttackTest {
     Exception e =
         assertThrows(
             IllegalArgumentException.class,
-            () -> Attack.attack(g, new ArrayList<Byte>(), Attack.SIEGANTHALER_STATISTIC, 0));
+            () -> Attack.attack(g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0));
 
     assertEquals(
         "Register of length "
@@ -101,7 +99,7 @@ public class AttackTest {
             IllegalArgumentException.class,
             () ->
                 Attack.attack(
-                    g, new ArrayList<Byte>(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3, 1));
+                    g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3, 1));
 
     assertEquals("Register with index " + 1 + " specified more than once", e.getMessage());
   }

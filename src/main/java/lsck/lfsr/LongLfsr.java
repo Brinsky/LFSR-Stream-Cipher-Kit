@@ -1,8 +1,6 @@
 package lsck.lfsr;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 import lsck.bitwise.LongBitVector;
@@ -199,9 +197,9 @@ public class LongLfsr extends AbstractLfsr {
   }
 
   @Override
-  public List<Byte> peek(int terms) {
+  public BitList peek(int terms) {
     long oldFill = fill;
-    List<Byte> output = shift(terms);
+    BitList output = shift(terms);
     fill = oldFill;
 
     return output;
@@ -229,8 +227,8 @@ public class LongLfsr extends AbstractLfsr {
   }
 
   @Override
-  public List<Byte> shift(int terms) {
-    List<Byte> output = new ArrayList<>(terms);
+  public BitList shift(int terms) {
+    BitList output = new BitList(terms);
 
     for (int i = 0; i < terms; i++) {
       output.add(shift());

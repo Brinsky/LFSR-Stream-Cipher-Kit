@@ -1,9 +1,8 @@
 package lsck.lfsr;
 
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.List;
 
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitUtility;
 import lsck.bitwise.BitVector;
 import lsck.common.Exceptions;
@@ -156,10 +155,10 @@ public class BitSetLfsr extends AbstractLfsr {
   }
 
   @Override
-  public List<Byte> peek(int terms) {
+  public BitList peek(int terms) {
     // Perform a regular shift and then reset the fill
     BitSet oldFill = (BitSet) fill.clone();
-    List<Byte> output = shift(terms);
+    BitList output = shift(terms);
     fill = oldFill;
 
     return output;
@@ -188,8 +187,8 @@ public class BitSetLfsr extends AbstractLfsr {
   }
 
   @Override
-  public List<Byte> shift(int terms) {
-    List<Byte> output = new ArrayList<>(terms);
+  public BitList shift(int terms) {
+    BitList output = new BitList(terms);
 
     long[] fillVectors = fill.toLongArray();
 

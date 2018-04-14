@@ -1,7 +1,6 @@
 package lsck.lfsr;
 
-import java.util.List;
-
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 
 /**
@@ -247,7 +246,7 @@ public interface Lfsr {
    * @param terms The number of bits to be generated.
    * @return A list of bits output during the specified number of shifts.
    */
-  List<Byte> peek(int terms);
+  BitList peek(int terms);
 
   /**
    * Returns the specified bit in the register's output stream
@@ -273,7 +272,7 @@ public interface Lfsr {
    * @param terms The number of bits to be generated.
    * @return A list of bits output during the specified number of shifts.
    */
-  List<Byte> shift(int terms);
+  BitList shift(int terms);
 
   /**
    * Performs {@code term + 1} shifts and returns the last resulting bit.

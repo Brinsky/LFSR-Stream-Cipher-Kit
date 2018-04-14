@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 import lsck.combiner.Generator;
 import lsck.common.Exceptions;
@@ -34,7 +35,7 @@ public class Attack {
    */
   public static List<ScoredFills> attack(
       Generator generator,
-      List<Byte> knownOutput,
+      BitList knownOutput,
       TestStatistic statistic,
       int... registersToAttack) {
 
@@ -80,7 +81,7 @@ public class Attack {
 
   private static void attack(
       Generator generator,
-      List<Byte> knownOutput,
+      BitList knownOutput,
       Lfsr[] registers,
       BitVector[] fills,
       TestStatistic statistic,
@@ -88,7 +89,7 @@ public class Attack {
       int index) {
     // Once all fills have been chosen, generate output and perform the test
     if (index == registers.length) {
-      List<Byte> testOutput = generator.peek(knownOutput.size());
+      BitList testOutput = generator.peek(knownOutput.size());
       scores.add(new ScoredFills(statistic.compute(knownOutput, testOutput), fills));
       return;
     }
@@ -120,6 +121,6 @@ public class Attack {
    */
   @FunctionalInterface
   public static interface TestStatistic {
-    double compute(List<Byte> expected, List<Byte> observed);
+    double compute(BitList expected, BitList observed);
   }
 }

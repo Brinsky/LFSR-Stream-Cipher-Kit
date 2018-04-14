@@ -1,8 +1,6 @@
 package lsck.combiner;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitUtility;
 import lsck.common.Exceptions;
 import lsck.lfsr.Lfsr;
@@ -106,7 +104,7 @@ public class Generator {
    * @param terms The number of bits to be generated.
    * @return A list of bits output during the specified number of shifts.
    */
-  public List<Byte> peek(int terms) {
+  public BitList peek(int terms) {
     return shift(i -> registers[i].peek(terms), terms);
   }
 
@@ -150,7 +148,7 @@ public class Generator {
    * @param terms The number of bits to be generated.
    * @return A list of bits output during the specified number of shifts.
    */
-  public List<Byte> shift(int terms) {
+  public BitList shift(int terms) {
     return shift(i -> registers[i].shift(terms), terms);
   }
 
@@ -174,16 +172,16 @@ public class Generator {
   }
 
   @FunctionalInterface
-  private static interface ByteListGetter {
-    List<Byte> get(int register);
+  private static interface BitListGetter {
+    BitList get(int register);
   }
 
-  private List<Byte> shift(ByteListGetter shiftLists, int terms) {
+  private BitList shift(BitListGetter shiftLists, int terms) {
     int[] args = new int[terms];
 
     // Generate argument vectors from each register's output
     for (int i = 0; i < registers.length; i++) {
-      List<Byte> registerOutput = shiftLists.get(i);
+      BitList registerOutput = shiftLists.get(i);
 
       for (int j = 0; j < terms; j++) {
         args[j] = BitUtility.setBit(args[j], registers.length - 1 - i, registerOutput.get(j));
@@ -191,7 +189,7 @@ public class Generator {
     }
 
     // Pass the argument vectors to the combiner
-    List<Byte> output = new ArrayList<Byte>(terms);
+    BitList output = new BitList(terms);
     for (int i = 0; i < terms; i++) {
       output.add(combiner.at(args[i]));
     }

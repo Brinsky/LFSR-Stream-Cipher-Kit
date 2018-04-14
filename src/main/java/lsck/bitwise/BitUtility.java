@@ -222,6 +222,16 @@ public class BitUtility {
   public static char bitToChar(int bit) {
     return bit == 0 ? '0' : '1';
   }
+  
+  /**
+   * Converts a bit represented by an {@code int} into a {@code boolean}.
+   *
+   * @param bit The bit to be converted into a {@code boolean}.
+   * @return {@code false} if {@code bit == 0}, {@code true} otherwise.
+   */
+  public static boolean bitToBoolean(int bit) {
+    return bit != 0;
+  }
 
   /**
    * Converts an {@code int} to a {@code byte} representing a single bit.
@@ -231,6 +241,16 @@ public class BitUtility {
    */
   public static byte asBit(int value) {
     return (byte) ((value == 0) ? 0 : 1);
+  }
+  
+  /**
+   * Converts an {@code boolean} to a {@code byte} representing a single bit.
+   *
+   * @param value A {@code boolean} to be converted to a bit.
+   * @return 1 if {@code value} is {@code true}, 0 otherwise.
+   */
+  public static byte asBit(boolean value) {
+    return (byte) (value ? 1 : 0);
   }
 
   /**

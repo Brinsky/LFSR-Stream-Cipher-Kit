@@ -39,6 +39,11 @@ public final class Exceptions {
   public static final String INVALID_INDEX_RANGE =
       "Variable index should be between %d and %d (inclusive); got %d";
 
+  // BitList
+  public static final String INVALID_CAPACITY = "Capacity must be nonnegative; got %d";
+  public static final String INVALID_SUBLIST_INDICES =
+      "Expected 0 <= fromIndex <= startIndex <= %d; got fromIndex: %d, toIndex: %d";
+
   public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
   }
@@ -99,5 +104,15 @@ public final class Exceptions {
 
   public static IndexOutOfBoundsException invalidIndexRangeException(int min, int max, int given) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX_RANGE, min, max, given));
+  }
+
+  public static IllegalArgumentException invalidCapacity(int capacity) {
+    throw new IllegalArgumentException(String.format(INVALID_CAPACITY, capacity));
+  }
+
+  public static IllegalArgumentException invalidSublistIndices(
+      int fromIndex, int toIndex, int size) {
+    throw new IndexOutOfBoundsException(
+        String.format(INVALID_SUBLIST_INDICES, size, fromIndex, toIndex));
   }
 }

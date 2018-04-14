@@ -1,8 +1,6 @@
 package lsck.lfsr;
 
-import java.util.List;
-
-import lsck.bitwise.BitUtility;
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 
 public class LongLfsrTest extends BaseLfsrTest {
@@ -18,8 +16,8 @@ public class LongLfsrTest extends BaseLfsrTest {
           1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0,
           1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1,
           0, 1, 0, 1);
-  private static final List<Byte> EXPECTED_OUTPUT =
-      BitUtility.listFromBits(
+  private static final BitList EXPECTED_OUTPUT =
+      BitList.fromBits(
           1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0,
           0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1,
           1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1,
@@ -58,7 +56,7 @@ public class LongLfsrTest extends BaseLfsrTest {
   }
 
   @Override
-  List<Byte> getExpectedOutput() {
+  BitList getExpectedOutput() {
     return EXPECTED_OUTPUT;
   }
 

@@ -3,13 +3,11 @@ package lsck.combiner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import lsck.bitwise.BitUtility;
+import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 import lsck.lfsr.Lfsr;
 
@@ -34,8 +32,8 @@ public class GeneratorTest {
       new SimpleBooleanFunction(
           new IntegerTruthTable(4, new int[] {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0}));
 
-  private static final List<Byte> expectedBits =
-      BitUtility.listFromBits(
+  private static final BitList expectedBits =
+      BitList.fromBits(
           1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1,
           0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0,
           1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0,
@@ -78,7 +76,7 @@ public class GeneratorTest {
   @Test
   void testPeek() {
     for (int i = 0; i < expectedBits.size(); i++) {
-      assertEquals((short) expectedBits.get(i), generator.peek(), "Mismatch at " + i);
+      assertEquals((int) expectedBits.get(i), generator.peek(), "Mismatch at " + i);
       generator.shift();
     }
   }
@@ -91,14 +89,14 @@ public class GeneratorTest {
   @Test
   void testPeekAt() {
     for (int i = 0; i < expectedBits.size(); i += 10) {
-      assertEquals((short) expectedBits.get(i), generator.peekAt(i), "Mismatch at " + i);
+      assertEquals((int) expectedBits.get(i), generator.peekAt(i), "Mismatch at " + i);
     }
   }
   
   @Test
   void testShift() {
     for (int i = 0; i < expectedBits.size(); i++) {
-      assertEquals((short) expectedBits.get(i), generator.shift(), "Mismatch at " + i);
+      assertEquals((int) expectedBits.get(i), generator.shift(), "Mismatch at " + i);
     }
   }
 
@@ -110,7 +108,7 @@ public class GeneratorTest {
   @Test
   void testShiftAt() {
     for (int i = 0; i < expectedBits.size(); i += 1) {
-      assertEquals((short) expectedBits.get(i), generator.shiftTo(0), "Mismatch at " + i);
+      assertEquals((int) expectedBits.get(i), generator.shiftTo(0), "Mismatch at " + i);
     }
   }
 }
