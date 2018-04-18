@@ -10,6 +10,8 @@ import lsck.common.Exceptions;
  * <p>Supports bit vectors up to 64 bits in length.
  */
 public class LongBitVector extends AbstractBitVector {
+  
+  public static final int MAX_LENGTH = Long.SIZE;
 
   private final long vector;
   private final int length;
@@ -22,6 +24,8 @@ public class LongBitVector extends AbstractBitVector {
   public LongBitVector(int length) {
     if (length <= 0) {
       throw Exceptions.nonPositiveLengthException(length);
+    } else if (length > MAX_LENGTH) {
+      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
     }
 
     this.length = length;
@@ -38,8 +42,8 @@ public class LongBitVector extends AbstractBitVector {
   public LongBitVector(int length, BitSet bits) {
     if (length <= 0) {
       throw Exceptions.nonPositiveLengthException(length);
-    } else if (length > Long.SIZE) {
-      throw Exceptions.unsupportedLengthException(length, Long.SIZE);
+    } else if (length > MAX_LENGTH) {
+      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
     }
 
     this.length = length;
@@ -61,8 +65,12 @@ public class LongBitVector extends AbstractBitVector {
    *     value is treated as a 1.
    */
   public LongBitVector(int... bits) {
+    if (bits.length > MAX_LENGTH) {
+      throw Exceptions.unsupportedLengthException(bits.length, MAX_LENGTH);
+    }
+    
     this.length = bits.length;
-
+   
     long vector = 0;
     for (int i = 0; i < bits.length; i++) {
       if (bits[i] != 0) {
