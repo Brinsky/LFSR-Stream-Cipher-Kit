@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -24,8 +25,7 @@ public class BitUtilityTest {
   private static final String MSB_STRING = "000101101101101001110101101";
   private static final String LSB_STRING = new StringBuilder(MSB_STRING).reverse().toString();
 
-  private final long[] TEST_LONG_ARRAY =
-      new long[] {0xABCD1234ABCD1234L, 0x9876FEDC9876FEDCL};
+  private final long[] TEST_LONG_ARRAY = new long[] {0xABCD1234ABCD1234L, 0x9876FEDC9876FEDCL};
 
   private static final long LONG_PRE_REVERSE = 0x1234ABCD1234ABCDL;
   private static final long LONG_POST_REVERSE = 0xB3D52C48B3D52C48L;
@@ -262,5 +262,43 @@ public class BitUtilityTest {
     long halfMask = 0xFFFFFFFF;
     long postReverse = LONG_POST_REVERSE >>> length;
     assertEquals(postReverse & halfMask, BitUtility.reverse(length, LONG_PRE_REVERSE & halfMask));
+  }
+
+  @Test
+  void testBitSetToLongArray_allZeros() {
+    int numZeros = 1000;
+
+    BitSet b = new BitSet(numZeros);
+    long[] array = BitUtility.bitSetToLongArray(numZeros, b);
+
+    assertEquals(divideAndRoundUp(numZeros, Long.SIZE), array.length);
+
+    for (int i = 0; i < array.length; i++) {
+      assertEquals(0, array[i], "Long at index " + i + " is nonzero");
+    }
+  }
+  
+  @Test
+  void testBitSetToLongArray() {
+    for (int i = 1; i < TEST_LONG_ARRAY.length * Long.SIZE; i += 8) {
+      assertUnchangedByBitSetToLongArray(i, TEST_LONG_ARRAY);
+    }
+  }
+
+  void assertUnchangedByBitSetToLongArray(int numBits, long[] source) {
+    // Use a BitVector to truncate higher-order bits
+    BitSet b = BitVector.fromBitSet(numBits, BitSet.valueOf(source)).toBitSet();
+    long[] result = BitUtility.bitSetToLongArray(numBits, b);
+
+    assertEquals(divideAndRoundUp(numBits, Long.SIZE), result.length);
+
+    for (int i = 0; i < numBits; i++) {
+      assertEquals(
+          BitUtility.getBit(source, i), BitUtility.getBit(result, i), "Differs at index " + i);
+    }
+  }
+
+  private static int divideAndRoundUp(int a, int b) {
+    return a / b + (a % b == 0 ? 0 : 1);
   }
 }

@@ -176,9 +176,9 @@ public class BitSetLfsr extends AbstractLfsr {
 
   @Override
   public byte shift() {
-    long[] fillVectors = fill.toLongArray();
+    long[] fillVectors = BitUtility.bitSetToLongArray(length, fill);
 
-    byte output = shiftVectors(fillVectors, taps.toLongArray());
+    byte output = shiftVectors(fillVectors, BitUtility.bitSetToLongArray(length, taps));
 
     // Retain the final fill state
     fill = BitSet.valueOf(fillVectors);
@@ -190,10 +190,10 @@ public class BitSetLfsr extends AbstractLfsr {
   public BitList shift(int terms) {
     BitList output = new BitList(terms);
 
-    long[] fillVectors = fill.toLongArray();
+    long[] fillVectors = BitUtility.bitSetToLongArray(length, fill);
 
     for (int i = 0; i < terms; i++) {
-      output.add(shiftVectors(fillVectors, taps.toLongArray()));
+      output.add(shiftVectors(fillVectors, BitUtility.bitSetToLongArray(length, taps)));
     }
 
     // Retain the final fill state
@@ -204,8 +204,8 @@ public class BitSetLfsr extends AbstractLfsr {
 
   @Override
   public byte shiftTo(int term) {
-    long[] fillVectors = fill.toLongArray();
-    long[] tapVectors = taps.toLongArray();
+    long[] fillVectors = BitUtility.bitSetToLongArray(length, fill);
+    long[] tapVectors = BitUtility.bitSetToLongArray(length, taps);
 
     for (int i = 0; i < term; i++) {
       shiftVectors(fillVectors, tapVectors);

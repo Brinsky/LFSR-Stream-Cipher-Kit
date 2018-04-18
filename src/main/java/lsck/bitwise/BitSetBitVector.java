@@ -19,9 +19,7 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param length The number of bits in the resulting vector.
    */
   public BitSetBitVector(int length) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
     this.bits = new BitSet(0);
@@ -37,9 +35,7 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param bits A {@code BitSet} to source bits from.
    */
   public BitSetBitVector(int length, BitSet bits) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
     this.bits = (BitSet) bits.get(0, length);
@@ -52,6 +48,8 @@ public class BitSetBitVector extends AbstractBitVector {
    *     value is treated as a 1.
    */
   public BitSetBitVector(int... bits) {
+    lengthRangeCheck(bits.length);
+
     this.length = bits.length;
     this.bits = new BitSet(bits.length);
 
@@ -70,14 +68,16 @@ public class BitSetBitVector extends AbstractBitVector {
    * @param vector A {@code long} to source bits from.
    */
   public BitSetBitVector(int length, long vector) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    } else if (length > Long.SIZE) {
-      throw Exceptions.unsupportedLengthException(length, Long.SIZE);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
     this.bits = BitSet.valueOf(new long[] {vector});
+  }
+
+  private static void lengthRangeCheck(int length) {
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLengthException(length);
+    }
   }
 
   @Override
@@ -143,7 +143,7 @@ public class BitSetBitVector extends AbstractBitVector {
   }
 
   @Override
-  public BitVector reverse() {
+  public BitSetBitVector reverse() {
     BitSet reversed = new BitSet(length);
 
     for (int i = 0; i < length; i++) {
@@ -156,8 +156,8 @@ public class BitSetBitVector extends AbstractBitVector {
   }
 
   @Override
-  public BitVector increment() {
-    long[] longs = bits.toLongArray();
+  public BitSetBitVector increment() {
+    long[] longs = BitUtility.bitSetToLongArray(length, bits);
 
     // Loop as long as overflows continue to occur
     for (int i = 0; (i == 0 || longs[i - 1] == 0) && i < longs.length; i++) {
@@ -171,46 +171,45 @@ public class BitSetBitVector extends AbstractBitVector {
 
     return new BitSetBitVector(length, BitSet.valueOf(longs));
   }
-  
 
   @Override
-  public BitVector and(BitVector b) {
+  public BitSetBitVector and(BitVector b) {
 
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
-    BitSet result =  b.toBitSet();
+
+    BitSet result = b.toBitSet();
     result.and(bits);
-    
+
     return new BitSetBitVector(length, result);
   }
 
   @Override
-  public BitVector or(BitVector b) {
+  public BitSetBitVector or(BitVector b) {
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
-    BitSet result =  b.toBitSet();
+
+    BitSet result = b.toBitSet();
     result.or(bits);
-    
+
     return new BitSetBitVector(length, result);
   }
 
   @Override
-  public BitVector xor(BitVector b) {
+  public BitSetBitVector xor(BitVector b) {
 
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
-    BitSet result =  b.toBitSet();
+
+    BitSet result = b.toBitSet();
     result.xor(bits);
-    
+
     return new BitSetBitVector(length, result);
   }
-  
+
   @Override
   public int hashCode() {
     return bits.hashCode();
@@ -218,9 +217,9 @@ public class BitSetBitVector extends AbstractBitVector {
 
   @Override
   public BitVector not() {
-   BitSet result = bits.get(0, length);
-   result.flip(0, length);
-   
-   return new BitSetBitVector(length, result);
+    BitSet result = bits.get(0, length);
+    result.flip(0, length);
+
+    return new BitSetBitVector(length, result);
   }
 }

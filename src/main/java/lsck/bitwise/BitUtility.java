@@ -1,6 +1,7 @@
 package lsck.bitwise;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 import lsck.common.Exceptions;
@@ -93,7 +94,7 @@ public class BitUtility {
       return vector | (1L << index);
     }
   }
-  
+
   /**
    * Sets the value of a given bit in the provided {@code int}.
    *
@@ -115,7 +116,7 @@ public class BitUtility {
       return vector | (1 << index);
     }
   }
-  
+
   /**
    * Sets the value of a given bit in the provided {@code short}.
    *
@@ -137,7 +138,7 @@ public class BitUtility {
       return (short) (vector | (1 << index));
     }
   }
-  
+
   /**
    * Sets the value of a given bit in the provided {@code byte}.
    *
@@ -197,6 +198,39 @@ public class BitUtility {
   }
 
   /**
+   * Returns a {@code long} array with guaranteed minimum length representing a {link BitSet}.
+   *
+   * <p>This method is intended to address the fact that a {@link BitSet} is unaware of how many
+   * leading 0 bits it contains. If a {@link BitSet} only contains 0s, for example, {@link
+   * BitSet#toLongArray()} will always return an empty array. For purposes of fixed-width bit
+   * operations, this method may be preferred.
+   *
+   * @param minBits The minimum number of bits that the {@code long} array will contain.
+   * @param bitSet The {@link BitSet} for a which a {@code long} array representation should be
+   *     returned.
+   * @return A {@code long} array representing {@code bitSet} and containing enough {@code long}s to
+   *     contain {@code minBits} bits.
+   */
+  public static long[] bitSetToLongArray(int minBits, BitSet bitSet) {
+    if (minBits <= 0) {
+      return bitSet.toLongArray();
+    }
+
+    // Force the farthest-requested bit in the BitSet to 1, so that the long array will include it.
+    boolean oldBit = bitSet.get(minBits - 1);
+    bitSet.set(minBits - 1);
+    
+
+    long[] array = bitSet.toLongArray();
+
+    // Reset the highest-requested bit to its initial state after array creation.
+    setBit(array, minBits - 1, asBit(oldBit));
+    bitSet.set(minBits - 1, oldBit);
+
+    return array;
+  }
+
+  /**
    * Converts a sequence of bits into a {@code List<Byte>}
    *
    * @param bits A sequence of bits to be stored in a list. Any nonzero value will result in a 1
@@ -222,7 +256,7 @@ public class BitUtility {
   public static char bitToChar(int bit) {
     return bit == 0 ? '0' : '1';
   }
-  
+
   /**
    * Converts a bit represented by an {@code int} into a {@code boolean}.
    *
@@ -242,7 +276,7 @@ public class BitUtility {
   public static byte asBit(int value) {
     return (byte) ((value == 0) ? 0 : 1);
   }
-  
+
   /**
    * Converts an {@code boolean} to a {@code byte} representing a single bit.
    *
