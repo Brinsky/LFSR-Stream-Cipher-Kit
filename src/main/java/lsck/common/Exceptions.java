@@ -34,6 +34,8 @@ public final class Exceptions {
   public static final String REGISTER_EXCEEDS_ATTACK_LENGTH =
       "Register of length %d exceeds max-attackable length of %d";
   public static final String DUPLICATE_REGISTER = "Register with index %d specified more than once";
+  public static final String VECTOR_EXCEEDS_ITERABLE_LENGTH =
+      "Vector of length %d exceeds max-iterable length of %d";
 
   // Boolean function parsing messages
   public static final String INVALID_INDEX_RANGE =
@@ -96,6 +98,12 @@ public final class Exceptions {
     return new IllegalArgumentException(
         String.format(
             REGISTER_EXCEEDS_ATTACK_LENGTH, registerLength, Attack.MAX_ATTACKABLE_REGISTER_LENGTH));
+  }
+
+  public static IllegalArgumentException vectorExceedsIterableLengthException(int vectorLength) {
+    return new IllegalArgumentException(
+        String.format(
+            VECTOR_EXCEEDS_ITERABLE_LENGTH, vectorLength, Attack.MAX_ITERABLE_VECTOR_LENGTH));
   }
 
   public static IllegalArgumentException duplicateRegisterException(int index) {

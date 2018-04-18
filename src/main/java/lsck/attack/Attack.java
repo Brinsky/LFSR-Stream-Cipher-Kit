@@ -7,6 +7,7 @@ import java.util.Set;
 
 import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
+import lsck.combiner.BooleanFunction;
 import lsck.combiner.Generator;
 import lsck.common.Exceptions;
 import lsck.lfsr.Lfsr;
@@ -20,8 +21,31 @@ import lsck.lfsr.Lfsr;
  */
 public class Attack {
 
-  public static final int MAX_ATTACKABLE_REGISTER_LENGTH = Long.SIZE - 2;
+  public static final int MAX_ITERABLE_VECTOR_LENGTH = Long.SIZE - 2;
+  public static final int MAX_ATTACKABLE_REGISTER_LENGTH = MAX_ITERABLE_VECTOR_LENGTH;
+  
+  public static int walshTransform(BooleanFunction f, BitVector omega) {
+    if (omega.getLength() != f.getArity()) {
+      throw Exceptions.vectorArityMismatchException(f.getArity(), omega.getLength());
+    } else if (omega.getLength() > MAX_ITERABLE_VECTOR_LENGTH) {
+      throw Exceptions.vectorExceedsIterableLengthException(omega.getLength());
+    }
+    
+    int walshValue = 0;
+    long omegaLong = omega.toLong();
+    
+    for (long i = 0; i < (1L << omega.getLength()); i++) {
+      walshValue += (f.at(i) == dotProduct(omegaLong, i)) ? 1 : -1;
+    }
+    
+    return walshValue;
+  }
 
+  /** Returns the base-2 dot product of the bit vectors represented by two {@code long}s. */
+  private static int dotProduct(long a, long b) {
+    return Long.bitCount(a & b) % 2;
+  }
+  
   /**
    * Performs a correlation attack against the specified registers and {@link Generator}.
    *

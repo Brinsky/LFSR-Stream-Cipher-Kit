@@ -220,7 +220,6 @@ public class BitUtility {
     boolean oldBit = bitSet.get(minBits - 1);
     bitSet.set(minBits - 1);
     
-
     long[] array = bitSet.toLongArray();
 
     // Reset the highest-requested bit to its initial state after array creation.

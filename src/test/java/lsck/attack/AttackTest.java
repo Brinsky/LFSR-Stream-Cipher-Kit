@@ -105,4 +105,6 @@ public class AttackTest {
   }
 
   // TODO: Implement non-exception attack test
+  
+  // TODO: Implement Walsh transform correctness test
 }
