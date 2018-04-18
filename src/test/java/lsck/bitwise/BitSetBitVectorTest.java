@@ -66,7 +66,7 @@ public class BitSetBitVectorTest extends BaseBitVectorTest {
         Arguments.of(BitVector.fromBits(0, 0, 0, 0, 0, 0), BitVector.fromBits(0, 0, 0, 0, 0, 1)),
         Arguments.of(BitVector.fromBits(0, 1, 1, 1, 1, 1), BitVector.fromBits(1, 0, 0, 0, 0, 0)),
         Arguments.of(BitVector.fromBits(1, 1, 1, 1, 1, 1), BitVector.fromBits(0, 0, 0, 0, 0, 0)),
-        Arguments.of(BitVector.fromBitSet(largeSize, allOnes), BitVector.nullVector(largeSize)),
+        Arguments.of(BitVector.fromBitSet(largeSize, allOnes), BitVector.zeroVector(largeSize)),
         Arguments.of(
             BitVector.fromBitSet(largeSize, allOnesButLeading),
             BitVector.fromBitSet(largeSize, leadingOne)));

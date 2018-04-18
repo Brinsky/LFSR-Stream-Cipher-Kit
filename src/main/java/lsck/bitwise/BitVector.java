@@ -96,7 +96,7 @@ public interface BitVector {
    * @return The result of performing a bitwise XOR on the two vectors.
    */
   BitVector xor(BitVector b);
-  
+
   /**
    * Returns the result of flipping every bit in this bit vector.
    *
@@ -220,19 +220,40 @@ public interface BitVector {
   }
 
   /**
-   * Creates an all-zero {@link BitVector} of the given length.
+   * Creates a constant zero {@link BitVector} of the given length.
    *
    * <p>This method selects an appropriate implementation of {@link BitVector} based on the number
    * of bits requested.
    *
-   * @param length The length of the all-zero vector to be returned.
-   * @return An all-zero instance of {@link BitVector} of the requested length.
+   * @param length The length of the constant zero vector to be returned.
+   * @return An instance of {@link BitVector} of the requested length, in which all bits are set to
+   *     0.
    */
-  static BitVector nullVector(int length) {
-    if (length <= Long.SIZE) {
+  static BitVector zeroVector(int length) {
+    if (length <= LongBitVector.MAX_LENGTH) {
       return new LongBitVector(length);
     } else {
       return new BitSetBitVector(length);
+    }
+  }
+
+  /**
+   * Creates a constant one {@link BitVector} of the given length.
+   *
+   * <p>This method selects an appropriate implementation of {@link BitVector} based on the number
+   * of bits requested.
+   *
+   * @param length The length of the constant one vector to be returned.
+   * @return An instance of {@link BitVector} of the requested length, in which all bits are set to
+   *     1.
+   */
+  static BitVector oneVector(int length) {
+    if (length <= LongBitVector.MAX_LENGTH) {
+      return new LongBitVector(length, BitUtility.lowerBitmask(length));
+    } else {
+      BitSet bits = new BitSet(length);
+      bits.set(0, length);
+      return new BitSetBitVector(length, bits);
     }
   }
 }

@@ -62,7 +62,7 @@ public abstract class BaseLfsrTest {
   @Test
   void setFillTest() {
     Lfsr lfsr = getLfsr();
-    BitVector nullVector = BitVector.nullVector(lfsr.getLength());
+    BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
     // Clear fill with an empty vector
     lfsr.setFill(nullVector);
@@ -76,7 +76,7 @@ public abstract class BaseLfsrTest {
   @Test
   void setFillAtTest() {
     Lfsr lfsr = getLfsr();
-    BitVector nullVector = BitVector.nullVector(lfsr.getLength());
+    BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
     // Clear fill with an empty vector
     for (int i = 0; i < lfsr.getLength(); i++) {
@@ -94,7 +94,7 @@ public abstract class BaseLfsrTest {
   @Test
   void setTapsTest() {
     Lfsr lfsr = getLfsr();
-    BitVector nullVector = BitVector.nullVector(lfsr.getLength());
+    BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
     // Clear fill with an empty vector
     lfsr.setTaps(nullVector);
@@ -108,7 +108,7 @@ public abstract class BaseLfsrTest {
   @Test
   void setTapsAtTest() {
     Lfsr lfsr = getLfsr();
-    BitVector nullVector = BitVector.nullVector(lfsr.getLength());
+    BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
     // Clear fill with an empty vector
     for (int i = 0; i < lfsr.getLength(); i++) {

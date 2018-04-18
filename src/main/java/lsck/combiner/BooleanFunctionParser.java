@@ -144,7 +144,7 @@ class BooleanFunctionParser {
       Set<BitVector> expanded = new HashSet<>(1);
 
       // '1' is represented by a vector of all zeros
-      if (ctx.getText().equals("1")) expanded.add(BitVector.nullVector(arity));
+      if (ctx.getText().equals("1")) expanded.add(BitVector.zeroVector(arity));
 
       return expanded;
     }

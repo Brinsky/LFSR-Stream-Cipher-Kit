@@ -101,7 +101,7 @@ public class IntegerTruthTableTest {
   @ParameterizedTest
   @ValueSource(ints = {0, ARITY - 1, ARITY + 1})
   void atTest_wrongVectorLength() {
-    BitVector vector = BitVector.nullVector(ARITY + 1);
+    BitVector vector = BitVector.zeroVector(ARITY + 1);
 
     Exception e = assertThrows(IllegalArgumentException.class, () -> TRUTH_TABLE.at(vector));
 
