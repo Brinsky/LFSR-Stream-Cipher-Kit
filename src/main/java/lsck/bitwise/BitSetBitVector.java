@@ -1,6 +1,8 @@
 package lsck.bitwise;
 
 import java.util.BitSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import lsck.common.Exceptions;
 
@@ -221,5 +223,59 @@ public class BitSetBitVector extends AbstractBitVector {
     result.flip(0, length);
 
     return new BitSetBitVector(length, result);
+  }
+
+  /**
+   * Returns an {@link Iterable} that will allow iteration over all bit vectors of the given length.
+   *
+   * <p>This method enables syntax like the following: <br>
+   * {@code for (BitSetBitVector v : BitSetBitVector.allBitVectors(5))}
+   *
+   * @param length The length of the vectors to be iterated over.
+   * @return An {@link Iterable} that can produce {@link Iterator}s over all bit vectors of the
+   *     given length.
+   */
+  public static Iterable<BitSetBitVector> allVectors(int length) {
+    lengthRangeCheck(length);
+
+    return () -> new BitSetBitVectorIterator(length);
+  }
+
+  /** Allows access to every {@link BitSetBitVector} of a given length */
+  private static class BitSetBitVectorIterator implements Iterator<BitSetBitVector> {
+
+    private final BitSetBitVector zeroVector;
+    
+    private boolean finished = false;   
+    private BitSetBitVector currentVector;
+
+    public BitSetBitVectorIterator(int length) {
+      lengthRangeCheck(length);
+
+      currentVector = new BitSetBitVector(length);
+      zeroVector = new BitSetBitVector(length);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return !finished;
+    }
+
+    @Override
+    public BitSetBitVector next() {
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+
+      BitSetBitVector old = currentVector;
+      currentVector = currentVector.increment();
+      
+      // TODO: Implement and use a bitCount() method to determine this quickly
+      if (currentVector.equals(zeroVector)) {
+        finished = true;
+      }
+
+      return old;
+    }
   }
 }

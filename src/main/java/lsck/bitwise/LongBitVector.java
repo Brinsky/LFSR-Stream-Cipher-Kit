@@ -1,6 +1,8 @@
 package lsck.bitwise;
 
 import java.util.BitSet;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import lsck.common.Exceptions;
 
@@ -10,7 +12,7 @@ import lsck.common.Exceptions;
  * <p>Supports bit vectors up to 64 bits in length.
  */
 public class LongBitVector extends AbstractBitVector {
-  
+
   public static final int MAX_LENGTH = Long.SIZE;
 
   private final long vector;
@@ -22,11 +24,7 @@ public class LongBitVector extends AbstractBitVector {
    * @param length The number of bits in the resulting vector.
    */
   public LongBitVector(int length) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    } else if (length > MAX_LENGTH) {
-      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
     this.vector = 0;
@@ -40,11 +38,7 @@ public class LongBitVector extends AbstractBitVector {
    * @param bits A {@code BitSet} to source bits from.
    */
   public LongBitVector(int length, BitSet bits) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    } else if (length > MAX_LENGTH) {
-      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
 
@@ -65,12 +59,10 @@ public class LongBitVector extends AbstractBitVector {
    *     value is treated as a 1.
    */
   public LongBitVector(int... bits) {
-    if (bits.length > MAX_LENGTH) {
-      throw Exceptions.unsupportedLengthException(bits.length, MAX_LENGTH);
-    }
-    
+    lengthRangeCheck(bits.length);
+
     this.length = bits.length;
-   
+
     long vector = 0;
     for (int i = 0; i < bits.length; i++) {
       if (bits[i] != 0) {
@@ -89,17 +81,21 @@ public class LongBitVector extends AbstractBitVector {
    * @param vector A {@code long} to source bits from.
    */
   public LongBitVector(int length, long vector) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
-    } else if (length > Long.SIZE) {
-      throw Exceptions.unsupportedLengthException(length, Long.SIZE);
-    }
+    lengthRangeCheck(length);
 
     this.length = length;
 
     // Truncate any bits above index "length - 1"
     int complement = Long.SIZE - length;
     this.vector = (vector << complement) >>> complement;
+  }
+
+  private static void lengthRangeCheck(int length) {
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLengthException(length);
+    } else if (length > MAX_LENGTH) {
+      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
+    }
   }
 
   @Override
@@ -151,12 +147,12 @@ public class LongBitVector extends AbstractBitVector {
   public BitSet toBitSet() {
     return BitSet.valueOf(new long[] {vector});
   }
-  
+
   @Override
   public BitVector reverse() {
     return new LongBitVector(length, BitUtility.reverse(length, vector));
   }
-  
+
   @Override
   public BitVector increment() {
     // For vectors of fewer than 64 bits, we need to handle overflow manually via a bitmask
@@ -168,7 +164,7 @@ public class LongBitVector extends AbstractBitVector {
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
+
     return new LongBitVector(length, b.toLong() & vector);
   }
 
@@ -177,7 +173,7 @@ public class LongBitVector extends AbstractBitVector {
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
+
     return new LongBitVector(length, b.toLong() | vector);
   }
 
@@ -186,10 +182,10 @@ public class LongBitVector extends AbstractBitVector {
     if (b.getLength() != length) {
       throw Exceptions.invalidVectorLengthException(length, b.getLength());
     }
-    
+
     return new LongBitVector(length, b.toLong() ^ vector);
   }
-  
+
   @Override
   public int hashCode() {
     return Long.hashCode(vector);
@@ -198,5 +194,56 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public BitVector not() {
     return new LongBitVector(length, ~vector & BitUtility.lowerBitmask(length));
+  }
+
+  /**
+   * Returns an {@link Iterable} that will allow iteration over all bit vectors of the given length.
+   *
+   * <p>This method enables syntax like the following: <br>
+   * {@code for (LongBitVector v : LongBitVector.allBitVectors(5))}
+   *
+   * @param length The length of the vectors to be iterated over.
+   * @return An {@link Iterable} that can produce {@link Iterator}s over all bit vectors of the
+   *     given length.
+   */
+  public static Iterable<LongBitVector> allVectors(int length) {
+    lengthRangeCheck(length);
+
+    return () -> new LongBitVectorIterator(length);
+  }
+
+  /** Allows access to every {@code long}-vector of a given length */
+  private static class LongBitVectorIterator implements Iterator<LongBitVector> {
+
+    private final int length;
+    private final long lastVector;
+
+    private boolean finished = false;
+    private long currentVector = 0;
+
+    public LongBitVectorIterator(int length) {
+      lengthRangeCheck(length);
+
+      this.length = length;
+      lastVector = BitUtility.lowerBitmask(length);
+    }
+
+    @Override
+    public boolean hasNext() {
+      return !finished;
+    }
+
+    @Override
+    public LongBitVector next() {
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+      
+      if (currentVector == lastVector) {
+        finished = true;
+      }
+
+      return new LongBitVector(length, currentVector++);
+    }
   }
 }

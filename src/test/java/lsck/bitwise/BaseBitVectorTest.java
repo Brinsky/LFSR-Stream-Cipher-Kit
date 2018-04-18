@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.BitSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -55,6 +57,9 @@ public abstract class BaseBitVectorTest {
   protected abstract BitVector newZeroVector();
 
   protected abstract BitVector newReversedVector();
+
+  // Proxy for static method
+  protected abstract Iterable<? extends BitVector> allVectors(int length);
 
   /** Creates a new {@link BitVector} representing the given bits. */
   protected abstract BitVector create(int... bits);
@@ -238,6 +243,22 @@ public abstract class BaseBitVectorTest {
   void testNot(BitVector expected, BitVector toNegate) {
     assertEquals(expected, toNegate.not());
     assertEquals(toNegate, expected.not());
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {1, 5, 10})
+  void testAllVectors(int length) {
+    Set<BitVector> vectors = new HashSet<>(1 << length);
+
+    int i = 0;
+    for (BitVector vector : allVectors(length)) {
+      vectors.add(vector);
+      i++;
+    }
+
+    // Assert we found 2^length unique vectors with no repeats
+    assertEquals(1 << length, i);
+    assertEquals(1 << length, vectors.size());
   }
 
   protected final long lowerMask(int bits) {

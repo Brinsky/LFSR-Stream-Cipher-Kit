@@ -76,4 +76,9 @@ public class BitSetBitVectorTest extends BaseBitVectorTest {
   protected BitVector create(int... bits) {
     return new BitSetBitVector(bits);
   }
+
+  @Override
+  protected Iterable<? extends BitVector> allVectors(int length) {
+    return BitSetBitVector.allVectors(length);
+  }
 }

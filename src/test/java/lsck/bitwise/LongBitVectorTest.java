@@ -50,4 +50,9 @@ public class LongBitVectorTest extends BaseBitVectorTest {
   protected BitVector create(int... bits) {
     return new LongBitVector(bits);
   }
+
+  @Override
+  protected Iterable<? extends BitVector> allVectors(int length) {
+    return LongBitVector.allVectors(length);
+  }
 }
