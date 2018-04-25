@@ -46,6 +46,10 @@ public final class Exceptions {
   public static final String INVALID_SUBLIST_INDICES =
       "Expected 0 <= fromIndex <= startIndex <= %d; got fromIndex: %d, toIndex: %d";
 
+  // Maximal Taps
+  public static final String INVALID_LENGTH =
+      "Length should be between %d and %d, inclusive; got %d";
+
   public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
   }
@@ -122,5 +126,9 @@ public final class Exceptions {
       int fromIndex, int toIndex, int size) {
     throw new IndexOutOfBoundsException(
         String.format(INVALID_SUBLIST_INDICES, size, fromIndex, toIndex));
+  }
+
+  public static IllegalArgumentException invalidLength(int minLength, int maxLength, int given) {
+    throw new IllegalArgumentException(String.format(INVALID_LENGTH, minLength, maxLength, given));
   }
 }
