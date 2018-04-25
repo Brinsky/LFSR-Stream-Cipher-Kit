@@ -34,7 +34,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length, BitVector taps, BitVector fill) {
     if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
+      throw Exceptions.nonPositiveLength(length);
     }
 
     this.length = length;
@@ -53,7 +53,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length, BitVector taps) {
     if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
+      throw Exceptions.nonPositiveLength(length);
     }
 
     this.length = length;
@@ -70,7 +70,7 @@ public class BitSetLfsr extends AbstractLfsr {
    */
   public BitSetLfsr(int length) {
     if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
+      throw Exceptions.nonPositiveLength(length);
     }
 
     this.length = length;
@@ -93,7 +93,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public byte getFillAt(int index) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
 
     return (byte) (fill.get(index) ? 1 : 0);
@@ -107,7 +107,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public byte getTapsAt(int index) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
 
     return (byte) (taps.get(index) ? 1 : 0);
@@ -116,7 +116,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setFill(BitVector fill) {
     if (fill.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, fill.getLength());
+      throw Exceptions.invalidVectorLength(length, fill.getLength());
     }
 
     this.fill = fill.toBitSet();
@@ -125,7 +125,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setFillAt(int index, int value) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
 
     fill.set(index, value != 0);
@@ -134,7 +134,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setTaps(BitVector taps) {
     if (taps.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, taps.getLength());
+      throw Exceptions.invalidVectorLength(length, taps.getLength());
     }
 
     this.taps = taps.toBitSet();
@@ -143,7 +143,7 @@ public class BitSetLfsr extends AbstractLfsr {
   @Override
   public void setTapsAt(int index, int value) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
 
     taps.set(index, value != 0);

@@ -78,7 +78,7 @@ public class BitSetBitVector extends AbstractBitVector {
 
   private static void lengthRangeCheck(int length) {
     if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
+      throw Exceptions.nonPositiveLength(length);
     }
   }
 
@@ -90,7 +90,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public byte get(int index) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
     return (byte) (bits.get(index) ? 1 : 0);
   }
@@ -98,7 +98,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public byte toByte() {
     if (length > Byte.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "byte");
+      throw Exceptions.vectorTruncation(length, "byte");
     } else if (length == 0 || bits.isEmpty()) {
       return 0;
     }
@@ -109,7 +109,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public short toShort() {
     if (length > Short.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "short");
+      throw Exceptions.vectorTruncation(length, "short");
     } else if (length == 0 || bits.isEmpty()) {
       return 0;
     }
@@ -120,7 +120,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public int toInt() {
     if (length > Integer.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "int");
+      throw Exceptions.vectorTruncation(length, "int");
     } else if (length == 0 || bits.isEmpty()) {
       return 0;
     }
@@ -131,7 +131,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public long toLong() {
     if (length > Long.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "long");
+      throw Exceptions.vectorTruncation(length, "long");
     } else if (length == 0 || bits.isEmpty()) {
       return 0;
     }
@@ -178,7 +178,7 @@ public class BitSetBitVector extends AbstractBitVector {
   public BitSetBitVector and(BitVector b) {
 
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     BitSet result = b.toBitSet();
@@ -190,7 +190,7 @@ public class BitSetBitVector extends AbstractBitVector {
   @Override
   public BitSetBitVector or(BitVector b) {
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     BitSet result = b.toBitSet();
@@ -203,7 +203,7 @@ public class BitSetBitVector extends AbstractBitVector {
   public BitSetBitVector xor(BitVector b) {
 
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     BitSet result = b.toBitSet();

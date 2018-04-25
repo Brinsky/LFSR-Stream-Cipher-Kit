@@ -41,7 +41,7 @@ public class IntegerTermTable implements TermTable {
    */
   public IntegerTermTable(int arity, Set<BitVector> terms) {
     if (arity < 1 || arity > MAX_ARITY) {
-      throw Exceptions.invalidArityException(arity, MAX_ARITY);
+      throw Exceptions.invalidArity(arity, MAX_ARITY);
     }
 
     this.arity = arity;
@@ -49,7 +49,7 @@ public class IntegerTermTable implements TermTable {
 
     for (BitVector term : terms) {
       if (term.getLength() != arity) {
-        throw Exceptions.vectorArityMismatchException(arity, term.getLength());
+        throw Exceptions.vectorArityMismatch(arity, term.getLength());
       }
 
       termTable[term.toInt()] = 1;
@@ -81,9 +81,9 @@ public class IntegerTermTable implements TermTable {
 
   private IntegerTermTable(int arity, int length, IntegerSequence data) {
     if (arity < 1 || arity > MAX_ARITY) {
-      throw Exceptions.invalidArityException(arity, MAX_ARITY);
+      throw Exceptions.invalidArity(arity, MAX_ARITY);
     } else if (length != 1 << arity) {
-      throw Exceptions.tableLengthException(arity, length);
+      throw Exceptions.tableLength(arity, length);
     }
 
     this.arity = arity;
@@ -108,7 +108,7 @@ public class IntegerTermTable implements TermTable {
   @Override
   public byte at(BitVector term) {
     if (term.getLength() != arity) {
-      throw Exceptions.vectorArityMismatchException(arity, term.getLength());
+      throw Exceptions.vectorArityMismatch(arity, term.getLength());
     }
 
     return termTable[term.toInt()];

@@ -50,71 +50,71 @@ public final class Exceptions {
   public static final String INVALID_LENGTH =
       "Length should be between %d and %d, inclusive; got %d";
 
-  public static IndexOutOfBoundsException indexOutOfBoundsException(int index, int length) {
+  public static IndexOutOfBoundsException indexOutOfBounds(int index, int length) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX, length, index));
   }
 
-  public static IllegalArgumentException nonPositiveLengthException(int length) {
+  public static IllegalArgumentException nonPositiveLength(int length) {
     return new IllegalArgumentException(String.format(NONPOSTIIVE_LENGTH, length));
   }
 
-  public static IllegalArgumentException unsupportedLengthException(int length, int maxLength) {
+  public static IllegalArgumentException unsupportedLength(int length, int maxLength) {
     return new IllegalArgumentException(String.format(EXCESSIVE_LENGTH, maxLength, length));
   }
 
-  public static IllegalArgumentException invalidVectorLengthException(int expected, int actual) {
+  public static IllegalArgumentException invalidVectorLength(int expected, int actual) {
     return new IllegalArgumentException(String.format(INVALID_VECTOR_LENGTH, expected, actual));
   }
 
-  public static IllegalArgumentException vectorTruncationException(int length, String type) {
+  public static IllegalArgumentException vectorTruncation(int length, String type) {
     return new IllegalArgumentException(String.format(VECTOR_TRUNCATION, length, type));
   }
 
-  public static IllegalArgumentException invalidArityException(int arity, int maxArity) {
+  public static IllegalArgumentException invalidArity(int arity, int maxArity) {
     return new IllegalArgumentException(String.format(INVALID_ARITY, maxArity, arity));
   }
 
-  public static IllegalArgumentException vectorArityMismatchException(int arity, int length) {
+  public static IllegalArgumentException vectorArityMismatch(int arity, int length) {
     return new IllegalArgumentException(String.format(VECTOR_ARITY_MISMATCH, arity, length));
   }
 
-  public static IllegalArgumentException tableLengthException(int arity, int length) {
+  public static IllegalArgumentException tableLength(int arity, int length) {
     return new IllegalArgumentException(String.format(TABLE_LENGTH, 1 << arity, length));
   }
 
-  public static IllegalArgumentException maxGeneratorLengthException(int length) {
+  public static IllegalArgumentException maxGeneratorLength(int length) {
     return new IllegalArgumentException(
         String.format(MAX_GENERATOR_LENGTH, length, Generator.MAX_REGISTERS));
   }
 
-  public static IllegalArgumentException arityRegisterCountMismatchException(
+  public static IllegalArgumentException arityRegisterCountMismatch(
       int arity, int registerCount) {
     return new IllegalArgumentException(
         String.format(ARITY_REGISTER_MISMATCH, arity, registerCount));
   }
 
-  public static IndexOutOfBoundsException registerIndexOutOfBoundsException(int index) {
+  public static IndexOutOfBoundsException registerIndexOutOfBounds(int index) {
     return new IndexOutOfBoundsException(String.format(REGISTER_INDEX, index));
   }
 
-  public static IllegalArgumentException registerExceedsAttackableLengthException(
+  public static IllegalArgumentException registerExceedsAttackableLength(
       int registerLength) {
     return new IllegalArgumentException(
         String.format(
             REGISTER_EXCEEDS_ATTACK_LENGTH, registerLength, Attack.MAX_ATTACKABLE_REGISTER_LENGTH));
   }
 
-  public static IllegalArgumentException vectorExceedsIterableLengthException(int vectorLength) {
+  public static IllegalArgumentException vectorExceedsIterableLength(int vectorLength) {
     return new IllegalArgumentException(
         String.format(
             VECTOR_EXCEEDS_ITERABLE_LENGTH, vectorLength, Attack.MAX_ITERABLE_VECTOR_LENGTH));
   }
 
-  public static IllegalArgumentException duplicateRegisterException(int index) {
+  public static IllegalArgumentException duplicateRegister(int index) {
     return new IllegalArgumentException(String.format(DUPLICATE_REGISTER, index));
   }
 
-  public static IndexOutOfBoundsException invalidIndexRangeException(int min, int max, int given) {
+  public static IndexOutOfBoundsException invalidIndexRange(int min, int max, int given) {
     return new IndexOutOfBoundsException(String.format(INVALID_INDEX_RANGE, min, max, given));
   }
 

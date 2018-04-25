@@ -42,9 +42,9 @@ public class IntegerTruthTable implements TruthTable {
 
   private IntegerTruthTable(int arity, int length, IntegerSequence data) {
     if (arity < 1 || arity > MAX_ARITY) {
-      throw Exceptions.invalidArityException(arity, MAX_ARITY);
+      throw Exceptions.invalidArity(arity, MAX_ARITY);
     } else if (length != 1 << arity) {
-      throw Exceptions.tableLengthException(arity, length);
+      throw Exceptions.tableLength(arity, length);
     }
 
     this.arity = arity;
@@ -69,7 +69,7 @@ public class IntegerTruthTable implements TruthTable {
   @Override
   public byte at(BitVector args) {
     if (args.getLength() != arity) {
-      throw Exceptions.vectorArityMismatchException(arity, args.getLength());
+      throw Exceptions.vectorArityMismatch(arity, args.getLength());
     }
 
     return truthTable[args.toInt()];

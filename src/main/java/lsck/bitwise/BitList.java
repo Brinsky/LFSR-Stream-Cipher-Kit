@@ -322,13 +322,13 @@ public class BitList extends AbstractList<Integer> {
 
   private void rangeCheck(int index) {
     if (index < 0 || index >= size) {
-      throw Exceptions.indexOutOfBoundsException(index, size);
+      throw Exceptions.indexOutOfBounds(index, size);
     }
   }
 
   private void rangeCheckForAdd(int index) {
     if (index < 0 || index > size) {
-      throw Exceptions.indexOutOfBoundsException(index, size + 1);
+      throw Exceptions.indexOutOfBounds(index, size + 1);
     }
   }
 

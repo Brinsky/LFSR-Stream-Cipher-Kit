@@ -92,9 +92,9 @@ public class LongBitVector extends AbstractBitVector {
 
   private static void lengthRangeCheck(int length) {
     if (length <= 0) {
-      throw Exceptions.nonPositiveLengthException(length);
+      throw Exceptions.nonPositiveLength(length);
     } else if (length > MAX_LENGTH) {
-      throw Exceptions.unsupportedLengthException(length, MAX_LENGTH);
+      throw Exceptions.unsupportedLength(length, MAX_LENGTH);
     }
   }
 
@@ -106,7 +106,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public byte get(int index) {
     if (index < 0 || index >= length) {
-      throw Exceptions.indexOutOfBoundsException(index, length);
+      throw Exceptions.indexOutOfBounds(index, length);
     }
     return (byte) ((vector & (1L << index)) >>> index);
   }
@@ -114,7 +114,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public byte toByte() {
     if (length > Byte.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "byte");
+      throw Exceptions.vectorTruncation(length, "byte");
     }
 
     return (byte) vector;
@@ -123,7 +123,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public short toShort() {
     if (length > Short.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "short");
+      throw Exceptions.vectorTruncation(length, "short");
     }
 
     return (short) vector;
@@ -132,7 +132,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public int toInt() {
     if (length > Integer.SIZE) {
-      throw Exceptions.vectorTruncationException(length, "int");
+      throw Exceptions.vectorTruncation(length, "int");
     }
 
     return (int) vector;
@@ -162,7 +162,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public BitVector and(BitVector b) {
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     return new LongBitVector(length, b.toLong() & vector);
@@ -171,7 +171,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public BitVector or(BitVector b) {
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     return new LongBitVector(length, b.toLong() | vector);
@@ -180,7 +180,7 @@ public class LongBitVector extends AbstractBitVector {
   @Override
   public BitVector xor(BitVector b) {
     if (b.getLength() != length) {
-      throw Exceptions.invalidVectorLengthException(length, b.getLength());
+      throw Exceptions.invalidVectorLength(length, b.getLength());
     }
 
     return new LongBitVector(length, b.toLong() ^ vector);

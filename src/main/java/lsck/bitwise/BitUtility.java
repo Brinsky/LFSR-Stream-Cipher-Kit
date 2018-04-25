@@ -19,7 +19,7 @@ public class BitUtility {
    */
   public static byte getBit(long vector, int index) {
     if (index < 0 || index >= Long.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Long.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Long.SIZE);
     }
 
     return (byte) ((vector >>> index) & 1L);
@@ -35,7 +35,7 @@ public class BitUtility {
    */
   public static byte getBit(int vector, int index) {
     if (index < 0 || index >= Integer.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Integer.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Integer.SIZE);
     }
 
     return (byte) ((vector >>> index) & 1);
@@ -51,7 +51,7 @@ public class BitUtility {
    */
   public static byte getBit(short vector, int index) {
     if (index < 0 || index >= Short.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Short.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Short.SIZE);
     }
 
     return (byte) ((vector >>> index) & 1);
@@ -67,7 +67,7 @@ public class BitUtility {
    */
   public static byte getBit(byte vector, int index) {
     if (index < 0 || index >= Byte.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Byte.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Byte.SIZE);
     }
 
     return (byte) ((vector >>> index) & 1);
@@ -85,7 +85,7 @@ public class BitUtility {
    */
   public static long setBit(long vector, int index, int value) {
     if (index < 0 || index >= Long.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Long.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Long.SIZE);
     }
 
     if (value == 0) {
@@ -107,7 +107,7 @@ public class BitUtility {
    */
   public static int setBit(int vector, int index, int value) {
     if (index < 0 || index >= Integer.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Integer.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Integer.SIZE);
     }
 
     if (value == 0) {
@@ -129,7 +129,7 @@ public class BitUtility {
    */
   public static short setBit(short vector, int index, int value) {
     if (index < 0 || index >= Short.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Short.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Short.SIZE);
     }
 
     if (value == 0) {
@@ -151,7 +151,7 @@ public class BitUtility {
    */
   public static byte setBit(byte vector, int index, int value) {
     if (index < 0 || index >= Byte.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, Byte.SIZE);
+      throw Exceptions.indexOutOfBounds(index, Byte.SIZE);
     }
 
     if (value == 0) {
@@ -172,7 +172,7 @@ public class BitUtility {
    */
   public static byte getBit(long[] vectors, int index) {
     if (index < 0 || index >= vectors.length * Long.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, vectors.length * Long.SIZE);
+      throw Exceptions.indexOutOfBounds(index, vectors.length * Long.SIZE);
     }
 
     return getBit(vectors[index / Long.SIZE], index % Long.SIZE);
@@ -190,7 +190,7 @@ public class BitUtility {
    */
   public static void setBit(long[] vectors, int index, int value) {
     if (index < 0 || index >= vectors.length * Long.SIZE) {
-      throw Exceptions.indexOutOfBoundsException(index, vectors.length * Long.SIZE);
+      throw Exceptions.indexOutOfBounds(index, vectors.length * Long.SIZE);
     }
 
     int i = index / Long.SIZE;

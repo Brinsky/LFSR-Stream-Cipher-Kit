@@ -608,7 +608,7 @@ public class MaximalTaps {
     int degreeIndex = length - MIN_LENGTH;
 
     if (index < 0 || index > MAXIMAL_TAPS[degreeIndex].length) {
-      throw Exceptions.indexOutOfBoundsException(index, MAXIMAL_TAPS[degreeIndex].length);
+      throw Exceptions.indexOutOfBounds(index, MAXIMAL_TAPS[degreeIndex].length);
     }
 
     return MAXIMAL_TAPS[degreeIndex][index];

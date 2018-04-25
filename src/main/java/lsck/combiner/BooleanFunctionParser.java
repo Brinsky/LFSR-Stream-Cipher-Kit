@@ -120,12 +120,12 @@ class BooleanFunctionParser {
 
         if (!indexFromZero) {
           if (index == 0 || index > arity) {
-            throw Exceptions.invalidIndexRangeException(1, arity, index);
+            throw Exceptions.invalidIndexRange(1, arity, index);
           }
 
           index--; // Map all indices into [0, arity) range
         } else if (index >= arity) { // When indexing from zero
-          throw Exceptions.invalidIndexRangeException(0, arity - 1, index);
+          throw Exceptions.invalidIndexRange(0, arity - 1, index);
         }
 
         term.set(arity - 1 - index);

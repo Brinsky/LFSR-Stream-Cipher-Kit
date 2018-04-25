@@ -26,9 +26,9 @@ public class Attack {
   
   public static int walshTransform(BooleanFunction f, BitVector omega) {
     if (omega.getLength() != f.getArity()) {
-      throw Exceptions.vectorArityMismatchException(f.getArity(), omega.getLength());
+      throw Exceptions.vectorArityMismatch(f.getArity(), omega.getLength());
     } else if (omega.getLength() > MAX_ITERABLE_VECTOR_LENGTH) {
-      throw Exceptions.vectorExceedsIterableLengthException(omega.getLength());
+      throw Exceptions.vectorExceedsIterableLength(omega.getLength());
     }
     
     int walshValue = 0;
@@ -75,19 +75,19 @@ public class Attack {
       
       // Check for duplicates
       if (indexSet.contains(registerIndex)) {
-        throw Exceptions.duplicateRegisterException(registerIndex);
+        throw Exceptions.duplicateRegister(registerIndex);
       }
       
       indexSet.add(registerIndex);
       
       if (registerIndex < 0 || registerIndex >= generator.getRegisterCount()) {
-        throw Exceptions.registerIndexOutOfBoundsException(registerIndex);
+        throw Exceptions.registerIndexOutOfBounds(registerIndex);
       }
       
       registers[i] = generator.getRegister(registerIndex);
       
       if (registers[i].getLength() > MAX_ATTACKABLE_REGISTER_LENGTH) {
-        throw Exceptions.registerExceedsAttackableLengthException(registers[i].getLength());
+        throw Exceptions.registerExceedsAttackableLength(registers[i].getLength());
       }
 
       // TODO: Deal with potential overflows of this quantity

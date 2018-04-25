@@ -18,9 +18,9 @@ public class Generator {
 
   private Generator(BooleanFunction combiner, int registerCount) {
     if (combiner.getArity() > MAX_REGISTERS) {
-      throw Exceptions.maxGeneratorLengthException(combiner.getArity());
+      throw Exceptions.maxGeneratorLength(combiner.getArity());
     } else if (combiner.getArity() != registerCount) {
-      throw Exceptions.arityRegisterCountMismatchException(combiner.getArity(), registerCount);
+      throw Exceptions.arityRegisterCountMismatch(combiner.getArity(), registerCount);
     }
 
     this.combiner = combiner;
@@ -77,7 +77,7 @@ public class Generator {
    */
   public Lfsr getRegister(int i) {
     if (i < 0 || i >= registers.length) {
-      throw Exceptions.registerIndexOutOfBoundsException(i);
+      throw Exceptions.registerIndexOutOfBounds(i);
     }
 
     return registers[i];
