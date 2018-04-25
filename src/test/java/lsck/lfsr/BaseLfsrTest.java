@@ -27,17 +27,17 @@ public abstract class BaseLfsrTest {
   abstract Lfsr createLfsr(int length);
 
   @Test
-  void getLengthTest() {
+  void testGetLength() {
     assertEquals(getExpectedLength(), getLfsr().getLength());
   }
 
   @Test
-  void getFillTest() {
+  void testGetFill() {
     assertEquals(getTestFill(), getLfsr().getFill());
   }
 
   @Test
-  void getFillAtTest() {
+  void testGetFillAt() {
     Lfsr lfsr = getLfsr();
 
     for (int i = 0; i < lfsr.getLength(); i++) {
@@ -46,12 +46,12 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void getTapsTest() {
+  void testGetTaps() {
     assertEquals(getTestTaps(), getLfsr().getTaps());
   }
 
   @Test
-  void getTapsAtTest() {
+  void testGetTapsAt() {
     Lfsr lfsr = getLfsr();
 
     for (int i = 0; i < lfsr.getLength(); i++) {
@@ -60,7 +60,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void setFillTest() {
+  void testSetFill() {
     Lfsr lfsr = getLfsr();
     BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
@@ -74,7 +74,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void setFillAtTest() {
+  void testSetFillAt() {
     Lfsr lfsr = getLfsr();
     BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
@@ -92,7 +92,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void setTapsTest() {
+  void testSetTaps() {
     Lfsr lfsr = getLfsr();
     BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
@@ -106,7 +106,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void setTapsAtTest() {
+  void testSetTapsAt() {
     Lfsr lfsr = getLfsr();
     BitVector nullVector = BitVector.zeroVector(lfsr.getLength());
 
@@ -124,7 +124,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void shiftTest_single() {
+  void testShift_single() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
 
@@ -136,7 +136,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void shiftTest_all() {
+  void testShift_all() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
 
@@ -145,7 +145,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void shiftToTest() {
+  void testShiftTo() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
     int last = expected.size() - 1;
@@ -155,7 +155,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void peekTest_single() {
+  void testPeek_single() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
 
@@ -164,7 +164,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void peekTest_all() {
+  void testPeek_all() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
 
@@ -173,7 +173,7 @@ public abstract class BaseLfsrTest {
   }
 
   @Test
-  void peekAtTest() {
+  void testPeekAt() {
     Lfsr lfsr = getLfsr();
     BitList expected = getExpectedOutput();
 

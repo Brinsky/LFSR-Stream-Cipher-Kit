@@ -75,7 +75,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @Test
-  void getLengthTest() {
+  void testGetLength() {
     assertEquals(NUM_BITS, newZeroVector().getLength());
     assertEquals(NUM_BITS, newVector().getLength());
     assertEquals(NUM_BITS, newVectorFromBits().getLength());
@@ -91,14 +91,14 @@ public abstract class BaseBitVectorTest {
   }
 
   @Test
-  void constructorEquivalenceTest() {
+  void testConstructorEquivalence() {
     assertEquals(TEST_BITSET, newVector().toBitSet());
     assertEquals(TEST_BITSET, newVectorFromBits().toBitSet());
     assertEquals(TEST_BITSET, newVectorFromLong().toBitSet());
   }
 
   @Test
-  void getBitTest_outOfBounds_below() {
+  void testGetBit_outOfBounds_below() {
     assertThrows(
         IndexOutOfBoundsException.class,
         () -> newVector().get(-1),
@@ -106,7 +106,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @Test
-  void getBitTest_outOfBounds_above() {
+  void testGetBit_outOfBounds_above() {
     assertThrows(
         IndexOutOfBoundsException.class,
         () -> newVector().get(NUM_BITS),
@@ -114,7 +114,7 @@ public abstract class BaseBitVectorTest {
   }
 
   @Test
-  void getBitTest() {
+  void testGetBit() {
     BitVector vector = newVector();
 
     for (int i = 0; i < vector.getLength(); i++) {
@@ -124,13 +124,13 @@ public abstract class BaseBitVectorTest {
 
   @ParameterizedTest
   @ValueSource(ints = {1, 6, 8})
-  void toByteTest_valid(int length) {
+  void testToByte_valid(int length) {
     assertEquals((byte) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toByte());
   }
 
   @ParameterizedTest
   @ValueSource(ints = {9})
-  void toByteTest_invalid(int length) {
+  void testToByte_invalid(int length) {
     assertThrows(
         IllegalArgumentException.class,
         () -> newTruncatedVector(length).toByte(),
@@ -139,13 +139,13 @@ public abstract class BaseBitVectorTest {
 
   @ParameterizedTest
   @ValueSource(ints = {1, 14, 16})
-  void toShortTest_valid(int length) {
+  void testToShort_valid(int length) {
     assertEquals((short) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toShort());
   }
 
   @ParameterizedTest
   @ValueSource(ints = {17})
-  void toShortTest_invalid(int length) {
+  void testToShort_invalid(int length) {
     assertThrows(
         IllegalArgumentException.class,
         () -> newTruncatedVector(length).toShort(),
@@ -154,13 +154,13 @@ public abstract class BaseBitVectorTest {
 
   @ParameterizedTest
   @ValueSource(ints = {1, 30, 32})
-  void toIntTest_valid(int length) {
+  void testToInt_valid(int length) {
     assertEquals((int) (lowerMask(length) & TEST_LONG), newTruncatedVector(length).toInt());
   }
 
   @ParameterizedTest
   @ValueSource(ints = {33})
-  void toIntTest_invalid(int length) {
+  void testToInt_invalid(int length) {
     assertThrows(
         IllegalArgumentException.class,
         () -> newTruncatedVector(length).toInt(),
@@ -169,17 +169,17 @@ public abstract class BaseBitVectorTest {
 
   @ParameterizedTest
   @ValueSource(ints = {1, 62, 64})
-  void toLongTest_valid(int length) {
+  void testToLong_valid(int length) {
     assertEquals(lowerMask(length) & TEST_LONG, newTruncatedVector(length).toLong());
   }
 
   @Test
-  void toBitSetTest() {
+  void testToBitSet() {
     assertEquals(TEST_BITSET.get(0, NUM_BITS), newVector().toBitSet());
   }
 
   @Test
-  void reverseTest() {
+  void testReverse() {
     assertEquals(newReversedVector(), newVector().reverse());
   }
 

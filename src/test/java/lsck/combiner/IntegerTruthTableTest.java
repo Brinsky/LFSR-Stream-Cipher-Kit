@@ -42,7 +42,7 @@ public class IntegerTruthTableTest {
 
   @ParameterizedTest
   @ValueSource(ints = {-1, 0, IntegerTruthTable.MAX_ARITY + 1})
-  void constructorTest_invalidArity(int arity) {
+  void testConstructor_invalidArity(int arity) {
     Exception e =
         assertThrows(
             IllegalArgumentException.class, () -> new IntegerTruthTable(arity, new int[0]));
@@ -53,7 +53,7 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void constructorTest_incorrectIntArrayLength() {
+  void testConstructor_incorrectIntArrayLength() {
     int wrongLength = (1 << ARITY) - 1;
 
     Exception e =
@@ -67,7 +67,7 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void constructorTest_incorrectByteArrayLength() {
+  void testConstructor_incorrectByteArrayLength() {
     int wrongLength = (1 << ARITY) - 1;
 
     Exception e =
@@ -86,13 +86,13 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void getLengthTest() {
+  void testGetLength() {
     assertEquals(1 << ARITY, TRUTH_TABLE.getLength());
     assertEquals(ARRAY.length, TRUTH_TABLE.getLength());
   }
 
   @Test
-  void atTest() {
+  void testAt() {
     for (int i = 0; i < TRUTH_TABLE.getLength(); i++) {
       assertEquals(BitUtility.asBit(ARRAY[i]), TRUTH_TABLE.at(BitVector.fromInteger(ARITY, i)));
     }
@@ -100,7 +100,7 @@ public class IntegerTruthTableTest {
 
   @ParameterizedTest
   @ValueSource(ints = {0, ARITY - 1, ARITY + 1})
-  void atTest_wrongVectorLength() {
+  void testAt_wrongVectorLength() {
     BitVector vector = BitVector.zeroVector(ARITY + 1);
 
     Exception e = assertThrows(IllegalArgumentException.class, () -> TRUTH_TABLE.at(vector));
@@ -111,7 +111,7 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void getSupportTest() {
+  void testGetSupport() {
     List<BitVector> support = TRUTH_TABLE.getSupport();
     assertEquals(SUPPORT.length, support.size());
 
@@ -121,7 +121,7 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void getWeight() {
+  void testGetWeight() {
     int weight = 0;
 
     for (int i = 0; i < ARRAY.length; i++) {
@@ -132,12 +132,12 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void isConstantTest_nonConstant() {
+  void testIsConstant_nonConstant() {
     assertFalse(TRUTH_TABLE.isConstant());
   }
 
   @Test
-  void isConstantTest_constantOne() {
+  void testIsConstant_constantOne() {
     int[] table = new int[16];
     Arrays.fill(table, 1);
 
@@ -145,7 +145,7 @@ public class IntegerTruthTableTest {
   }
 
   @Test
-  void isConstantTest_constantZero() {
+  void testIsConstant_constantZero() {
     int[] table = new int[16];
     Arrays.fill(table, 0);
 
@@ -171,7 +171,7 @@ public class IntegerTruthTableTest {
   
   @ParameterizedTest
   @MethodSource("buildTermTableProvider")
-  void buildTermTableTest(TruthTable given, TermTable expected) {
+  void testBuildTermTable(TruthTable given, TermTable expected) {
     assertEquals(expected, given.buildTermTable());
   }
 }
