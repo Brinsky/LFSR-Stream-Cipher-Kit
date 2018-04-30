@@ -15,7 +15,7 @@ public class Generator {
 
   private final BooleanFunction combiner;
   private final Lfsr[] registers;
-
+  
   private Generator(BooleanFunction combiner, int registerCount) {
     if (combiner.getArity() > MAX_REGISTERS) {
       throw Exceptions.maxGeneratorLength(combiner.getArity());
@@ -55,6 +55,15 @@ public class Generator {
     for (int i = 0; i < registers.length; i++) {
       this.registers[i] = registers[i];
     }
+  }
+
+  /**
+   * Returns the combiner function used by this {@link Generator}.
+   *
+   * @return The {@link BooleanFunction} used by this {@link Generator} as a combiner function.
+   */
+  public BooleanFunction getCombiner() {
+    return combiner;
   }
 
   /**
@@ -165,7 +174,8 @@ public class Generator {
     // Generate argument vector using each register's output
     int argVector = 0;
     for (int i = 0; i < registers.length; i++) {
-      argVector = BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].shiftTo(term));
+      argVector =
+          BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].shiftTo(term));
     }
 
     return combiner.at(argVector);

@@ -53,6 +53,12 @@ public class GeneratorTest {
 
     return new Generator(combiner, lfsrs);
   }
+  
+  @Test
+  void testGetCombiner()
+  {
+    assertEquals(combiner, generator.getCombiner());
+  }
 
   @Test
   void testGetRegisterCount() {
