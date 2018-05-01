@@ -23,21 +23,21 @@ public class Attack {
 
   public static final int MAX_ITERABLE_VECTOR_LENGTH = Long.SIZE - 2;
   public static final int MAX_ATTACKABLE_REGISTER_LENGTH = MAX_ITERABLE_VECTOR_LENGTH;
-  
+
   public static int walshTransform(BooleanFunction f, BitVector omega) {
     if (omega.getLength() != f.getArity()) {
       throw Exceptions.vectorArityMismatch(f.getArity(), omega.getLength());
     } else if (omega.getLength() > MAX_ITERABLE_VECTOR_LENGTH) {
       throw Exceptions.vectorExceedsIterableLength(omega.getLength());
     }
-    
+
     int walshValue = 0;
     long omegaLong = omega.toLong();
-    
+
     for (long i = 0; i < (1L << omega.getLength()); i++) {
       walshValue += (f.at(i) == dotProduct(omegaLong, i)) ? 1 : -1;
     }
-    
+
     return walshValue;
   }
 
@@ -45,7 +45,7 @@ public class Attack {
   private static int dotProduct(long a, long b) {
     return Long.bitCount(a & b) % 2;
   }
-  
+
   /**
    * Performs a correlation attack against the specified registers and {@link Generator}.
    *
@@ -55,7 +55,7 @@ public class Attack {
    *     keystream.
    * @param registersToAttack A list of register indices within the generator. These are the
    *     registers whose fills are being searched/tested for. Repeated values are ignored.
-   * @return A list of {@link ScoredFills} object associating fills with test statistic values.
+   * @return A list of {@link ScoredFills} objects associating fills with test statistic values.
    */
   public static List<ScoredFills> attack(
       Generator generator,
@@ -72,20 +72,20 @@ public class Attack {
     // Extract registers from generator, calculate number of fill combinations
     for (int i = 0; i < registers.length; i++) {
       int registerIndex = registersToAttack[i];
-      
+
       // Check for duplicates
       if (indexSet.contains(registerIndex)) {
         throw Exceptions.duplicateRegister(registerIndex);
       }
-      
+
       indexSet.add(registerIndex);
-      
+
       if (registerIndex < 0 || registerIndex >= generator.getRegisterCount()) {
         throw Exceptions.registerIndexOutOfBounds(registerIndex);
       }
-      
+
       registers[i] = generator.getRegister(registerIndex);
-      
+
       if (registers[i].getLength() > MAX_ATTACKABLE_REGISTER_LENGTH) {
         throw Exceptions.registerExceedsAttackableLength(registers[i].getLength());
       }
@@ -98,23 +98,29 @@ public class Attack {
     BitVector[] fills = new BitVector[registers.length];
     List<ScoredFills> scores = new ArrayList<>(numCombinations);
 
-    attack(generator, knownOutput, registers, fills, statistic, scores, 0);
+    attack(generator, knownOutput, registers, fills, statistic, scores, 0, 0);
 
     return scores;
   }
 
-  private static void attack(
+  static void attack(
       Generator generator,
       BitList knownOutput,
       Lfsr[] registers,
       BitVector[] fills,
       TestStatistic statistic,
       List<ScoredFills> scores,
+      double cutoff,
       int index) {
     // Once all fills have been chosen, generate output and perform the test
     if (index == registers.length) {
       BitList testOutput = generator.peek(knownOutput.size());
-      scores.add(new ScoredFills(statistic.compute(knownOutput, testOutput), fills));
+      double score = statistic.compute(knownOutput, testOutput);
+
+      // Only save scores/fills that are above the cutoff in magnitude
+      if (Math.abs(score) >= cutoff) {
+        scores.add(new ScoredFills(score, fills));
+      }
       return;
     }
 
@@ -122,7 +128,7 @@ public class Attack {
     for (long i = 1; i < (1L << registers[index].getLength()); i++) {
       fills[index] = BitVector.fromInteger(registers[index].getLength(), i);
       registers[index].setFill(fills[index]);
-      attack(generator, knownOutput, registers, fills, statistic, scores, index + 1);
+      attack(generator, knownOutput, registers, fills, statistic, scores, cutoff, index + 1);
     }
   }
 

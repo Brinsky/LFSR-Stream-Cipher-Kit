@@ -3,6 +3,7 @@ package lsck.bitwise;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import lsck.common.Exceptions;
 
@@ -39,6 +40,15 @@ public class BitList extends AbstractList<Integer> {
     // To get capacity in terms of longs, divide by 64 and round up
     capacity = minimumCapacity(initialCapacity);
     bits = new long[capacity];
+  }
+  
+  /** Creates a copy of the provided list of bits.
+   * 
+   * @param list A list of bits to created a {@link BitList}-based copy of.
+   */
+  public BitList(List<Integer> list) {
+    this(list.size());
+    addAll(list);
   }
 
   /** A convenient proxy for {@link #add(Integer)}. */
