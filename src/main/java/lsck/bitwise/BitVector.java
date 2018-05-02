@@ -1,6 +1,9 @@
 package lsck.bitwise;
 
 import java.util.BitSet;
+import java.util.Iterator;
+
+import lsck.common.Exceptions;
 
 /** An immutable, fixed-length vector of bits */
 public interface BitVector {
@@ -254,6 +257,27 @@ public interface BitVector {
       BitSet bits = new BitSet(length);
       bits.set(0, length);
       return new BitSetBitVector(length, bits);
+    }
+  }
+
+  /**
+   * Returns an {@link Iterable} that will allow iteration over all bit vectors of the given length.
+   *
+   * <p>This method enables syntax like the following: <br>
+   * {@code for (BitVector v : BitVector.allBitVectors(5))}
+   *
+   * @param length The length of the vectors to be iterated over. Note that iterating over all
+   *     vectors of length close to {@link Long#SIZE} or longer is likely to be infeasible.
+   * @return An {@link Iterable} that can produce {@link Iterator}s over all bit vectors of the
+   *     given length.
+   */
+  public static Iterable<? extends BitVector> allVectors(int length) {
+    if (length <= 0) {
+      throw Exceptions.nonPositiveLength(length);
+    } else if (length <= Long.SIZE) {
+      return LongBitVector.allVectors(length);
+    } else {
+      return BitSetBitVector.allVectors(length);
     }
   }
 }
