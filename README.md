@@ -1,4 +1,4 @@
-# LFSR Stream Cipher Kit
+# *LSCK*: LFSR Stream Cipher Kit
 An open-source library supporting simulation and cryptanalysis of [stream ciphers](https://en.wikipedia.org/wiki/Stream_cipher) based on [linear feedback shift registers (LFSRs)](https://en.wikipedia.org/wiki/Linear-feedback_shift_register).
 
 ## Installation and Build Instructions
