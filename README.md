@@ -38,7 +38,7 @@ In both cases, it should then be possible to import the source directory into th
 
 ### BitVector
 
-The data type for representing fixed-width, immutable bit vectors in LSCK is provided by the BitVector interface and implementations. Bit vectors can be conveniently created via the static methods in the BitVector interface, which will select the appropriate backing implementation based on the length of the vector:
+The data type for representing fixed-width, immutable bit vectors in LSCK is provided by the `BitVector` interface and its implementations. Bit vectors can be conveniently created via the static methods in the `BitVector` interface, which will select the appropriate backing implementation based on the length of the vector:
 
 ```Java
 BitVector a = BitVector.fromBits(1, 0, 0, 1, 0, 1, 1, 0); // Creates an 8-bit vector representing 10010110
@@ -62,7 +62,7 @@ a.xor(b); // Returns the bit vector 11100100
 
 ### BitList
 
-The BitList class provides a mutable, arbitrary-length list of bits. In particular, BitLists are used to store the output streams of LFSRs and generators. A BitList implements List<Integer>, so standard iteration and streaming methods can be used to process data:
+The `BitList` class provides a mutable, arbitrary-length list of bits. In particular, BitLists are used to store the output streams of LFSRs and generators. A `BitList` implements `List<Integer>`, so standard iteration and streaming methods can be used to process data:
   
 ```Java
 BitList bits = getSomeBits();
@@ -72,7 +72,7 @@ int numOnes = bits.stream().filter(bit -> bit == 1).count(); // Counts the numbe
 
 ### Lfsr
 
-Perhaps the most important components of LSCK are the LFSRs represented by the Lfsr interface and its implementations. As with BitVector, LFSRs can be created from static methods in the LFSR interface, which will automatically select an appropriate implementation based on the size of the register:
+Perhaps the most important components of LSCK are the LFSRs represented by the `Lfsr` interface and its implementations. As with `BitVector`, LFSRs can be created from static methods in the LFSR interface, which will automatically select an appropriate implementation based on the size of the register:
 
 ```Java
 // Creates an Lfsr with taps specified by the first bit vector and initial fill specified by the second
@@ -96,9 +96,27 @@ System.out.println(register.shift(25));
 ```
 > \[0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0\]
 
+### Maximal-period taps
+
+Each register can only take on a finite number of states. Since each state completely determines the next, this output must eventually become periodic. In general, we desire registers to have the maximum possible period in order to reduce the exploitability of patterns in our keystream. Whether or not a register produces maximal-period output is dependent on its tap configuration. The mathematics behind choosing a maximal-period tap configuration are nontrivial and can be found [here](https://en.wikipedia.org/wiki/Linear-feedback_shift_register#Fibonacci_LFSRs).
+
+For convenience, we provide bit vectors containing all such configurations for registers of lengths 2 up to 32. These `BitVector` instances are static members of `MaximalTaps` with names of the form `TAPS_X_Y`, where X is the length of the bit vector / corresponding register and Y is the index of that tap configuration among all those of length X. These can be easily passed to LFSRs at construction time:
+
+```Java
+Lfsr register = Lfsr.create(MaximalTaps.TAPS_10_0);
+```
+
+They can also be accessed programmatically as follows:
+
+```Java
+Lfsr register = Lfsr.create(MaximalTaps.getMaximalTaps(10, 0));
+```
+
+For each register length, the number of different, maximal-period tap configurations available can be found via `MaximalTaps.maximalTapsCount(length)`.
+
 ### BooleanFunction
 
-In order to combine output from multiple LFSRs, Boolean functions are made available via the BooleanFunction interface and the SimpleBooleanFunction implementation. Boolean functions can be created directly from algebraic string representations:
+In order to combine output from multiple LFSRs, Boolean functions are made available via the `BooleanFunction` interface and the `SimpleBooleanFunction` implementation. Boolean functions can be created directly from symbolic string representations:
 
 ```Java
 BooleanFunction f = BooleanFunction.fromString(3, "x1 x2 + x3"); // Three-variable Boolean function
@@ -112,7 +130,7 @@ String representations can include constants and nested expressions:
 BooleanFunction g = BooleanFunction.fromString(4, "x1 + x2 (1 + x1) + (x2 + x3) (x4 + x1 + 1) + 1");
 ```
 
-Behind the scenes, each BooleanFunction contains both a TruthTable object and a TermTable object (a list of all expanded terms present in the function definition). These can be retrieved and manipulated directly:
+Behind the scenes, each `BooleanFunction` contains both a `TruthTable` object and a `TermTable` object (a list of all expanded terms present in the function definition). These can be retrieved and manipulated directly:
 
 ```Java
 TruthTable truthTable = f.getTruthTable();
@@ -127,7 +145,7 @@ int terms = termTable.getTermCount();
 
 ### Generator
 
-The Generator class can be used to easily pipe the output of multiple LFSRs into a Boolean "combiner" function:
+The `Generator` class can be used to easily pipe the output of multiple LFSRs into a Boolean "combiner" function:
 
 ```Java
 Lfsr lfsr1 = Lfsr.create(5);
