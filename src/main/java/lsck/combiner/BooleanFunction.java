@@ -34,6 +34,16 @@ public interface BooleanFunction {
    * @return The value of this function evaluated for the specified argument.
    */
   byte at(BitVector args);
+  
+  /**
+   * Returns the value of the function given the specified binary arguments.
+   *
+   * <p>Calling this function is equivalent to calling {@code at(BitVector.fromBits(args))}.
+   *
+   * @param A list of {@link #getArity()}-many bits.
+   * @return The value of this function evaluated for the specified argument.
+   */
+  byte at(int ... args);
 
   /**
    * Returns the value of the function given the specified arguments.
@@ -46,7 +56,7 @@ public interface BooleanFunction {
    * @param A {@code long} representing an argument vector of length {@code getArity()}.
    * @return The value of this function evaluated for the specified argument.
    */
-  byte at(long args);
+  byte atInteger(long args);
 
   /**
    * Returns the value of the function given the specified arguments.
@@ -59,7 +69,7 @@ public interface BooleanFunction {
    * @param An {@code int} representing an argument vector of length {@code getArity()}.
    * @return The value of this function evaluated for the specified argument.
    */
-  byte at(int args);
+  byte atInteger(int args);
 
   /**
    * Returns the value of the function given the specified arguments.
@@ -72,7 +82,7 @@ public interface BooleanFunction {
    * @param A {@code short} representing an argument vector of length {@code getArity()}.
    * @return The value of this function evaluated for the specified argument.
    */
-  byte at(short args);
+  byte atInteger(short args);
 
   /**
    * Returns the value of the function given the specified arguments.
@@ -85,7 +95,7 @@ public interface BooleanFunction {
    * @param A {@code byte} representing an argument vector of length {@code getArity()}.
    * @return The value of this function evaluated for the specified argument.
    */
-  byte at(byte args);
+  byte atInteger(byte args);
 
   /**
    * Returns a copy of the truth table for this function.

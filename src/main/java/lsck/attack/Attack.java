@@ -35,7 +35,7 @@ public class Attack {
     long omegaLong = omega.toLong();
 
     for (long i = 0; i < (1L << omega.getLength()); i++) {
-      walshValue += (f.at(i) == dotProduct(omegaLong, i)) ? 1 : -1;
+      walshValue += (f.atInteger(i) == dotProduct(omegaLong, i)) ? 1 : -1;
     }
 
     return walshValue;

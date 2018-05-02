@@ -104,7 +104,7 @@ public class Generator {
       argVector = BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].peek());
     }
 
-    return combiner.at(argVector);
+    return combiner.atInteger(argVector);
   }
 
   /**
@@ -133,7 +133,7 @@ public class Generator {
       argVector = BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].peekAt(term));
     }
 
-    return combiner.at(argVector);
+    return combiner.atInteger(argVector);
   }
 
   /**
@@ -148,7 +148,7 @@ public class Generator {
       argVector = BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].shift());
     }
 
-    return combiner.at(argVector);
+    return combiner.atInteger(argVector);
   }
 
   /**
@@ -178,7 +178,7 @@ public class Generator {
           BitUtility.setBit(argVector, registers.length - 1 - i, registers[i].shiftTo(term));
     }
 
-    return combiner.at(argVector);
+    return combiner.atInteger(argVector);
   }
 
   @FunctionalInterface
@@ -201,7 +201,7 @@ public class Generator {
     // Pass the argument vectors to the combiner
     BitList output = new BitList(terms);
     for (int i = 0; i < terms; i++) {
-      output.add(combiner.at(args[i]));
+      output.add(combiner.atInteger(args[i]));
     }
 
     return output;
