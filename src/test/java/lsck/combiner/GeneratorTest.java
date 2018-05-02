@@ -48,7 +48,7 @@ public class GeneratorTest {
   private static Generator newGenerator() {
     Lfsr[] lfsrs = new Lfsr[LFSR_COUNT];
     for (int i = 0; i < lfsrs.length; i++) {
-      lfsrs[i] = Lfsr.create(taps[i].getLength(), taps[i], fills[i]);
+      lfsrs[i] = Lfsr.create(taps[i], fills[i]);
     }
 
     return new Generator(combiner, lfsrs);
@@ -68,7 +68,7 @@ public class GeneratorTest {
   @Test
   void testGetRegister_validIndex() {
     for (int i = 0; i < LFSR_COUNT; i++) {
-      assertEquals(Lfsr.create(taps[i].getLength(), taps[i], fills[i]), generator.getRegister(i));
+      assertEquals(Lfsr.create(taps[i], fills[i]), generator.getRegister(i));
     }
   }
 

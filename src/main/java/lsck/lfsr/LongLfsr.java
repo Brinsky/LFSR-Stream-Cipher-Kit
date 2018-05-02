@@ -14,9 +14,9 @@ import lsck.common.Exceptions;
 public class LongLfsr extends AbstractLfsr {
 
   public static final int MAX_LENGTH = Long.SIZE;
-  
+
   private final int length;
-  
+
   // Bitmask covering the length-many bits in the fill vector
   private final long registerMask;
 
@@ -26,18 +26,21 @@ public class LongLfsr extends AbstractLfsr {
   /**
    * Creates a {@link LongLfsr} with the specified taps and fill.
    *
-   * @param length The length of the register to be created.
-   * @param taps A {@code BitVector} representing the tap configuration. See {@link
-   *     Lfsr#setTaps(BitVector)}.
-   * @param fill A {@code BitVector} representing the fill. See {@link Lfsr#setFill(BitVector)}.
+   * @param taps A {@link BitVector} representing the tap configuration. See {@link
+   *     Lfsr#setTaps(BitVector)}. Must be no longer than {@link #MAX_LENGTH}.
+   * @param fill A {@link BitVector} representing the fill. See {@link Lfsr#setFill(BitVector)}.
+   *     Must have the same length as {@code taps}.
    */
-  public LongLfsr(int length, BitVector taps, BitVector fill) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLength(length);
+  public LongLfsr(BitVector taps, BitVector fill) {
+    length = taps.getLength();
+
+    if (length > MAX_LENGTH) {
+      throw Exceptions.unsupportedLength(length, Long.SIZE);
+    } else if (fill.getLength() != length) {
+      throw Exceptions.unequalVectorLengths(taps.getLength(), fill.getLength());
     }
 
-    this.length = length;
-    this.registerMask = BitUtility.lowerBitmask(length);
+    registerMask = BitUtility.lowerBitmask(length);
 
     setFill(fill);
     setTaps(taps);
@@ -47,12 +50,15 @@ public class LongLfsr extends AbstractLfsr {
    * Creates a {@link LongLfsr} with the specified taps and fill.
    *
    * @param length The length of the register to be created.
-   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTapsFromInteger(long)}.
+   * @param taps A {@code long} representing the tap configuration. See {@link
+   *     Lfsr#setTapsFromInteger(long)}.
    * @param fill A {@code long} representing the fill. See {@link Lfsr#setFillFromInteger(long)}.
    */
   public LongLfsr(int length, long taps, long fill) {
     if (length <= 0) {
       throw Exceptions.nonPositiveLength(length);
+    } else if (length > Long.SIZE) {
+      throw Exceptions.unsupportedLength(length, Long.SIZE);
     }
 
     this.length = length;
@@ -65,17 +71,17 @@ public class LongLfsr extends AbstractLfsr {
   /**
    * Creates a {@link LongLfsr} with the specified taps and all-zero fill.
    *
-   * @param length The length of the register to be created.
-   * @param taps A {@code BitVector} representing the tap configuration. See {@link
-   *     Lfsr#setTaps(BitVector)}.
+   * @param taps A {@link BitVector} representing the tap configuration. See {@link
+   *     Lfsr#setTaps(BitVector)}. Must be no longer than {@link #MAX_LENGTH}.
    */
-  public LongLfsr(int length, BitVector taps) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLength(length);
+  public LongLfsr(BitVector taps) {
+    length = taps.getLength();
+
+    if (length > Long.SIZE) {
+      throw Exceptions.unsupportedLength(length, Long.SIZE);
     }
 
-    this.length = length;
-    this.registerMask = BitUtility.lowerBitmask(length);
+    registerMask = BitUtility.lowerBitmask(length);
 
     this.fill = 0;
     setTaps(taps);
@@ -85,11 +91,14 @@ public class LongLfsr extends AbstractLfsr {
    * Creates a {@link LongLfsr} with the specified taps and all-zero fill.
    *
    * @param length The length of the register to be created.
-   * @param taps A {@code long} representing the tap configuration. See {@link Lfsr#setTapsFromInteger(long)}.
+   * @param taps A {@code long} representing the tap configuration. See {@link
+   *     Lfsr#setTapsFromInteger(long)}.
    */
   public LongLfsr(int length, long taps) {
     if (length <= 0) {
       throw Exceptions.nonPositiveLength(length);
+    } else if (length > Long.SIZE) {
+      throw Exceptions.unsupportedLength(length, Long.SIZE);
     }
 
     this.length = length;
@@ -133,7 +142,7 @@ public class LongLfsr extends AbstractLfsr {
     if (index < 0 || index >= length) {
       throw Exceptions.indexOutOfBounds(index, length);
     }
-    
+
     return BitUtility.getBit(fill, index);
   }
 
@@ -147,7 +156,7 @@ public class LongLfsr extends AbstractLfsr {
     if (index < 0 || index >= length) {
       throw Exceptions.indexOutOfBounds(index, length);
     }
-    
+
     return BitUtility.getBit(taps, index);
   }
 
@@ -156,7 +165,7 @@ public class LongLfsr extends AbstractLfsr {
     if (fill.getLength() != length) {
       throw Exceptions.invalidVectorLength(length, fill.getLength());
     }
-    
+
     this.fill = fill.toLong();
   }
 
@@ -165,7 +174,7 @@ public class LongLfsr extends AbstractLfsr {
     if (index < 0 || index >= length) {
       throw Exceptions.indexOutOfBounds(index, length);
     }
-    
+
     fill = BitUtility.setBit(fill, index, value);
   }
 
@@ -174,7 +183,7 @@ public class LongLfsr extends AbstractLfsr {
     if (taps.getLength() != length) {
       throw Exceptions.invalidVectorLength(length, taps.getLength());
     }
-    
+
     this.taps = taps.toLong();
   }
 
@@ -183,7 +192,7 @@ public class LongLfsr extends AbstractLfsr {
     if (index < 0 || index >= length) {
       throw Exceptions.indexOutOfBounds(index, length);
     }
-    
+
     taps = BitUtility.setBit(taps, index, value);
   }
 
@@ -245,7 +254,7 @@ public class LongLfsr extends AbstractLfsr {
 
     return shift();
   }
-  
+
   @Override
   public void incrementFill() {
     // Manage overflow manually using a bitmask

@@ -1,5 +1,9 @@
 package lsck.lfsr;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import lsck.bitwise.BitList;
 import lsck.bitwise.BitVector;
 
@@ -28,13 +32,13 @@ public class LongLfsrTest extends BaseLfsrTest {
           1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,
           0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1,
           1, 1, 0, 0);
-  private Lfsr TEST_LFSR = new LongLfsr(TEST_LENGTH, TEST_TAPS, TEST_FILL);
+  private Lfsr TEST_LFSR = new LongLfsr(TEST_TAPS, TEST_FILL);
 
   @Override
   Lfsr createLfsr(int length) {
     return new LongLfsr(length);
   }
-  
+
   @Override
   Lfsr getLfsr() {
     return TEST_LFSR;
@@ -63,5 +67,18 @@ public class LongLfsrTest extends BaseLfsrTest {
   @Override
   BitVector getExpectedFinalFill() {
     return EXPECTED_FINAL_FILL;
+  }
+
+  @Test
+  void testConstructorEquivalence() {
+    assertEquals(
+        new LongLfsr(TEST_TAPS, BitVector.zeroVector(TEST_LENGTH)), new LongLfsr(TEST_TAPS));
+    assertEquals(
+        new LongLfsr(BitVector.zeroVector(TEST_LENGTH), BitVector.zeroVector(TEST_LENGTH)),
+        new LongLfsr(TEST_LENGTH));
+    assertEquals(
+        new LongLfsr(TEST_TAPS, BitVector.zeroVector(TEST_LENGTH)),
+        new LongLfsr(TEST_LENGTH, TEST_TAPS.toLong()));
+    assertEquals(TEST_LFSR, new LongLfsr(TEST_LENGTH, TEST_TAPS.toLong(), TEST_FILL.toLong()));
   }
 }

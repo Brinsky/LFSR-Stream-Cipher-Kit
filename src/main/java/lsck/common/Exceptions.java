@@ -16,6 +16,7 @@ public final class Exceptions {
   // Vector manipulation related messages
   public static final String INVALID_VECTOR_LENGTH = "Expected vector of length %d; got %d";
   public static final String VECTOR_TRUNCATION = "Vector of length %d exceeds length of %s";
+  public static final String UNEQUAL_LENGTHS = "Expected vectors of equal length; got %d and %d";
 
   // BooleanFunction-related messages
   public static final String INVALID_ARITY = "Expected arity between 1 and %d, inclusive; got %d";
@@ -68,6 +69,10 @@ public final class Exceptions {
 
   public static IllegalArgumentException vectorTruncation(int length, String type) {
     return new IllegalArgumentException(String.format(VECTOR_TRUNCATION, length, type));
+  }
+  
+  public static IllegalArgumentException unequalVectorLengths(int lengthA, int lengthB) {
+    return new IllegalArgumentException(String.format(UNEQUAL_LENGTHS, lengthA, lengthB));
   }
 
   public static IllegalArgumentException invalidArity(int arity, int maxArity) {

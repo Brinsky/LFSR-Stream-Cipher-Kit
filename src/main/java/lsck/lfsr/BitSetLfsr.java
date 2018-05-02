@@ -26,18 +26,18 @@ public class BitSetLfsr extends AbstractLfsr {
   /**
    * Creates a {@code BitSetLfsr} with the specified taps and fill.
    *
-   * @param length The length of the register to be created.
    * @param taps A {@code BitVector} representing the tap configuration. See {@link
    *     BitSetLfsr#setTaps(BitVector)}.
    * @param fill A {@code BitVector} representing the fill. See {@link
-   *     BitSetLfsr#setFill(BitVector)}.
+   *     BitSetLfsr#setFill(BitVector)}. Must have the same length as {@code taps}.
    */
-  public BitSetLfsr(int length, BitVector taps, BitVector fill) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLength(length);
+  public BitSetLfsr(BitVector taps, BitVector fill) {
+    length = taps.getLength();
+    
+    if (fill.getLength() != length) {
+      throw Exceptions.unequalVectorLengths(taps.getLength(), fill.getLength());
     }
-
-    this.length = length;
+    
     upperLongMask = BitUtility.lowerBitmask(length % Long.SIZE);
     
     setFill(fill);
@@ -47,16 +47,11 @@ public class BitSetLfsr extends AbstractLfsr {
   /**
    * Creates a {@code BitSetLfsr} with the specified taps and all-zero fill.
    *
-   * @param length The length of the register to be created.
    * @param taps A {@code BitVector} representing the tap configuration. See {@link
    *     BitSetLfsr#setTaps(BitVector)}.
    */
-  public BitSetLfsr(int length, BitVector taps) {
-    if (length <= 0) {
-      throw Exceptions.nonPositiveLength(length);
-    }
-
-    this.length = length;
+  public BitSetLfsr(BitVector taps) {
+    length = taps.getLength();
     upperLongMask = BitUtility.lowerBitmask(length % Long.SIZE);
     
     this.fill = new BitSet(length);

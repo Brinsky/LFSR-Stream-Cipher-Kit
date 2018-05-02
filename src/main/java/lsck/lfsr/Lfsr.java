@@ -311,23 +311,39 @@ public interface Lfsr {
       return new BitSetLfsr(length);
     }
   }
-
+  
   /**
-   * Creates an {@link Lfsr} with the given length, taps, and fill.
+   * Creates an {@link Lfsr} with the given taps and  all-zero fill.
    *
    * <p>This method selects an appropriate implementation of {@link Lfsr} based on the length
-   * provided.
+   * of the tap configuration vector provided.
    *
-   * @param length The length of the desired {@link Lfsr}.
    * @param taps See {@link #setTaps(BitVector)}.
-   * @param fill See {@link #setFill(BitVector)}.
-   * @return An instance of {@link Lfsr} with the given length, taps, and fill.
+   * @return An instance of {@link Lfsr} with the given taps and all-zero fill.
    */
-  static Lfsr create(int length, BitVector taps, BitVector fill) {
-    if (length <= LongLfsr.MAX_LENGTH) {
-      return new LongLfsr(length, taps, fill);
+  static Lfsr create(BitVector taps) {
+    if (taps.getLength() <= LongLfsr.MAX_LENGTH) {
+      return new LongLfsr(taps);
     } else {
-      return new BitSetLfsr(length, taps, fill);
+      return new BitSetLfsr(taps);
+    }
+  }
+
+  /**
+   * Creates an {@link Lfsr} with the given tap configuration and fill.
+   *
+   * <p>This method selects an appropriate implementation of {@link Lfsr} based on the length
+   * of the bit vectors provided.
+   *
+   * @param taps See {@link #setTaps(BitVector)}.
+   * @param fill See {@link #setFill(BitVector)}. Must have the same length as {@code taps}.
+   * @return An instance of {@link Lfsr} with the given tap configuration and fill.
+   */
+  static Lfsr create(BitVector taps, BitVector fill) {
+    if (taps.getLength() <= LongLfsr.MAX_LENGTH) {
+      return new LongLfsr(taps, fill);
+    } else {
+      return new BitSetLfsr(taps, fill);
     }
   }
 }
