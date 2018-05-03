@@ -51,13 +51,23 @@ A number of useful operations can be performed on bit vectors, including access 
 BitVector a = BitVector.fromBits(1, 0, 0, 1, 0, 1, 1, 0);
 BitVector b = BitVector.fromBits(0, 1, 1, 1, 0, 0, 1, 0);
 
-a.toInt(); // Produces the int "150"
+// Indexed from least-significant bit - returns 0
+int x = a.get(4);
+
+a.toInt(); // Returns 150
 
 a.not(); // Returns the bit vector 01101001
-
 a.and(b); // Returns the bit vector 00010010
 a.or(b); // Returns the bit vector 11110110
 a.xor(b); // Returns the bit vector 11100100
+```
+
+In many cases, such as testing every possible fill for a given register, it is desirable to iterate over all possible bit vectors of a given length. Calling the `iterate()` method on a `BitVector` object produces the next "largest" bit vector of the same size (the vector that would be produced by an unsigned addition of 1). For syntactic convenience, `BitVector` and its implementations provide a static `allBitVectors()` method that returns an `Iterable` over all bit vectors of the specified size. This allows for code like the following:
+```Java
+// Do something to all bit vectors of length 8
+for (BitVector v : BitVector.allVectors(8)) {
+  doSomething(v);
+}
 ```
 
 ### BitList
@@ -72,7 +82,7 @@ int numOnes = bits.stream().filter(bit -> bit == 1).count(); // Counts the numbe
 
 ### Lfsr
 
-Perhaps the most important components of LSCK are the LFSRs represented by the `Lfsr` interface and its implementations. As with `BitVector`, LFSRs can be created from static methods in the LFSR interface, which will automatically select an appropriate implementation based on the size of the register:
+Perhaps the most important components of LSCK are the LFSRs represented by the `Lfsr` interface and its implementations. As with `BitVector`, LFSRs can be created from static methods in the `Lfsr` interface, which will automatically select an appropriate implementation based on the size of the register:
 
 ```Java
 // Creates an Lfsr with taps specified by the first bit vector and initial fill specified by the second
@@ -121,7 +131,7 @@ In order to combine output from multiple LFSRs, Boolean functions are made avail
 ```Java
 BooleanFunction f = BooleanFunction.fromString(3, "x1 x2 + x3"); // Three-variable Boolean function
 
-int y = f.at(1, 1, 0); // Computes f(1, 1, 0)
+int y = f.at(1, 1, 0); // Computes f(x1 = 1, x2 = 1, x3 = 0)
 ```
 
 String representations can include constants and nested expressions:
@@ -170,9 +180,9 @@ BitList output = generator.shift(100);
 
 ### Performing correlation attacks
 
-A central feature of LSCK is the ability to perform [correlation attacks](https://en.wikipedia.org/wiki/Correlation_attack) on LFSR-based cryptosystems. The currently supported attacks require knowledge a generator's combiner function, the taps of its LFSRs, and an excerpt of its keystream. The attacks then seek to recover the initial fills of the registers used to generate the keystream excerpt.
+A central feature of LSCK is the ability to perform [correlation attacks](https://en.wikipedia.org/wiki/Correlation_attack) on LFSR-based cryptosystems. The currently supported attacks require prior knowledge of a generator's combiner function, the taps of its LFSRs, and an excerpt of its keystream. The attacks then seek to recover the initial fills of the registers used to generate the keystream excerpt.
 
-It is often useful to perform a Walsh transform on a combiner function in order to detect susceptibility to correlation attacks. Aside from the combiner function, each Walsh transform computation requires a bit vector indicating which registers/variables of the function are intended for attack:
+It is often useful to perform a Walsh transform on a combiner function in order to detect susceptibility to correlation attacks. Along with the combiner function, each Walsh transform computation requires a bit vector indicating which registers/variables of the function are intended for attack:
 
 ```Java
 BooleanFunction f = BooleanFunction.fromString(4, "x1 x2 + x3 + x4");
@@ -198,6 +208,7 @@ Lfsr lfsr3 = Lfsr.create(MaximalTaps.TAPS_8_1);
 Lfsr lfsr4 = Lfsr.create(MaximalTaps.TAPS_7_0);
 
 BitList knownKeystream = generateSecretKey(N, f, lfsr1, lfsr2, lfsr3, lfsr4);
+
 /* Prepare for and perform attack */
 
 // Walsh Transform - register groups with nonzero values are candidates for attack
@@ -229,7 +240,7 @@ AttackBuilder attack =
         .setIndexFromOne() // For individual attacks, we will specify registers with one-based indexing
         .setKnownKeystream(knownKeystream)
         .setTestStatistic(Attack.SIEGENTHALER_STATISTIC)
-        .setCutoff(1000); // Fill groups with scores less than 1000 in magnitude will be discarded
+        .setCutoff(1000); // Groups of fills with scores less than 1000 in magnitude will be discarded
 
 /* First, we attack x3 and x4 simultaneously */
 
