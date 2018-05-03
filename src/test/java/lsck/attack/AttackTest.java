@@ -19,7 +19,7 @@ import lsck.lfsr.Lfsr;
 public class AttackTest {
 
   @SuppressWarnings("unused")
-  private static Stream<Arguments> getTestSieganthalerStatisticArgs() {
+  private static Stream<Arguments> getTestSiegenthalerStatisticArgs() {
     return Stream.of(
         Arguments.of(
             BitList.fromBits(1, 1, 1, 1, 1, 1, 1, 1),
@@ -48,9 +48,9 @@ public class AttackTest {
   }
 
   @ParameterizedTest
-  @MethodSource("getTestSieganthalerStatisticArgs")
-  void testSieganthalerStatistic(BitList known, BitList observed, int statistic) {
-    assertEquals(Attack.SIEGANTHALER_STATISTIC.compute(known, observed), statistic);
+  @MethodSource("getTestSiegenthalerStatisticArgs")
+  void testSiegenthalerStatistic(BitList known, BitList observed, int statistic) {
+    assertEquals(Attack.SIEGENTHALER_STATISTIC.compute(known, observed), statistic);
   }
 
   @Test
@@ -63,7 +63,7 @@ public class AttackTest {
         assertThrows(
             IndexOutOfBoundsException.class,
             () ->
-                Attack.attack(g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3));
+                Attack.attack(g, new BitList(), Attack.SIEGENTHALER_STATISTIC, 0, 1, 2, 3));
 
     assertEquals("Expected a valid register index; got " + 3, e.getMessage());
   }
@@ -78,7 +78,7 @@ public class AttackTest {
     Exception e =
         assertThrows(
             IllegalArgumentException.class,
-            () -> Attack.attack(g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0));
+            () -> Attack.attack(g, new BitList(), Attack.SIEGENTHALER_STATISTIC, 0));
 
     assertEquals(
         "Register of length "
@@ -99,7 +99,7 @@ public class AttackTest {
             IllegalArgumentException.class,
             () ->
                 Attack.attack(
-                    g, new BitList(), Attack.SIEGANTHALER_STATISTIC, 0, 1, 2, 3, 1));
+                    g, new BitList(), Attack.SIEGENTHALER_STATISTIC, 0, 1, 2, 3, 1));
 
     assertEquals("Register with index " + 1 + " specified more than once", e.getMessage());
   }

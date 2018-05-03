@@ -181,7 +181,7 @@ BooleanFunction f = BooleanFunction.fromString(4, "x1 x2 + x3 + x4");
 int walshValue = Attack.walshTransform(f, BitVector.fromBits(0, 1, 1, 0));
 ```
 
-Each attack operation requires a test statistic by which to "score" groups of fills. As each combination of fills is tested for the specified registers, a corresponding segment of keystream is generated and compared to the given keystream excerpt using the statistic. The resulting groups of fills can then be sorted by score (the computed statistic) to find the most viable candidates for the original fills. The default statistic in LSCK is `Attack.SIEGANTHALER_STATISTIC`, although others can be created by implementing the `Attack.TestStatistic` interface.
+Each attack operation requires a test statistic by which to "score" groups of fills. As each combination of fills is tested for the specified registers, a corresponding segment of keystream is generated and compared to the given keystream excerpt using the statistic. The resulting groups of fills can then be sorted by score (the computed statistic) to find the most viable candidates for the original fills. The default statistic in LSCK is `Attack.SIEGENTHALER_STATISTIC`, although others can be created by implementing the `Attack.TestStatistic` interface.
 
 The following is an example multi-stage attack in which we are provided with the LFSRs (minus fills), the combiner function, and a keystream excerpt from an adversary's generator. Console output is interspersed:
 
@@ -228,7 +228,7 @@ AttackBuilder attack =
     new AttackBuilder(lfsr1, lfsr2, lfsr3, lfsr4) // The generator being attacked depends on these registers
         .setIndexFromOne() // For individual attacks, we will specify registers with one-based indexing
         .setKnownKeystream(knownKeystream)
-        .setTestStatistic(Attack.SIEGANTHALER_STATISTIC)
+        .setTestStatistic(Attack.SIEGENTHALER_STATISTIC)
         .setCutoff(1000); // Fill groups with scores less than 1000 in magnitude will be discarded
 
 /* First, we attack x3 and x4 simultaneously */
@@ -244,7 +244,7 @@ System.out.printf("Attack took %.3f seconds\n", attack.getPreviousAttackDuration
 ```
 > Attack took 17.037 seconds
 ```Java
-// Sort fills by magnitude of scores, since Sieganthaler statistic is centered at 0
+// Sort fills by magnitude of scores, since Siegenthaler statistic is centered at 0
 Collections.sort(potentialFills1, new ScoredFills.AbsComparator());
 
 System.out.println(potentialFills1.get(0));

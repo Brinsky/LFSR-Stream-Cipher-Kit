@@ -21,7 +21,7 @@ public class AttackBuilder {
   private BooleanFunction q = null;
   private Lfsr[] registersToAttack = null; // Subset of the registers
   private BitList knownKeystream = null;
-  private Attack.TestStatistic statistic = Attack.SIEGANTHALER_STATISTIC;
+  private Attack.TestStatistic statistic = Attack.SIEGENTHALER_STATISTIC;
   private double cutoff = 0;
   private int numCombinations;
 
@@ -134,7 +134,7 @@ public class AttackBuilder {
   /**
    * Sets the test statistic used to evaluate each set of fills during the subsequent attack.
    *
-   * <p>The default test statistic is {@link Attack#SIEGANTHALER_STATISTIC}.
+   * <p>The default test statistic is {@link Attack#SIEGENTHALER_STATISTIC}.
    */
   public AttackBuilder setTestStatistic(Attack.TestStatistic statistic) {
     this.statistic = statistic;

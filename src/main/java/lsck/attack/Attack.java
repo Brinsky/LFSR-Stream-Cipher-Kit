@@ -132,8 +132,8 @@ public class Attack {
     }
   }
 
-  /** The classical test statistic proposed by T. Sieganthaler in 1985 */
-  public static final TestStatistic SIEGANTHALER_STATISTIC =
+  /** The classical test statistic proposed by T. Siegenthaler in 1985 */
+  public static final TestStatistic SIEGENTHALER_STATISTIC =
       (expected, observed) -> {
         int N = expected.size();
         int sum = 0;
