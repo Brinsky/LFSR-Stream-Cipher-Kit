@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.stream.Stream;
@@ -21,7 +20,7 @@ public class BitUtilityTest {
   private static final int[] TEST_BITS =
       new int[] {0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1};
   private static final BitVector TEST_VECTOR = BitVector.fromBits(TEST_BITS);
-  private static final List<Byte> TEST_BIT_LIST = buildBitList(TEST_BITS);
+  private static final BitList TEST_BIT_LIST = buildBitList(TEST_BITS);
   private static final String MSB_STRING = "000101101101101001110101101";
   private static final String LSB_STRING = new StringBuilder(MSB_STRING).reverse().toString();
 
@@ -30,11 +29,11 @@ public class BitUtilityTest {
   private static final long LONG_PRE_REVERSE = 0x1234ABCD1234ABCDL;
   private static final long LONG_POST_REVERSE = 0xB3D52C48B3D52C48L;
 
-  private static List<Byte> buildBitList(int... bits) {
-    List<Byte> list = new ArrayList<>(bits.length);
+  private static BitList buildBitList(int... bits) {
+    BitList list = new BitList(bits.length);
 
     for (int i = 0; i < bits.length; i++) {
-      list.add((byte) (bits[i] == 0 ? 0 : 1));
+      list.add(bits[i]);
     }
 
     return list;
@@ -248,7 +247,7 @@ public class BitUtilityTest {
 
   @Test
   void testBitString_bitList_emptyVector() {
-    assertTrue(BitUtility.bitString(new ArrayList<Byte>()).isEmpty());
+    assertTrue(BitUtility.bitString(new BitList()).isEmpty());
   }
 
   @Test
@@ -277,7 +276,7 @@ public class BitUtilityTest {
       assertEquals(0, array[i], "Long at index " + i + " is nonzero");
     }
   }
-  
+
   @Test
   void testBitSetToLongArray() {
     for (int i = 1; i < TEST_LONG_ARRAY.length * Long.SIZE; i += 8) {

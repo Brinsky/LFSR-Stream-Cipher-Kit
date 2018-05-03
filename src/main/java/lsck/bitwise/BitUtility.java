@@ -219,7 +219,7 @@ public class BitUtility {
     // Force the farthest-requested bit in the BitSet to 1, so that the long array will include it.
     boolean oldBit = bitSet.get(minBits - 1);
     bitSet.set(minBits - 1);
-    
+
     long[] array = bitSet.toLongArray();
 
     // Reset the highest-requested bit to its initial state after array creation.
@@ -301,46 +301,44 @@ public class BitUtility {
    * Returns a customized String representation of a {@link BitVector}.
    *
    * @param vector The {@link BitVector} to create a String representation for.
-   * @param ascending If true, bits are ordered from lowest to highest index (least significant bit
-   *     first). If {@code false}, bits are ordered from highest to lowest index (most significant
-   *     bit first).
+   * @param lsbFirst If {@code true}, bits are ordered from lowest to highest index (least
+   *     significant bit first). If {@code false}, bits are ordered from highest to lowest index
+   *     (most significant bit first).
    * @param delimiter A delimiter to be inserted after all but the last bit in the String
    *     representation.
    * @return A customized String representation of {@code vector}.
    */
-  public static String bitString(BitVector vector, boolean ascending, String delimiter) {
-    return bitString(i -> vector.get(i), vector.getLength(), ascending, delimiter);
+  public static String bitString(BitVector vector, boolean lsbFirst, String delimiter) {
+    return bitString(i -> vector.get(i), vector.getLength(), lsbFirst, delimiter);
   }
 
   /**
    * Returns a String representation of a list of bits.
    *
-   * @param bitList The {@code List<Byte>} to create a String representation for. Character
-   *     representations for bytes are determined by calling {@link BitUtility#bitToChar(int)}.
+   * @param bitList The {@code BitList} to create a String representation for.
    * @return A String representation of {@code bitList} with no delimiters.
    */
-  public static String bitString(List<Byte> bitList) {
+  public static String bitString(BitList bitList) {
     return bitString(bitList, true, "");
   }
 
   /**
    * Returns a customized String representation of a {@link BitVector}.
    *
-   * @param bitList The {@code List<Byte>} to create a String representation for. Character
-   *     representations for bytes are determined by calling {@link BitUtility#bitToChar(int)}.
-   * @param ascending If true, bits are ordered from lowest to highest index. If {@code false}, bits
-   *     are ordered from highest to lowest index.
+   * @param bitList The {@code BitList} to create a String representation for.
+   * @param ascending If {@code true}, bits are ordered from lowest to highest index. If {@code
+   *     false}, bits are ordered from highest to lowest index.
    * @param delimiter A delimiter to be inserted after all but the last bit in the String
    *     representation.
    * @return A customized String representation of {@code bitList}.
    */
-  public static String bitString(List<Byte> bitList, boolean ascending, String delimiter) {
+  public static String bitString(BitList bitList, boolean ascending, String delimiter) {
     return bitString(i -> bitList.get(i), bitList.size(), ascending, delimiter);
   }
 
   @FunctionalInterface
   private static interface BitGetter {
-    byte get(int index);
+    int get(int index);
   }
 
   private static String bitString(
