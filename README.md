@@ -93,7 +93,7 @@ An LFSR can be shifted to produce output, with the option to save or discard the
 
 ```Java
 BitList output1 = register.shift(100); // Register is shifted 100 times and retains the resulting state
-BitList output2 = register.peek(100); // Same output as above, but register retains its initial state
+BitList output2 = register.peek(100); // Register is shifted 100 more times, but then returns to its previous state
 
 int x = register.shift(); // Performs a single shift
 int y = register.peek();
